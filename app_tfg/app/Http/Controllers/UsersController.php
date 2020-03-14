@@ -8,16 +8,23 @@ use App\User;
 
 
 class UsersController extends Controller {
-	public function index(Request $request) {
-		// if(accessSessionData($request)){
-
+	public function index() {
+		// $mail = 'david@mail.com';
+		// if(SessionsController::accessSessionData($request, $mail)){
+		// 	$value = SessionsController::accessSessionData($request, $mail);
+		// 	dd($value);
 		// }
 		// else{
 
 		// }
-		
+		if(session('email')){
+			// echo "Hay sesión\n";
+			return view('index',['session' => session('email')]);
 
-		return view('index');
+		}else{
+			echo "NO hay sesión\n";
+		}
+		
 	}
 
 	// public function registro() {
@@ -56,6 +63,8 @@ class UsersController extends Controller {
 
 		User::create($datos);
 
+		/*$session = */session(['email' => $datos['email']]);
+		// $request = SessionsController::storeSessionData($request, $datos['email']);
 		return redirect()->route('index');
 		// return back();
 	}

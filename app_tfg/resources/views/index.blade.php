@@ -3,12 +3,18 @@
         <title>Kifungo - @yield('title')</title>
     </head>
     <body>
-        @section('sidebar')
-            This is the master sidebar.
-        @show
+        @isset($session)
+            @section('sidebar')
+                This is the master sidebar.
+            @show
+            
+            <div class="container">
+                @yield('content')
+            </div>
+        @endisset
 
-        <div class="container">
-            @yield('content')
-        </div>
+        @if(is_null($session))
+            <p>No hay sesión</p>
+        @endif
     </body>
 </html>
