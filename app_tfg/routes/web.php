@@ -17,9 +17,13 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', 'UsersController@index');
+Route::get('/', 'UsersController@index')->name('index');
 
-Route::get('/registro', 'UsersController@create');
-Route::post('/registro', 'UsersController@store');
+// Route::get('/registro', 'UsersController@registro');
+Route::view('/registro', 'register'); //Devuelvo la vista
+Route::post('/registro', 'UsersController@create');
+
+// Route::get('/registro-paso-2', 'UsersController@create');  //Devuelvo la vista
+Route::post('/registro-paso-2', 'UsersController@store');
 
 Route::get('/zona_personal', 'UsersController@zonaPersonal');

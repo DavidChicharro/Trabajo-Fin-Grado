@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('dni',10)->unique();
             $table->dateTime('fecha_nacimiento',0)->nullable();
             $table->dateTime('fecha_alta',0)->useCurrent()->nullable();
-            $table->tinyInteger('es_admin');
+            $table->tinyInteger('es_admin')->default(0);
             $table->string('telefono',9)->unique();
             $table->string('telefono_fijo',9)->nullable();
             $table->string('pin_secreto',8)->nullable();
