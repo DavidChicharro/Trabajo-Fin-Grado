@@ -7,13 +7,6 @@
 			<section>
 				<h2>Registro</h2>
 
-				@if($errors->any())
-					@foreach($errors->all() as $error)
-					   {{ $error }}
-					@endforeach
-				@endif
-
-				<!-- <form method="post" action="{{ Request::url() }}"> -->
 				<form method="post" action="{{ action('UsersController@store') }}">
 					@csrf
 					<input type="hidden" name="email" value="{{$datos['email']}}">
@@ -39,7 +32,17 @@
 					<br><br>
 					<input type="submit" value="Registrarse">
 				</form>
+
+				<hr>
+				<p>¿Ya tienes cuenta?</p>
+				<a href="/">Inicia sesión</a>
 			</section>
 		</div>
+
+		@if($errors->any())
+			@foreach($errors->all() as $error)
+				<script>alert('{{$error}}')</script>
+			@endforeach
+		@endif
 	</body>
 </html>
