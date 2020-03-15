@@ -1,14 +1,13 @@
 @extends('layouts.base')
 
 @section('title', 'Mapa de incidentes')
+@section('username',$username)
 
-@section('sidebar')
-{{--    @parent--}}
-
-    <p>This appends to the master sidebar</p>
-@endsection
 
 @section('content')
-    <p>Body content</p>
-    <p>{{$username}}</p>
+    <main class="col-7 mt-4 p-5">
+        <h2>Mapa de incidentes</h2>
+        <p>Body content</p>
+
+    </main>
 @endsection

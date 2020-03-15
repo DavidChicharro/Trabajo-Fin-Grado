@@ -10,12 +10,27 @@
     @yield('stylesheet')
 </head>
 <body>
-    @section('sidebar')
-        This is the master sidebar.
-    @show
 
-    <div class="container">
-        @yield('content')
+    <div class="container-fluid">
+        <div class="row">
+            @section('sidebar')
+                <section class="col-3">
+                    <img  class="img-fluid" src="{{asset('images/logo/logo.png')}}">
+                </section>
+            @show
+
+            @yield('content')
+
+            @section('top-right-header')
+                <aside class="col-2">
+                    <span>Lupa</span>
+                    <span>Bell</span>
+                    <span>User</span>
+                    <p>@yield('username')</p>
+                    <a href="/logout">Cerrar sesión</a>
+                </aside>
+            @show
+        </div>
     </div>
 </body>
 </html>
