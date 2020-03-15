@@ -1,6 +1,7 @@
 <html>
 <head>
-	<title>App Name - @yield('title')</title>
+	<title>{{config('app.name')}} - Regístrate</title>
+	<link rel="icon" type="image/png" href="{{asset('images/favicon.ico')}}"/>
 </head>
 	<body>
 		<div class="container">
@@ -11,9 +12,6 @@
 					@csrf
 					<input type="hidden" name="email" value="{{$datos['email']}}">
 					<input type="hidden" name="password" value="{{$datos['password']}}">
-
-					<!-- <label for="conf_password">Confirmar contraseña</label>
-					<input type="password" name="conf_password"><br> -->
 
 					<label for="nombre">Nombre</label>
 					<input type="text" name="nombre"><br>

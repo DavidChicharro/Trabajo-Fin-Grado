@@ -1,6 +1,7 @@
 <html>
 <head>
-	<title>App Name - @yield('title')</title>
+	<title>{{config('app.name')}} - Regístrate</title>
+	<link rel="icon" type="image/png" href="{{asset('images/favicon.ico')}}"/>
 </head>
 	<body>
 		<div class="container">

@@ -1,8 +1,10 @@
 <html>
     <head>
-        <title>Kifungo - @yield('title')</title>
+        <title>{{config('app.name')}}</title>
+        <link rel="icon" type="image/png" href="{{asset('images/favicon.ico')}}"/>
     </head>
     <body>
+        <img src="{{asset('images/logo/logo.png')}}">
         @isset($session)
             @section('sidebar')
                 This is the master sidebar.
