@@ -18,4 +18,17 @@ class IncidentsController extends Controller {
 		}
 		return redirect()->route('index');
 	}
+
+	public function listaIncidentes() {
+		$session = session('email');
+
+		if(isset($session)) {
+			$username = User::where('email', $session)->first()->value('nombre');
+
+			// Quizás no sea necesario devolver la sesión (email)
+			$result = compact(['session', 'username']);
+			return view('incidents.list', $result);
+		}
+		return redirect()->route('index');
+	}
 }

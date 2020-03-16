@@ -93,3 +93,15 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
         margin: auto;
     }
 }
+
+/*Incidents stylesheet*/
+.lateral-nav {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.incident {
+    border: 1px solid gray;
+    border-radius: 10px;
+}

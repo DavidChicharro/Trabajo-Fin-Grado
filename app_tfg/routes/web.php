@@ -31,4 +31,4 @@ Route::get('/logout', 'UsersController@logout');
 Route::get('/zona_personal', 'UsersController@zonaPersonal');
 
 Route::get('/mapa-incidentes','IncidentsController@mapaIncidentes');
-//Route::get('/lista-incidentes','IncidentsController@listaIncidentes');
+Route::get('/lista-incidentes','IncidentsController@listaIncidentes');
