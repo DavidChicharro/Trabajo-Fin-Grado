@@ -1,17 +1,24 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created using Karbon, part of Calligra: http://www.calligra.org/karbon -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="63.7796pt" height="56.693pt">
-<defs/>
-<g id="layer0">
-  <g id="group0" transform="translate(143.471, 56.5323)" fill="none"/>
-  <g id="group1" transform="translate(177.166, 177.166)" fill="none">
-   <circle id="shape0" transform="translate(-175.027, -175.25)" r="18.42522877000pt" cx="18.42522877000pt" cy="18.42522877000pt" fill="none" stroke="#d9534f" stroke-width="2.12598793500" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="1.98425540600"/>
-   <path id="shape1" transform="translate(-135.055, -136.562)" fill="none" stroke="#d9534f" stroke-width="7.08662645000" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="0.00000000000" d="M0 0L30.1761 24.8755"/>
-   <rect id="shape2" transform="translate(-162.929, -166.644)" fill="#d9534f" fill-rule="evenodd" stroke="#800000" stroke-width="0.00000000000" stroke-linecap="butt" stroke-linejoin="bevel" width="16.70511041206pt" height="23.80623748617pt" rx="1.10629870279pt" ry="1.20233522657pt"/>
-   <rect id="shape3" transform="translate(-161.91, -164.316)" fill="#ffffff" fill-opacity="0.96470588235" fill-rule="evenodd" stroke="#ffffff" stroke-width="0.00000000000" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="1.98425540600" width="15.07534354259pt" height="19.44079051438pt" rx="0.40744171737pt" ry="0.40744171737pt"/>
-   <circle id="shape4" transform="translate(-153.258, -139.234)" r="0.56693011600pt" cx="0.56693011600pt" cy="0.56693011600pt" fill="#ffffff" fill-opacity="0.96470588235" fill-rule="evenodd" stroke="#ffffff" stroke-width="0.35433132250" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="1.98425540600"/>
-   <rect id="shape5" transform="translate(-153.486, -165.474)" fill="#ffffff" fill-opacity="0.96470588235" fill-rule="evenodd" stroke="#ffffff" stroke-width="0.00000000000" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="1.98425540600" width="1.41732529000pt" height="0.28346505800pt"/>
+<svg width="85.03946666666667" height="75.59066666666666" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer0">
+   <g fill="none" id="group0"/>
+   <g fill="none" id="group1">
+    <circle stroke-miterlimit="1.984255" stroke-linecap="square" stroke-width="2.125988" stroke="#d9534f" fill="none" cy="26.927416" cx="27.891162" r="24.566971" id="shape0"/>
+    <rect x="15.422183" y="10.966447" ry="1.20233522657pt" rx="1.10629870279pt" height="31.74165" width="22.273481" stroke-linejoin="bevel" stroke-width="0" stroke="#800000" fill-rule="evenodd" fill="#d9534f" id="shape2"/>
+    <rect x="16.44118" y="13.29445" ry="0.40744171737pt" rx="0.40744171737pt" height="25.921054" width="20.100458" stroke-miterlimit="1.984255" stroke-linecap="square" stroke-width="0" stroke="#ffffff" fill-rule="evenodd" fill-opacity="0.964706" fill="#ffffff" id="shape3"/>
+    <circle stroke-miterlimit="1.984255" stroke-linecap="square" stroke-width="0.354331" stroke="#ffffff" fill-rule="evenodd" fill-opacity="0.964706" fill="#ffffff" cy="41" cx="26.397556" r="0.755905" id="shape4"/>
+    <rect x="25.631148" y="12.136445" height="0.377953" width="1.889767" stroke-miterlimit="1.984255" stroke-linecap="square" stroke-width="0" stroke="#ffffff" fill-rule="evenodd" fill-opacity="0.964706" fill="#ffffff" id="shape5"/>
+    <rect transform="rotate(38, 59.2407, 57.3323)" rx="8" id="svg_1" height="1" width="33" y="56.83234" x="42.740739" fill-opacity="null" stroke-opacity="null" stroke-width="7.08663" stroke="#d9534f" fill="none"/>
+   </g>
   </g>
  </g>
 </svg>

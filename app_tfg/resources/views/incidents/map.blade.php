@@ -5,10 +5,10 @@
 
 
 @section('content')
-    <main class="col-7 mt-4 p-5">
+{{--    <main class="col-8 col-lg-7 mt-4 p-5">--}}
         <h2>Mapa de incidentes</h2>
         <img class="img-fluid" src="{{asset('images/mapa-grx.png')}}">
         <p>Body content</p>
 
-    </main>
+{{--    </main>--}}
 @endsection
