@@ -3,6 +3,7 @@
     --k-dark-blue:#083740;
     --k-navy-blue:#0f6f80;
     --k-blue:#17a6bf;
+    --k-blue-op25:#17a6bf40;
     --k-light-blue:#1bc6e6;
     --k-red:#d9534f;
 }
@@ -12,12 +13,69 @@ main h2{
     color: var(--k-dark-blue);
 }
 
+.nav-pills {
+    width: 70%;
+    text-align: center;
+    margin: auto;
+}
+
+.nav-link{
+    color: var(--k-dark-blue);
+    background-color: var(--k-blue-op25);
+    font-weight: bold;
+    margin: 5% 0;
+}
+.nav-link:hover {
+    color: white;
+    background-color: var(--k-blue);
+}
+
+.nav-link.active {
+    color: white;
+    background-color: var(--k-navy-blue)!important;
+}
+
+/*.nav-link {*/
+/*    color: var(--k-dark-blue);*/
+/*}*/
+
 .top-right-aside {
     height: min-content;
 }
 
+.user-logout {
+    text-align: right;
+}
+
+main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
+    color: var(--k-blue);
+}
+
 .icon .icon-img {
     width: 45px;
+}
+
+@media only screen and (max-width: 767px){
+    .nav-pills {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 991px){
+    .user-logout{
+        text-align: center!important;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    .nav-pills {
+        width: 90%;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px){
+    .nav-pills {
+        width: 75%;
+    }
 }
 
 

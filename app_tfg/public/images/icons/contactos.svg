@@ -1,0 +1,61 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg width="90.7088" height="80.63" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="gradient0" gradientUnits="objectBoundingBox" x1="0.18014" y1="-0.6432" x2="0.19236" y2="-0.7316" spreadMethod="pad">
+   <stop stop-color="#000000" offset="0"/>
+   <stop stop-color="#000000" offset="1" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="gradient1" gradientUnits="objectBoundingBox" x1="0.18014" y1="-0.6432" x2="0.19236" y2="-0.7316" spreadMethod="pad">
+   <stop stop-color="#000000" offset="0"/>
+   <stop stop-color="#000000" offset="1" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="gradient2" gradientUnits="objectBoundingBox" x1="0.18014" y1="-0.6432" x2="0.19236" y2="-0.7316" spreadMethod="pad">
+   <stop stop-color="#000000" offset="0"/>
+   <stop stop-color="#000000" offset="1" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="gradient3" gradientUnits="objectBoundingBox" x1="0.18014" y1="-0.6432" x2="0.19236" y2="-0.7316" spreadMethod="pad">
+   <stop stop-color="#000000" offset="0"/>
+   <stop stop-color="#000000" offset="1" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="gradient4" gradientUnits="objectBoundingBox" x1="0.18014" y1="-0.6432" x2="0.19236" y2="-0.7316" spreadMethod="pad">
+   <stop stop-color="#000000" offset="0"/>
+   <stop stop-color="#000000" offset="1" stop-opacity="0"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="92.7088" height="82.63" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <g id="layer0">
+    <g id="layer0" fill="none" display="none">
+     <g id="group0" fill="none"/>
+     <path id="shape0" fill="#083740" fill-rule="evenodd" stroke="#0099ff" stroke-width="0.08504" stroke-linecap="square" stroke-miterlimit="2" d="m61.35576,4.80054c0,-7.48996 -6.0865,-13.5618 -13.5945,-13.5618c-7.50811,0 -13.5946,6.07184 -13.5946,13.5618c0,7.49 6.08649,13.5619 13.5946,13.5619c7.508,0 13.5945,-6.0719 13.5945,-13.5619"/>
+     <path id="shape1" fill="#083740" fill-rule="evenodd" stroke="url(#gradient0)" stroke-width="0" stroke-linecap="square" stroke-miterlimit="2" d="m67.80146,38.10991c-0.5629,4.7336 -2.6846,7.7966 -6.3652,9.1889c-18.2725,0.1114 -27.51705,0.2227 -27.73356,0.334c-3.0772,-0.1804 -3.08111,0.4006 -5.58569,-2.3388c-1.25015,-1.1684 -2.46398,-3.6764 -2.79285,-7.0171c0.5196,-14.98066 1.6887,-15.09203 3.37739,-18.54483c1.53316,-2.2126 3.33011,-3.49348 5.39085,-3.84262c2.06076,-0.34917 3.59786,0.09637 4.61146,1.33656c6.2352,4.39953 12.4704,3.89831 18.7056,-1.50364c2.8904,-0.39524 4.1673,-0.46793 5.3909,1.67071c0,0 0,0 0,0c0.0129,0.02135 0.0257,0.0427 0.0385,0.06407c3.7399,6.22053 5.3941,13.10475 4.9626,20.65275"/>
+    </g>
+   </g>
+   <g id="contactos">
+    <g id="layer01" fill="none">
+     <g id="group01" fill="none"/>
+     <path id="shape01" fill="#083740" fill-rule="evenodd" stroke="url(#gradient1)" stroke-width="0" stroke-linecap="square" stroke-miterlimit="1.98426" d="m74.48326,16.71983c0,-5.21318 -4.2859,-9.43929 -9.57288,-9.43929c-5.28698,0 -9.57292,4.22611 -9.57292,9.43929c0,5.21321 4.28594,9.43931 9.57292,9.43931c5.28699,0 9.57288,-4.2261 9.57288,-9.43931"/>
+     <path id="shape11" fill="#083740" fill-opacity="0.96471" fill-rule="evenodd" stroke="url(#gradient2)" stroke-width="0" stroke-linecap="square" stroke-miterlimit="1.98426" d="m79.28476,39.90379c-0.3963,3.2947 -1.8904,5.42661 -4.4821,6.3957c-12.867,0.0775 -19.3768,0.15501 -19.52926,0.23241c-2.16688,-0.1255 -2.16963,0.27889 -3.93329,-1.6278c-0.88032,-0.8132 -1.73507,-2.55891 -1.96665,-4.884c0.36589,-10.42688 1.18914,-10.5044 2.37826,-12.90761c1.07962,-1.54001 2.34498,-2.43153 3.7961,-2.67454c1.4511,-0.24303 2.53352,0.06707 3.24728,0.93027c4.39066,3.06216 8.78126,2.7133 13.17196,-1.04656c2.0353,-0.2751 2.93449,-0.32569 3.7961,1.16285c0,0 0,0 0,0c0.0091,0.01485 0.0181,0.02972 0.0271,0.04459c2.6336,4.32961 3.7984,9.1212 3.4945,14.3747"/>
+    </g>
+    <g id="layer02" fill="none">
+     <g id="group02" fill="none"/>
+     <path id="shape02" fill="#083740" fill-rule="evenodd" stroke="url(#gradient3)" stroke-width="0" stroke-linecap="square" stroke-miterlimit="1.98426" d="m35.71176,16.71978c0,-5.21318 -4.2859,-9.43929 -9.57288,-9.43929c-5.28698,0 -9.57292,4.22611 -9.57292,9.43929c0,5.21321 4.28594,9.43931 9.57292,9.43931c5.28698,0 9.57288,-4.2261 9.57288,-9.43931"/>
+     <path id="shape12" fill="#083740" fill-opacity="0.96471" fill-rule="evenodd" stroke="url(#gradient4)" stroke-width="0" stroke-linecap="square" stroke-miterlimit="1.98426" d="m40.47186,39.80753c-0.39581,3.2744 -1.8879,5.3933 -4.4761,6.3565c-12.8492,0.077 -19.34987,0.154 -19.50213,0.231c-2.16387,-0.1248 -2.16662,0.2771 -3.92784,-1.6179c-0.8791,-0.8082 -1.73267,-2.5432 -1.96393,-4.8541c0.36538,-10.36307 1.18749,-10.44011 2.37497,-12.82862c1.07812,-1.53059 2.34173,-2.41665 3.79085,-2.65817c1.44909,-0.24154 2.53001,0.06666 3.24278,0.92457c4.3845,3.04342 8.7692,2.69671 13.1538,-1.04015c2.0325,-0.27342 2.9304,-0.3237 3.7907,1.15574c0,0 0,0 0,0c0.00909,0.01476 0.0182,0.02953 0.0272,0.04431c2.6299,4.30312 3.7931,9.06532 3.4897,14.28682"/>
+    </g>
+   </g>
+   <g id="layer1">
+    <g id="layer03" fill="none">
+     <g id="group03" fill="none"/>
+     <ellipse id="shape03" rx="14.50087" ry="14.46595" cx="45.44016" cy="31.58475" fill="#083740" fill-rule="evenodd" stroke="#ffffff" stroke-linejoin="round"/>
+     <path id="shape13" fill="#083740" fill-opacity="0.96471" fill-rule="evenodd" stroke="#ffffff" stroke-linejoin="round" d="m66.43121,64.38792c-0.5708,4.6683 -2.6461,7.5039 -6.3784,8.877c-18.3432,0.4206 -14.8212,0.2009 -15.0408,0.31071c-3.1205,-0.1779 -16.28382,0.5991 -18.82365,-2.10271c-1.26774,-1.1522 -2.49865,-3.6257 -2.83215,-6.92039c0.52691,-14.77428 1.71246,-14.88412 3.42492,-18.28936c1.55473,-2.18213 3.37696,-3.44537 5.4667,-3.7897c2.08968,-0.34436 3.64848,0.09504 4.67628,1.31815c6.323,4.33893 12.6459,3.84463 18.9689,-1.48293c2.931,-0.3898 4.226,-0.46148 5.4667,1.6477c0,0 0,0 0,0c0.0131,0.02105 0.0261,0.04212 0.0391,0.0632c3.7925,6.13484 5.47,12.92424 5.0324,20.36834"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

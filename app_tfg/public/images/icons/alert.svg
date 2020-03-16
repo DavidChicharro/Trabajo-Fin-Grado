@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created using Karbon, part of Calligra: http://www.calligra.org/karbon -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="63.8817pt" height="59.5277pt">
+<defs/>
+<g id="layer0">
+  <g id="canvasGrid" transform="translate(-0.625, -0.625)" fill="none" display="none">
+   <rect id="shape0" transform="translate(0.625, 0.625)" fill="#000000" width="464.00000000000pt" height="320.00000000000pt"/>
+  </g>
+ </g><g id="layer1">
+  <rect id="canvas_background" transform="translate(0.356286, -2.36498)" fill="none" width="63.31162790698pt" height="63.31162790698pt"/>
+  <path id="svg_1" transform="translate(10.6063, 9.13882)" fill="none" stroke="#083740" stroke-width="4.50000000000" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="2.00000000000" d="M0 58.5682L30.5 0C38.9098 16.149 47.3195 32.2979 55.7293 48.4469C57.4862 51.8207 59.2431 55.1944 61.0001 58.5682L60.9673 58.5682L60.8029 58.5682C40.5353 58.5682 20.2676 58.5682 0 58.5682Z"/>
+  <rect id="svg_2" transform="translate(38.0533, 22.2714)" fill="#083740" stroke="#000000" stroke-width="0.00000000000" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="2.00000000000" width="4.99396000000pt" height="24.33946400000pt" rx="2.49698000000pt" ry="3.20000000000pt"/>
+  <ellipse id="svg_4" transform="translate(36.7351, 54.9709)" rx="3.47883200000pt" ry="3.28556000000pt" cx="3.47883200000pt" cy="3.28556000000pt" fill="#083740"/>
+ </g>
+</svg>

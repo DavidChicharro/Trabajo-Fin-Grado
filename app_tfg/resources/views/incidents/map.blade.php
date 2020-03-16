@@ -5,10 +5,16 @@
 
 
 @section('content')
-{{--    <main class="col-8 col-lg-7 mt-4 p-5">--}}
-        <h2>Mapa de incidentes</h2>
-        <img class="img-fluid" src="{{asset('images/mapa-grx.png')}}">
-        <p>Body content</p>
+	{{--    <main class="col-8 col-lg-7 mt-4 p-5">--}}
+	<h2>Mapa de incidentes</h2>
+	<section class="main-content mx-1">
+		<img class="img-fluid w-100" src="{{asset('images/mapa-grx.png')}}">
+		<div class="my-3">
+			<a href="#">Mis publicaciones de incidentes</a>
+			<a class="float-right" href="/lista-incidentes">Ver lista</a>
+		</div>
+		<p>Body content</p>
+	</section>
 
-{{--    </main>--}}
+	{{--    </main>--}}
 @endsection

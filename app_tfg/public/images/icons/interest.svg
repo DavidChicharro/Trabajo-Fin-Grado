@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg width="55" height="80" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="12.49618" height="17.26717" id="canvas_background" fill="none"/>
+  <g id="canvasGrid" display="none">
+   <rect id="svg_3" width="100%" height="100%" x="0" y="0" stroke-width="0" fill="url(#gridpattern)"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_10">
+   <rect fill="#083740" x="3" y="4.46738" width="49" height="43" id="svg_2" rx="3" stroke="#083740"/>
+   <path fill="#ffffff" d="m10.33374,22.92557l13.11395,0l4.05231,-12.45819l4.05231,12.45819l13.11395,0l-10.60939,7.6995l4.05252,12.45819l-10.60939,-7.69971l-10.60939,7.69971l4.05252,-12.45819l-10.60939,-7.6995z" id="svg_1" stroke="#083740"/>
+   <path fill="#083740" d="m3.48369,46.13703l0,29.39559l24.1758,-29.39559l-24.1758,0z" id="svg_5" stroke="#083740" stroke-width="2"/>
+   <path fill="#083740" d="m51.44963,46.13703l0,29.39559l-24.3405,-29.39559l24.3405,0z" id="svg_6" stroke="#083740" stroke-width="2"/>
+   <line fill="none" stroke="#083740" stroke-width="null" fill-opacity="null" x1="3.02572" y1="33.16349" x2="3.02572" y2="60.41012" id="svg_8" stroke-linejoin="null" stroke-linecap="null"/>
+   <line fill="none" stroke="#083740" stroke-width="null" fill-opacity="null" x1="51.9512" y1="35.89972" x2="51.9512" y2="63.14634" id="svg_9" stroke-linejoin="null" stroke-linecap="null"/>
+  </g>
+ </g>
+</svg>
