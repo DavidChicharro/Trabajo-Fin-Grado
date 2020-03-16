@@ -6,8 +6,8 @@
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/style.css')}}" rel="stylesheet"/>
 
-    <link href="{{asset('js/bootstrap.min.js')}}"/>
-    <link href="{{asset('js/jquery-3.4.1.js')}}"/>
+{{--    <link href="{{asset('js/bootstrap.min.js')}}"/>--}}
+{{--    <link href="{{asset('js/jquery-3.4.1.js')}}"/>--}}
     @yield('stylesheet')
 
 </head>
@@ -59,5 +59,9 @@
             @show
         </div>
     </div>
+
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/jquery-3.4.1.js')}}"></script>
+    @yield('scripts')
 </body>
 </html>
