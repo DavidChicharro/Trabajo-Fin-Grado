@@ -31,6 +31,31 @@ class CreateMigrationV1Table extends Migration
             $table->float('longitud_actual')->nullable();
             $table->rememberToken();
         });
+
+		Schema::create('delitos', function (Blueprint $table) {
+			$table->bigIncrements('id');
+			$table->string('nombre_delito')->unique();
+			$table->string('categoria_delito');
+			$table->string('descripcion_delito')->nullable();
+			$table->smallInteger('pena_min')->nullable();
+			$table->smallInteger('pena_max')->nullable();
+		});
+
+		Schema::create('incidentes', function (Blueprint $table) {
+			$table->engine = 'InnoDB';
+			$table->unsignedBigInteger('id');
+			$table->unsignedBigInteger('delito_id');
+			$table->float('latitud_incidente');
+			$table->float('longitud_incidente');
+			$table->datetime('fecha_hora_incidente');
+			$table->tinyInteger('afectado_testigo');
+			$table->string('agraventes')->nullable();
+			$table->tinyInteger('nivel_gravedad')->nullable();
+			$table->tinyInteger('oculto')->default(0);
+			$table->tinyInteger('caducado')->default(0);
+			$table->foreign('delito_id')->references('id')->on('delitos');
+			$table->primary(['delito_id','id']);
+		});
     }
 
     /**
