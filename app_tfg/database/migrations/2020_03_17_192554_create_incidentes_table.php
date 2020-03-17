@@ -26,9 +26,10 @@ class CreateIncidentesTable extends Migration
 			$table->unsignedBigInteger('id');
 //			$table->bigInteger('delito_id');
 			$table->unsignedBigInteger('delito_id');
-			$table->float('latitud_incidente');
-			$table->float('longitud_incidente');
+			$table->decimal('latitud_incidente',8,4);
+			$table->decimal('longitud_incidente',8,4);
 			$table->datetime('fecha_hora_incidente');
+			$table->text('descripcion_incidente');
 			$table->tinyInteger('afectado_testigo');
 			$table->string('agraventes')->nullable();
 			$table->tinyInteger('nivel_gravedad')->nullable();

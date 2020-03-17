@@ -12,7 +12,7 @@ class AjaxController extends Controller
 //    	$d = Delito::orderBy('id','desc')->first();
 //		DB::select("")
 
-//    	$var = "Estoy en el index del controlador de AJAX";
+    	$var = "Estoy en el index del controlador de AJAX";
     	return response()->json(array('msg'=>$var), 200);
 //    	return "Estoy en el index del controlador de AJAX";
 //    	dd($var);

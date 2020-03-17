@@ -15,13 +15,13 @@
 
 		</div>
 		<div class="incidents">
-			@for($i=1; $i<5; $i++)
+			@foreach($incidents as $inc)
 				<article class="incident px-2 py-3 mb-1 w-75 bg-warning">
 					<table class="w-100">
 						<tbody>
 							<tr>
-								<td><h5>Incidente {{$i}}</h5></td>
-								<td class="w-25"><small class="float-right">dd/mm/yyyy - hh:mm</small></td>
+								<td><h5>Incidente {{$inc['id']}}</h5></td>
+								<td class="w-25"><small class="float-right">{{$inc['fecha_hora_incidente']}}</small></td>
 							</tr>
 							<tr>
 								<td class="pt-3">Lugar</td>
@@ -30,7 +30,7 @@
 						</tbody>
 					</table>
 				</article>
-			@endfor
+			@endforeach
 		</div>
 	</section>
 

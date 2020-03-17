@@ -27,8 +27,8 @@ class CreateMigrationV1Table extends Migration
             $table->string('telefono_fijo',9)->nullable();
             $table->string('pin_secreto',8)->nullable();
             $table->string('accion_panico')->nullable();
-            $table->float('latitud_actual')->nullable();
-            $table->float('longitud_actual')->nullable();
+            $table->decimal('latitud_actual',8,4)->nullable();
+            $table->decimal('longitud_actual',8,4)->nullable();
             $table->rememberToken();
         });
 
@@ -45,8 +45,8 @@ class CreateMigrationV1Table extends Migration
 			$table->engine = 'InnoDB';
 			$table->unsignedBigInteger('id');
 			$table->unsignedBigInteger('delito_id');
-			$table->float('latitud_incidente');
-			$table->float('longitud_incidente');
+			$table->decimal('latitud_incidente',8,4);
+			$table->decimal('longitud_incidente',8,4);
 			$table->datetime('fecha_hora_incidente');
 			$table->tinyInteger('afectado_testigo');
 			$table->string('agraventes')->nullable();
