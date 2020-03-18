@@ -27,21 +27,41 @@ class IncidentsController extends Controller {
 			$username = User::where('email', $session)->first()->value('nombre');
 			
 			$incidentes = Incidente::all();
-//			dd($incidents);
+//			dd($incidentes);
 			//if !oculto && !caducado
 			foreach($incidentes as $key => $inc){
+				$incidents[$key]['id'] = $inc['id'];
 //				$incidents[$key]['incidente'] = delito_incidente
+				$incidents[$key]['lugar'] = $inc['latitud_incidente'].', '.$inc['longitud_incidente'];
+				$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
 //				$incidents[$key]['lugar'] = ciudad-zona
-//				$incidents[$key]['fecha_hora'] = formatear_en_blade
-//				$incidents[$key]['lugar'] = ciudad-zona
-				$incidents[$key] = $inc;
+//				$incidents[$key] = $inc;
 			}
 //			dd($result);
+//			dd($incidents);
 
 			// Quizás no sea necesario devolver la sesión (email)
 			$result = compact(['session', 'username','incidents']);
 			return view('incidents.list', $result);
 		}
 		return redirect()->route('index');
+	}
+
+	public function getIncidentDetails(Request $request){
+//    	$d = Delito::orderBy('id','desc')->first();
+//		DB::select("")
+//		dd($request);
+		$input = $request->all();
+		$incident_id = $input['incidentId'];
+
+		$inc = Incidente::where('id',$incident_id)->first();
+
+		$incidente['descripcion'] = $inc['descripcion_incidente'];
+
+		$var = "Estoy en el index del controlador de Incidentes - AJAX";
+		return response()->json(array('msg'=>$var, 'incidente'=>$incidente), 200);
+//    	return "Estoy en el index del controlador de AJAX";
+//    	dd($var);
+//    	echo $var;
 	}
 }

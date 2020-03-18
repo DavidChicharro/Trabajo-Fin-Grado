@@ -32,5 +32,6 @@ Route::get('/zona_personal', 'UsersController@zonaPersonal');
 
 Route::get('/mapa-incidentes','IncidentsController@mapaIncidentes');
 Route::get('/lista-incidentes','IncidentsController@listaIncidentes');
+Route::post('/get_incident_details', 'IncidentsController@getIncidentDetails');
 
-Route::get('/ajax','AjaxController@index');
+Route::post('/ajax','AjaxController@index');
