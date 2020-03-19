@@ -31,6 +31,10 @@
 					</table>
 				</article>
 			@endforeach
+			<div class="m-3 w-75">
+{{--				{{dd($incidents_pag->links())}}--}}
+				{{ $incidents_pag->links() }}
+			</div>
 		</div>
 	</section>
 

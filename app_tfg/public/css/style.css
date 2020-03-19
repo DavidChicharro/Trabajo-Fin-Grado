@@ -55,6 +55,17 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
     width: 45px;
 }
 
+/* links in bootstrap pagination */
+.page-link {
+    color: var(--k-blue)!important;
+}
+
+.page-item.active .page-link {
+    color: white!important;
+    background-color: var(--k-blue)!important;
+    border-color: #dee2e6!important;
+}
+
 @media only screen and (max-width: 767px){
     .nav-pills {
         width: 100%;

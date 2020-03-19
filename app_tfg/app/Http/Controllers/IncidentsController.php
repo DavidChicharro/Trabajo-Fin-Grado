@@ -26,10 +26,12 @@ class IncidentsController extends Controller {
 		if(isset($session)) {
 			$username = User::where('email', $session)->first()->value('nombre');
 			
-			$incidentes = Incidente::all();
-//			dd($incidentes);
+//			$incidentes = Incidente::all();
+			$incidents_pag = Incidente::paginate(1);
+
+//			dd($incidentes->items());
 			//if !oculto && !caducado
-			foreach($incidentes as $key => $inc){
+			foreach($incidents_pag->items() as $key => $inc){
 				$incidents[$key]['id'] = $inc['id'];
 //				$incidents[$key]['incidente'] = delito_incidente
 				$incidents[$key]['lugar'] = $inc['latitud_incidente'].', '.$inc['longitud_incidente'];
@@ -41,7 +43,7 @@ class IncidentsController extends Controller {
 //			dd($incidents);
 
 			// Quizás no sea necesario devolver la sesión (email)
-			$result = compact(['session', 'username','incidents']);
+			$result = compact(['session', 'username','incidents','incidents_pag']);
 			return view('incidents.list', $result);
 		}
 		return redirect()->route('index');
