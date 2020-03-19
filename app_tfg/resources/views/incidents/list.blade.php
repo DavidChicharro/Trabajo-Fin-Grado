@@ -16,7 +16,7 @@
 		</div>
 		<div class="incidents">
 			@foreach($incidents as $inc)
-				<article class="incident px-2 py-3 mb-1 w-75 bg-warning">
+				<article class="incident px-2 py-3 mb-1 w-75">
 					<table class="w-100">
 						<tbody>
 							<tr>
@@ -25,14 +25,15 @@
 							</tr>
 							<tr>
 								<td class="pt-3">{{$inc['lugar']}}</td>
-								<td class="w-25 pt-3 text-right"><a id="vm{{$inc['id']}}" href="#" class="view-more text-right">Ver más</a></td>
+								<td class="w-25 pt-3 text-right">
+									<span id="vm{{$inc['id']}}" class="view-more text-right sp-as-lk">Ver más</span>
+								</td>
 							</tr>
 						</tbody>
 					</table>
 				</article>
 			@endforeach
 			<div class="m-3 w-75">
-{{--				{{dd($incidents_pag->links())}}--}}
 				{{ $incidents_pag->links() }}
 			</div>
 		</div>
@@ -61,14 +62,14 @@
 		    // console.log(incidente);
 			let descRow = '<tr class="expanded"><td colspan="2" class="pt-3">'+incidente.descripcion+'</td></tr>';
 			//si en shareLessRow no utilizo comilla simple, sustitutir los escapes (\)
-			let shareLessRow = '<tr class="expanded"><td class="pt-4">Compartir incidente</td><td class="text-right pt-4"><a id="vl" href="#" class="view-less text-right">Ver menos</a></td></tr>';
+			let shareLessRow = '<tr class="expanded"><td class="pt-4">Compartir incidente</td><td class="text-right pt-4"><span id="vl" class="view-less text-right sp-as-lk">Ver menos</span></td></tr>';
 			tabla.after(shareLessRow).delay(500);
             tabla.after(descRow).delay(500);
         }
 
         function contractIncident(){
             $(".expanded").hide(300, "linear"); //Oculta todas las rows
-            $(".view-more-loaded").show(300);//.delay(2000); //Muestro botón "ver más" del resto
+            $(".view-more-loaded").show(300);   //Muestro botón "ver más" del resto
         }
 
         $(document).on("click",".view-less", function () {

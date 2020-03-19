@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav>
+    <nav aria-label="@lang('pagination.pagination')">
         <ul class="pagination justify-content-center">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())

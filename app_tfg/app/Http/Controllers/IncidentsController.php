@@ -27,7 +27,7 @@ class IncidentsController extends Controller {
 			$username = User::where('email', $session)->first()->value('nombre');
 			
 //			$incidentes = Incidente::all();
-			$incidents_pag = Incidente::paginate(1);
+			$incidents_pag = Incidente::paginate(10);
 
 //			dd($incidentes->items());
 			//if !oculto && !caducado
