@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 class UsersController extends Controller {
 	public function index() {
 		$session = session('email');
-//        return view('index',['session' => $session]);
 		return view('index',['session' => $session]);
 	}
 
@@ -19,9 +18,6 @@ class UsersController extends Controller {
 		$session = session('email');
 
 		if(isset($session)) {
-//			dd($session);
-//			dd(User::where('email', $session)->first());
-//			$username = User::where('email', $session)->first()->value('nombre');
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 
@@ -54,17 +50,12 @@ class UsersController extends Controller {
 //             dd($user_pass);
              if(!is_null($user_pass)){
              	//coinciden email y contraseña
-				 session(['email' => $datos['email']]);
-				 $session = session('email');
-				 $username = $user_pass['nombre'];
-				 $result = compact(['session','username']);
+			 	session(['email' => $datos['email']]);
 
-				if($user_pass['es_admin'] == 0){
+				if($user_pass['es_admin'] == 0)
 					return redirect()->route('listaIncidentes');
-				}
-				else{
+				else
 					return redirect()->route('admin');
-				}
              }
              else{
 				//no coinciden email y contraseña
@@ -111,10 +102,13 @@ class UsersController extends Controller {
 
 		if($user_exist==0){
 			//return view register-2 with params mail and password(encoded)
-			return view('register-step-2')->with('datos',$datos);
+			return view('register-step-2')
+				->with('datos',$datos);
 		}else{
 			return redirect()->back()
-				->withErrors(['message'=>'¡El usuario introducido ya se encuentra registrado!']);
+				->withErrors([
+					'message'=>'¡El usuario introducido ya se encuentra registrado!'
+				]);
 		}
     }
 
@@ -138,7 +132,9 @@ class UsersController extends Controller {
 		User::create($datos);
 
 		session(['email' => $datos['email']]);
-		return redirect()->route('index')->with('message', '¡Registrado correctamente!');
+		return redirect()
+			->route('index')
+			->with('message', '¡Registrado correctamente!');
 	}
 
 	public function email_available() {
