@@ -3,15 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\SessionsController;
+//use App\Http\Controllers\SessionsController;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 
 
 class UsersController extends Controller {
 	public function index() {
+		$session = session('email');
+//        return view('index',['session' => $session]);
+		return view('index',['session' => $session]);
+	}
 
-        return view('index',['session' => session('email')]);
+	public function admin() {
+		$session = session('email');
+
+		if(isset($session)) {
+//			dd($session);
+//			dd(User::where('email', $session)->first());
+//			$username = User::where('email', $session)->first()->value('nombre');
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
+
+			$result = compact(['session', 'username']);
+			return view('admin', $result);
+		}
+		return view('admin',['session' => $session]);
 	}
 
 	/**
@@ -33,12 +50,21 @@ class UsersController extends Controller {
 
          if($user_exist){
              $match = ['email'=>$datos['email'], 'password'=>$datos['password']];
-             $user_pass = User::where($match)->first();
+             $user_pass = User::where($match)->first();	// todos los datos del usuario de la BD
 //             dd($user_pass);
              if(!is_null($user_pass)){
              	//coinciden email y contraseña
-				session(['email' => $datos['email']]);
-				return redirect()->route('index');
+				 session(['email' => $datos['email']]);
+				 $session = session('email');
+				 $username = $user_pass['nombre'];
+				 $result = compact(['session','username']);
+
+				if($user_pass['es_admin'] == 0){
+					return redirect()->route('listaIncidentes');
+				}
+				else{
+					return redirect()->route('admin');
+				}
              }
              else{
 				//no coinciden email y contraseña
@@ -60,8 +86,10 @@ class UsersController extends Controller {
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function logout() {
-		if(session('email'))
+		if(session('email')) {
 			session()->forget('email');
+			session()->flush();
+		}
 
 		return redirect()->route('index');
 	}

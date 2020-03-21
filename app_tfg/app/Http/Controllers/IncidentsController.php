@@ -24,7 +24,8 @@ class IncidentsController extends Controller {
 		$session = session('email');
 
 		if(isset($session)) {
-			$username = User::where('email', $session)->first()->value('nombre');
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
 			
 //			$incidentes = Incidente::all();
 			$incidents_pag = Incidente::paginate(10);
