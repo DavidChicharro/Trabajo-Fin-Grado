@@ -5,7 +5,7 @@
 
 @section('filter')
 	<div class="filter float-right w-100 mt-2 pr-1 pr-md-0">
-		<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-light border dropdown-toggle">Action</button>
+		<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-light border dropdown-toggle">Tipos de incidentes</button>
 		<input type="date"/>
 		<input type="date"/>
 		<button type="button" class="btn btn-info">Filtrar</button>
@@ -25,15 +25,15 @@
 		<div class="incidents">
 			@foreach($incidents as $inc)
 				<article class="incident px-2 py-3 mb-1">
-					<table class="w-100">
+					<table class="w-100" cellpadding="8">
 						<tbody>
 							<tr>
 								<td><h5>Incidente {{$inc['id']}}</h5></td>
 								<td class="w-25"><small class="float-right">@dateTimeFormat($inc['fecha_hora'])</small></td>
 							</tr>
 							<tr>
-								<td class="pt-3">{{$inc['lugar']}}</td>
-								<td class="w-25 pt-3 text-right">
+								<td class="pt-2">{{$inc['lugar']}}</td>
+								<td class="w-25 pt-2 text-right">
 									<span id="vm{{$inc['id']}}" class="view-more text-right sp-as-lk">Ver más</span>
 								</td>
 							</tr>
@@ -70,7 +70,7 @@
 		    // console.log(incidente);
 			let descRow = '<tr class="expanded"><td colspan="2" class="pt-3">'+incidente.descripcion+'</td></tr>';
 			//si en shareLessRow no utilizo comilla simple, sustitutir los escapes (\)
-			let shareLessRow = '<tr class="expanded"><td class="pt-4">Compartir incidente</td><td class="text-right pt-4"><span id="vl" class="view-less text-right sp-as-lk">Ver menos</span></td></tr>';
+			let shareLessRow = '<tr class="expanded"><td class="pt-4"><div class="share-incident sp-as-lk px-3"><img class="icon-img" src="{{asset("images/icons/compartir.svg")}}"><span>Compartir incidente</span></div></td><td class="text-right pt-4"><span id="vl" class="view-less text-right sp-as-lk">Ver menos</span></td></tr>';
 			tabla.after(shareLessRow).delay(500);
             tabla.after(descRow).delay(500);
         }

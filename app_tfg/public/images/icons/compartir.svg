@@ -1,14 +1,23 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<!-- Created using Karbon, part of Calligra: http://www.calligra.org/karbon -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="63.7796pt" height="56.693pt">
-<defs/>
-<g id="layer0">
-  <g id="group0" transform="translate(143.471, 56.5323)" fill="none"/>
-  <circle id="shape0" transform="translate(44.4357, 2.84008)" r="7.08662645000pt" cx="7.08662645000pt" cy="7.08662645000pt" fill="#17a6bf" fill-rule="evenodd" stroke="#17a6bf" stroke-width="0.00000000000" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="1.98425540600"/>
-  <path id="shape1" transform="translate(44.2783, 50.7645)" fill="#17a6bf" fill-rule="evenodd" stroke="#17a6bf" stroke-width="0.00000000000" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2.00000000000" d="M17.7166 8.85828C17.7166 3.96599 13.7506 2.99567e-16 8.85828 0C3.96599 -2.99567e-16 5.99133e-16 3.96599 0 8.85828C-5.99133e-16 13.7506 3.96599 17.7166 8.85828 17.7166C13.7506 17.7166 17.7166 13.7506 17.7166 8.85828"/>
-  <path id="shape2" transform="translate(8.53903, 26.5661)" fill="#17a6bf" fill-rule="evenodd" stroke="#17a6bf" stroke-width="0.00000000000" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2.00000000000" d="M17.7166 8.85828C17.7166 3.96599 13.7506 2.99567e-16 8.85828 0C3.96599 -2.99567e-16 5.99133e-16 3.96599 0 8.85828C-5.99133e-16 13.7506 3.96599 17.7166 8.85828 17.7166C13.7506 17.7166 17.7166 13.7506 17.7166 8.85828"/>
-  <path id="shape3" transform="translate(17.7909, 11.1784)" fill="none" stroke="#17a6bf" stroke-width="7.00158693260" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="1.98425540600" d="M0 24.4035C23.4063 8.13449 35.162 1.44329e-14 35.267 0"/>
-  <path id="shape4" transform="translate(17.6335, 35.5818)" fill="none" stroke="#17a6bf" stroke-width="7.00158693260" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="1.98425540600" d="M0 0L35.267 24.7184"/>
+
+<svg width="85" height="75.6" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer0">
+   <g fill="none" id="group0"/>
+   <circle stroke-miterlimit="1.98426" stroke-linecap="square" stroke-width="0" stroke="#17a6bf" fill-rule="evenodd" fill="#17a6bf" cy="14.06974" cx="55.93933" r="9.44884" id="shape0"/>
+   <path d="m64.0497,61.4036c0,-4.89229 -3.966,-8.85828 -8.85832,-8.85828c-4.89229,0 -8.85828,3.96599 -8.85828,8.85828c0,4.89232 3.96599,8.85832 8.85828,8.85832c4.89232,0 8.85832,-3.966 8.85832,-8.85832" stroke-miterlimit="2" stroke-linecap="square" stroke-width="0" stroke="#17a6bf" fill-rule="evenodd" fill="#17a6bf" id="shape1"/>
+   <path d="m28.31042,37.2052c0,-4.89229 -3.966,-8.85828 -8.85832,-8.85828c-4.89229,0 -8.85828,3.96599 -8.85828,8.85828c0,4.89232 3.96599,8.85832 8.85828,8.85832c4.89232,0 8.85832,-3.966 8.85832,-8.85832" stroke-miterlimit="2" stroke-linecap="square" stroke-width="0" stroke="#17a6bf" fill-rule="evenodd" fill="#17a6bf" id="shape2"/>
+   <path d="m19.84569,37.36272c23.4063,-16.26901 35.162,-24.4035 35.267,-24.4035" stroke-miterlimit="1.98426" stroke-linecap="square" stroke-width="7.00159" stroke="#17a6bf" fill="none" id="shape3"/>
+   <path d="m19.68829,37.36262l35.267,24.7184" stroke-miterlimit="1.98426" stroke-linecap="square" stroke-width="7.00159" stroke="#17a6bf" fill="none" id="shape4"/>
+  </g>
+  <ellipse ry="13.0137" rx="13.0137" id="svg_1" cy="37.58985" cx="19.71151" stroke-width="0" stroke="#000" fill="#17a6bf"/>
+  <ellipse ry="13.0137" rx="13.0137" id="svg_3" cy="14.16519" cx="56.14987" stroke-width="0" stroke="#000" fill="#17a6bf"/>
+  <ellipse ry="13.0137" rx="13.0137" id="svg_4" cy="61.28848" cx="55.32795" stroke-width="0" stroke="#000" fill="#17a6bf"/>
  </g>
 </svg>

@@ -68,6 +68,14 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
     cursor: pointer;
 }
 
+.share-incident {
+    max-width: max-content;
+}
+
+.share-incident .icon-img{
+    width: 25px;
+}
+
 /* links in bootstrap pagination */
 .page-link {
     color: var(--k-blue)!important;
