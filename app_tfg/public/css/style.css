@@ -55,6 +55,12 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
     width: 45px;
 }
 
+.filter > * {
+    float: right;
+    margin: 10px 0;
+    width: 85%;
+}
+
 /* fake link */
 .sp-as-lk {
     color: var(--k-blue);
@@ -76,6 +82,9 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
     .nav-pills {
         width: 100%;
     }
+    .icon .icon-img {
+        width: 30px;
+    }
 }
 
 @media only screen and (max-width: 991px){
@@ -87,6 +96,10 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
 @media only screen and (min-width: 768px) and (max-width: 991px){
     .nav-pills {
         width: 90%;
+    }
+
+    .icon .icon-img {
+        width: 35px;
     }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px){
@@ -102,12 +115,19 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
         flex-wrap: wrap;
     }
 
-    #lupa{order: 3}
-    #campana{order:2}
-    #user{order:1}
+    /*#lupa{order: 3}*/
+    /*#campana{order:2}*/
+    /*#user{order:1}*/
 
     .icon-group .icon {
         margin: auto;
+    }
+
+    .filter > * {
+        margin: 5px 0;
+        width: 100%;
+        text-align: center;
+        padding: 6px 0;
     }
 }
 

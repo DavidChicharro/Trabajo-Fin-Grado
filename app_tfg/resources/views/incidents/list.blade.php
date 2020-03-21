@@ -3,20 +3,28 @@
 @section('title', 'Mapa de incidentes')
 @section('username',$username)
 
+@section('filter')
+	<div class="filter float-right w-100 mt-2 pr-1 pr-md-0">
+		<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-light border dropdown-toggle">Action</button>
+		<input type="date"/>
+		<input type="date"/>
+		<button type="button" class="btn btn-info">Filtrar</button>
+
+		<button type="button" class="btn btn-danger mt-4">Añadir incidente</button>
+	</div>
+@endsection
 
 @section('content')
 	<h2>Lista de incidentes</h2>
 	<section class="main-content mx-1">
-		<div class="my-3 w-75">
+		<div class="my-3">
 			<a href="#">Mis publicaciones de incidentes</a>
 			<a class="float-right" href="/mapa-incidentes">Ver mapa</a>
 		</div>
-		<div class="ajax">
 
-		</div>
 		<div class="incidents">
 			@foreach($incidents as $inc)
-				<article class="incident px-2 py-3 mb-1 w-75">
+				<article class="incident px-2 py-3 mb-1">
 					<table class="w-100">
 						<tbody>
 							<tr>
