@@ -78,6 +78,7 @@
         function contractIncident(){
             $(".expanded").hide(300, "linear"); //Oculta todas las rows
             $(".view-more-loaded").show(300);   //Muestro botón "ver más" del resto
+            $(".expanded").closest("article").css("background-color", "white");
         }
 
         $(document).on("click",".view-less", function () {
@@ -87,14 +88,14 @@
         $(".view-more").click(function() {
             contractIncident();
             $(this).hide(); //escondo boton "Ver más"
+            $(this).closest("article").css("background-color", "var(--k-blue-op10)");
 
 	        if(!$(this).hasClass("view-more-loaded")) {
                 $(this).addClass("view-more-loaded");
                 let buttonId = $(this).attr('id');
                 let incidentId = buttonId.replace('vm', '');
-                let tabla = $(this).parent().parent().parent();
+                let tabla = $(this).closest("tbody");
 
-                console.log($(this));
                 $.ajax({
                     url: '/get_incident_details',
                     data: {
@@ -114,7 +115,7 @@
                     },
                 });
             }
-            let antecessor = $(this).parent().parent().parent();
+	        let antecessor = $(this).closest("tbody");
 	        $(antecessor).siblings(".expanded").show(300);
 		});
 	</script>
