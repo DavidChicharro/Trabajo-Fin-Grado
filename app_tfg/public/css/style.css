@@ -68,6 +68,20 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
     cursor: pointer;
 }
 
+.li-as-lk {
+    color: var(--k-blue);
+    cursor: pointer;
+}
+
+.li-as-lk:hover {
+    text-decoration: underline;
+}
+
+.admin-list {
+    font-size: large;
+    list-style-type: none;
+}
+
 .share-incident {
     max-width: max-content;
 }
