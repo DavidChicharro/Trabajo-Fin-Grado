@@ -21,6 +21,10 @@ class UsersController extends Controller {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 
+//			config(['api.caducidad_incidentes.radio' => '30']);
+//			$val = config('api.caducidad_incidentes.radio');
+//			dd($val);
+
 			$result = compact(['session', 'username']);
 			return view('admin', $result);
 		}
