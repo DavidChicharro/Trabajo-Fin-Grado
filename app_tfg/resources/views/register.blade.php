@@ -1,38 +1,52 @@
-<html>
-<head>
-	<title>{{config('app.name')}} - Regístrate</title>
-	<link rel="icon" type="image/png" href="{{asset('images/favicon.ico')}}"/>
-</head>
-	<body>
-		<div class="container">
-			<section>
-				<h2>Registro</h2>
+@extends('layouts.index-base')
 
-				<form method="post" action="{{ Request::url() }}">
-					@csrf
+@section('title', ' - Registro')
+
+@section('content')
+
+	<a href="/" class="mx-auto">
+		<img class="img-fluid px-4" src="{{asset('images/logo/logo.png')}}" alt="logo" width="400px">
+	</a>
+
+	<div class="row col-12 mx-auto">
+		<section class="form-section mx-auto">
+			<h2 class="text-center">Registro</h2>
+
+			<form method="post" action="{{ Request::url() }}">
+				@csrf
+				<div class="form-group">
 					<label for="email">E-mail</label>
-					<input type="text" name="email"><br>
+					<input type="email" name="email" class="form-control">
+				</div>
 
+				<div class="form-group">
 					<label for="password">Contraseña</label>
-					<input type="password" name="password"><br>
+					<input type="password" name="password" class="form-control">
+				</div>
 
+				<div class="form-group">
 					<label for="conf_password">Confirmar contraseña</label>
-					<input type="password" name="conf_password"><br>
+					<input type="password" name="conf_password" class="form-control">
+				</div>
 
-					<br>
-					<input type="submit" value="Siguiente">
-				</form>
+				<input type="submit" value="Siguiente" class="form-button">
+			</form>
 
-				<hr>
-				<p>¿Ya tienes cuenta?</p>
+			<div class="text-center">
+				<img class="img-fluid" src="{{asset('images/icons/reg-progess-1.svg')}}">
+			</div>
+
+			<article class="reg-log text-center p-3 mt-2">
+				<span>¿Ya tienes cuenta?</span><br>
 				<a href="/">Inicia sesión</a>
-			</section>
-		</div>
+			</article>
+		</section>
 
 		@if($errors->any())
 			@foreach($errors->all() as $error)
 				<script>alert('{{$error}}')</script>
 			@endforeach
 		@endif
-	</body>
-</html>
+	</div>
+
+@endsection

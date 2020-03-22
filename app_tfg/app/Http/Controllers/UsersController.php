@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use App\Http\Controllers\SessionsController;
 use App\User;
-use Illuminate\Support\Facades\Validator;
-
 
 class UsersController extends Controller {
 	public function index() {
 		$session = session('email');
-		return view('index',['session' => $session]);
+		if(isset($session))
+			return view('index',['session' => $session]);
+		else
+			return view('login-user');
 	}
 
 	public function admin() {
@@ -24,7 +24,8 @@ class UsersController extends Controller {
 			$result = compact(['session', 'username']);
 			return view('admin', $result);
 		}
-		return view('admin',['session' => $session]);
+		return view('login-admin');
+//		return view('admin',['session' => $session]);
 	}
 
 	/**

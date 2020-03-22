@@ -1,0 +1,47 @@
+h2 {
+	font-weight: bold;
+	color: var(--k-dark-blue);
+}
+
+.form-section {
+	max-width: min-content;
+	min-width: 250px;
+}
+
+form {
+	margin-bottom: 20px;
+}
+
+form label {
+	color: var(--k-dark-blue);
+	margin-bottom: 3px;
+}
+
+.form-control:focus {
+	color: var(--k-navy-blue)!important;
+	border-color: var(--k-navy-blue)!important;
+	box-shadow: 0 0 0 .2rem var(--k-blue-op25)!important;
+}
+
+.form-button {
+	width: 100%;
+	background-color: var(--k-navy-blue);
+	color: white;
+	border: none;
+	padding: 8px;
+	font-weight: bold;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.reg-log {
+	border-top: 1px solid var(--k-dark-blue);
+}
+
+.reg-log a{
+	color: var(--k-blue);
+}
+
+.reg-log hr {
+	color: var(--k-navy-blue);
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created using Karbon, part of Calligra: http://www.calligra.org/karbon -->
+<svg width="85.03946666666667" height="75.59066666666666" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient spreadMethod="pad" y2="-0.7316" x2="0.19236" y1="-0.6432" x1="0.18014" gradientUnits="objectBoundingBox" id="gradient0">
+   <stop offset="0" stop-color="#000000"/>
+   <stop stop-opacity="0" offset="1" stop-color="#000000"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer0">
+   <g fill="none" id="group0"/>
+   <ellipse stroke-miterlimit="1.98426" stroke-linecap="square" stroke-width="0.08504" stroke="#0099ff" fill-rule="evenodd" fill="#d9534f" cy="18.83986" cx="43.72102" ry="17.83481" rx="18.86631" id="shape0"/>
+   <path d="m72.36201,62.23473c-0.79215,6.13919 -3.77811,10.11191 -8.95778,11.91764c-25.71513,0.14445 -38.72509,0.28878 -39.02979,0.43324c-4.33058,-0.23392 -4.33607,0.51957 -7.8608,-3.03348c-1.75935,-1.5153 -3.46759,-4.76812 -3.93041,-9.10083c0.73124,-19.42933 2.37652,-19.57378 4.75304,-24.05192c2.15764,-2.86966 4.6865,-4.53091 7.5866,-4.98374c2.90009,-0.45285 5.06329,0.12499 6.48972,1.73347c8.77489,5.70602 17.54976,5.05597 26.32465,-1.95016c4.06764,-0.51262 5.86479,-0.60689 7.58661,2.16684c0,0 0,0 0,0c0.01823,0.02769 0.03619,0.05539 0.0543,0.08311c5.26312,8.06778 7.59113,16.9963 6.98386,26.78583" stroke-miterlimit="1.98426" stroke-linecap="square" stroke-width="0" stroke="url(#gradient0)" fill-rule="evenodd" fill="#d9534f" id="shape1"/>
+  </g>
+ </g>
+</svg>

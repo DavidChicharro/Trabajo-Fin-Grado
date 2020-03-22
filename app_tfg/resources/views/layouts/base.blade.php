@@ -6,8 +6,6 @@
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet"/>
     <link href="{{asset('css/style.css')}}" rel="stylesheet"/>
 
-{{--    <link href="{{asset('js/bootstrap.min.js')}}"/>--}}
-{{--    <link href="{{asset('js/jquery-3.4.1.js')}}"/>--}}
     @yield('stylesheet')
 
 </head>
@@ -17,12 +15,12 @@
         <div class="row">
             @section('sidebar')
                 <section class="col-3 px-1 px-md-3 lateral-nav">
-                    <img  class="img-fluid" src="{{asset('images/logo/logo.png')}}">
+                    <img class="img-fluid" src="{{asset('images/logo/logo.png')}}" alt="logo">
 
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" data-toggle="pill" href="/mapa-incidentes" role="tab" aria-controls="v-pills-home" aria-selected="true">Incidentes</a>
-                        <a class="nav-link {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" data-toggle="pill" href="/contactos-favoritos" role="tab" aria-controls="v-pills-profile" aria-selected="false">Contactos favoritos</a>
-                        <a class="nav-link {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" data-toggle="pill" href="/zonas-interes" role="tab" aria-controls="v-pills-messages" aria-selected="false">Zonas de interés</a>
+                        <a class="nav-link {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" data-toggle="pill" href="/mapa-incidentes" role="tab" aria-selected="true">Incidentes</a>
+                        <a class="nav-link {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" data-toggle="pill" href="/contactos-favoritos" role="tab" aria-selected="false">Contactos favoritos</a>
+                        <a class="nav-link {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" data-toggle="pill" href="/zonas-interes" role="tab" aria-selected="false">Zonas de interés</a>
                     </div>
                 </section>
             @show
