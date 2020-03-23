@@ -19,7 +19,6 @@
 
 		</div>
 	@endisset
-{{--	<button type="button" data-toggle="modal" data-target="#caducidadModal">Configurar caducidad de incidentes</button>--}}
 
 	<h2>Administración - Inicio</h2>
 	<ul class="admin-list mt-4 pl-1">
@@ -27,10 +26,10 @@
 			<a href="#" id="caduc" class="open-modal li-as-lk py-2" data-toggle="modal" data-target="#configModal">Configurar caducidad de incidentes</a>
 		</li>
 		<li class="py-2">
-			<a href="#" id="contact-fav" class="open-modal li-as-lk py-2" data-toggle="modal" data-target="#configModal">Configurar número máximo de contactos favoritos</a>
+			<a href="#" id="cfav" class="open-modal li-as-lk py-2" data-toggle="modal" data-target="#configModal">Configurar número máximo de contactos favoritos</a>
 		</li>
 		<li class="py-2">
-			<a href="#" id="zona-int" class="open-modal li-as-lk py-2" data-toggle="modal" data-target="#configModal">Configurar zonas de interés</a>
+			<a href="#" id="zint" class="open-modal li-as-lk py-2" data-toggle="modal" data-target="#configModal">Configurar zonas de interés</a>
 		</li>
 		<li class="py-2">
 			<a href="#" class="li-as-lk py-2">Dar de alta administrador</a>
@@ -48,11 +47,11 @@
 					</button>
 				</div>
 				<div class="modal-body container-fluid">
-					<div class="row">
+					<div class="row" id="content-modal-id">
 					</div>
 				</div>
 				<div class="modal-footer py-2">
-					<button id="save-config" type="button" class="btn modal-button">Aceptar</button>
+					<button id="save-config" type="button" class="btn modal-button" data-dismiss="modal">Aceptar</button>
 				</div>
 			</div>
 		</div>
@@ -71,15 +70,15 @@
 		            $('#caduc-radio').val(params['radio']);
                     $('#caduc-tiempo').val(params['tiempo']);
                     break;
-                case 'contact-fav':
+                case 'cfav':
                     title = 'Número máximo de contactos favoritos';
-                    $('#contact-fav-max').val(params['maximo']);
+                    $('#cfav-maximo').val(params['maximo']);
                     break;
-                case 'zona-int':
+                case 'zint':
                     title = 'Zonas de interés';
-                    $('#zona-int-radio-min').val(params['radio_min']);
-                    $('#zona-int-radio-max').val(params['radio_max']);
-                    $('#zona-int-zonas-max').val(params['zonas_max']);
+                    $('#zint-radio_min').val(params['radio_min']);
+                    $('#zint-radio_max').val(params['radio_max']);
+                    $('#zint-zonas_max').val(params['zonas_max']);
                     break;
                 default:
                     alert('Error: no se ha podido recuperar el valor consultado.');
@@ -99,20 +98,20 @@
                         '<input type="number" class="col-4 px-0" id="caduc-tiempo">\n' +
                         '<span class="col-4 text-left pl-2 my-auto">meses</span>';
                     break;
-                case 'contact-fav':
+                case 'cfav':
                     content = '<span class="col-4 text-left pl-4 my-auto">Máximo</span>\n' +
-                        '<input type="number" class="col-4 px-0" id="contact-fav-max">\n' +
+                        '<input type="number" class="col-4 px-0" id="cfav-maximo">\n' +
                         '<span class="col-4 text-left pl-2 my-auto">contactos</span>';
                     break;
-                case 'zona-int':
+                case 'zint':
                     content = '<span class="col-5 text-left pl-4 my-auto">Radio mín.</span>\n' +
-                        '<input type="number" class="col-4 px-0" id="zona-int-radio-min">\n' +
+                        '<input type="number" class="col-4 px-0" id="zint-radio_min">\n' +
                         '<span class="col-3 text-left pl-2 my-auto">metros</span>\n' +
                         '<span class="col-5 text-left pl-4 my-auto">Radio máx.</span>\n' +
-                        '<input type="number" class="col-4 px-0 my-2" id="zona-int-radio-max">\n' +
+                        '<input type="number" class="col-4 px-0 my-2" id="zint-radio_max">\n' +
                         '<span class="col-3 text-left pl-2 my-auto">metros</span>\n' +
                         '<span class="col-5 text-left pl-4 my-auto">Zonas máx.</span>\n' +
-                        '<input type="number" class="col-4 px-0 my-2" id="zona-int-zonas-max">\n' +
+                        '<input type="number" class="col-4 px-0 my-2" id="zint-zonas_max">\n' +
                         '<span class="col-3 text-left pl-2 my-auto">zonas</span>';
                     break;
                 default:
@@ -125,18 +124,17 @@
         $(".open-modal").click(function() {
 	        let linkId = $(this).attr('id');
             let contentModal = getContentModal(linkId);
-            $('.modal-body .row').html(contentModal);
+            let configContainer = $('.modal-body .row');
+            configContainer.html(contentModal);
+	        configContainer.attr('id', linkId+"-container");
 
             $.ajax({
                 url: '/ajax_config',
                 data: {
-                    'modal': linkId
+                    'params': linkId
                 },
                 type: 'get',
                 success: function (response) {
-                    // alert(response);
-                    // alert(response.msg);
-                    // expandIncident(tabla, response.incidente);
                     printVarModal(linkId,response);
                 },
                 statusCode: {
@@ -146,20 +144,31 @@
                 },
             });
         });
-		
+
+        function getInputValues(){
+            let inputValues = {}; // note this
+            $('.modal-body .row :input').each(function(){
+                // $( $(this).attr('id') ).text($(this).val());
+                inputValues[$(this).attr('id').split('-')[1]] = ($(this).val()) ;
+            });
+            return inputValues;
+        }
+
 		$("#save-config").click(function () {
+		    let configId = $('.modal-body .row').attr('id');
+		    configId = configId.split("-container")[0];
+            let inputValues = getInputValues();
+
 		    $.ajax({
                 url: '/ajax_config',
                 data: {
 				    '_token': "{{csrf_token()}}",
-                    'modal': linkId
+	                'configId': configId,
+	                'values': inputValues
                 },
                 type: 'post',
                 success: function (response) {
-                    // alert(response);
-                    // alert(response.msg);
-                    // expandIncident(tabla, response.incidente);
-                    printVarModal(linkId,response);
+                    alert("Los parámetros se han actualizado correctamente");
                 },
                 statusCode: {
                     404: function () {
@@ -167,7 +176,6 @@
                     }
                 },
 		    });
-
         });
 	</script>
 @endsection
