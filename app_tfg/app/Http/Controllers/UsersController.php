@@ -22,7 +22,7 @@ class UsersController extends Controller {
 			$username = $user['nombre'];
 
 //			config(['api.caducidad_incidentes.radio' => '30']);
-//			$val = config('api.caducidad_incidentes.radio');
+//			$val = config('api.caducidad_incidentes');
 //			dd($val);
 
 			$result = compact(['session', 'username']);

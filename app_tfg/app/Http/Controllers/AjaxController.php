@@ -23,4 +23,41 @@ class AjaxController extends Controller
 //    	dd($var);
 //    	echo $var;
 	}
+
+	private function getParams($key){
+		return config(('api.'.$key));
+	}
+
+	public function getConfigParams(Request $request){
+    	$modalParams = null;
+		if(isset($request['modal'])) {
+			switch ($request['modal']) {
+				case 'caduc':
+					$modalParams = $this->getParams('caducidad_incidentes');
+					break;
+				case 'contact-fav':
+					$modalParams = $this->getParams('contactos_favoritos');
+					break;
+				case 'zona-int':
+					$modalParams = $this->getParams('zonas_interes');
+					break;
+				default:
+					break;
+			}
+		}
+		return $modalParams;
+
+//			config(['api.caducidad_incidentes.radio' => '30']);
+//			$val = config('api.caducidad_incidentes.radio');
+//			dd($val);
+	}
+
+	private function setParams($key, $params){
+    	foreach ($params as $param => $value)
+    		config(['api.'.$key.'.'.$param => $value]);
+	}
+
+	public function setConfigParams(Request $request){
+
+	}
 }

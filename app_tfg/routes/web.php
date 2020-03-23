@@ -20,6 +20,8 @@ Route::get('/lista-incidentes','IncidentsController@listaIncidentes')->name('lis
 Route::post('/get_incident_details', 'IncidentsController@getIncidentDetails');
 
 Route::post('/ajax','AjaxController@index');
+Route::get('/ajax_config', 'AjaxController@getConfigParams');
+Route::post('/ajax_config', 'AjaxController@setConfigParams');
 
 
 // Administración
