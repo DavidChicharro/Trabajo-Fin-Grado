@@ -9,7 +9,7 @@
     --k-red:#d9534f;
 }
 
-main h2{
+main h2, main h5{
     font-weight: bold;
     color: var(--k-dark-blue);
 }

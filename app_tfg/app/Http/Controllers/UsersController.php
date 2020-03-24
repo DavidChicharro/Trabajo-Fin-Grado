@@ -147,6 +147,22 @@ class UsersController extends Controller {
 	}
 
     public function zonaPersonal() {
+		$session = session('email');
+
+		if(isset($session)) {
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
+
+
+			// Quizás no sea necesario devolver la sesión (email)
+			$result = compact(['username','user']);
+			return view('user-profile', $result);
+		}
+		return redirect()->route('index');
 
     }
+
+    public function cambiarDatosUsuario() {
+
+	}
 }
