@@ -152,7 +152,7 @@ class UsersController extends Controller {
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
-
+//dd($user);
 
 			// Quizás no sea necesario devolver la sesión (email)
 			$result = compact(['username','user']);
