@@ -25,7 +25,7 @@
 
 		<article class="my-4">
 			<h5 class="p-1">Datos personales</h5>
-			<form class="px-3 w-50" method="post" action="{{ Request::url() }}">
+			<form class="pl-3 pr-5 w-50" method="post" action="{{ Request::url() }}">
 				@csrf
 				<div class="form-group">
 					<label for="nombre">E-mail</label>
@@ -68,7 +68,7 @@
 
 		<article class="my-4">
 			<h5 class="p-1">Seguridad</h5>
-			<form class="px-3 w-50" method="post" action="{{ Request::url() }}">
+			<form class="pl-3 pr-5 w-50" method="post" action="{{ Request::url() }}">
 				@csrf
 				<div class="form-group">
 					<label for="password">Contraseña actual</label>
@@ -91,7 +91,7 @@
 
 		<article class="my-4">
 			<h5 class="p-1">Cuenta</h5>
-			<a href="#" class="text-danger">Cerrar cuenta</a>
+			<a href="#" class="text-danger px-3">Cerrar cuenta</a>
 		</article>
 	</section>
 

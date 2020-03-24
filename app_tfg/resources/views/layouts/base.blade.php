@@ -38,7 +38,7 @@
                         <a href="/" id="campana" class="icon my-2 my-lg-0">
                             <img class="icon-img" src="{{asset('images/icons/campana.svg')}}">
                         </a>
-                        <a href="/" id="user" class="icon my-2 my-lg-0">
+                        <a href="/zona-personal" id="user" class="icon my-2 my-lg-0">
                             <img class="icon-img" src="{{asset('images/icons/user.svg')}}">
                         </a>
                     </div>
