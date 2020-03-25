@@ -176,3 +176,11 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
     border: 1px solid #dddddd;
     border-radius: 10px;
 }
+
+.req-icon {
+    position: relative;
+    width: 50px;
+    float: right;
+    bottom: 30px;
+    left: 50px;
+}

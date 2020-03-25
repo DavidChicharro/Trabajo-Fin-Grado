@@ -30,16 +30,25 @@
 				<div class="form-group">
 					<label for="nombre">Nombre</label>
 					<input type="text" name="nombre" value="{{ $user['nombre'] }}" class="form-control">
+					<div class="my-auto text-center req-icon">
+						<img class="img-fluid w-50" src="{{asset('images/icons/required.svg')}}">
+					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="apellidos">Apellidos</label>
 					<input type="text" name="apellidos" value="{{ $user['apellidos'] }}" class="form-control">
+					<div class="my-auto text-center req-icon">
+						<img class="img-fluid w-50" src="{{asset('images/icons/required.svg')}}">
+					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="email">E-mail</label>
 					<input type="email" name="email" value="{{ $user['email'] }}" class="form-control">
+					<div class="my-auto text-center req-icon">
+						<img class="img-fluid w-50" src="{{asset('images/icons/required.svg')}}">
+					</div>
 				</div>
 
 				<div class="form-group">
@@ -50,11 +59,17 @@
 				<div class="form-group">
 					<label for="fecha_nacimiento">Fecha de nacimiento</label>
 					<input type="date" name="fecha_nacimiento" value="@dateInputFormat($user['fecha_nacimiento'])" class="form-control">
+					<div class="my-auto text-center req-icon">
+						<img class="img-fluid w-50" src="{{asset('images/icons/required.svg')}}">
+					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="telefono">Número de teléfono móvil</label>
 					<input type="tel" name="telefono" value="{{ $user['telefono'] }}" class="form-control">
+					<div class="my-auto text-center req-icon">
+						<img class="img-fluid w-50" src="{{asset('images/icons/required.svg')}}">
+					</div>
 				</div>
 
 				<div class="form-group">
