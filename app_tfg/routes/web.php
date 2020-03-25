@@ -13,8 +13,9 @@ Route::post('/registro-paso-2', 'UsersController@store');
 
 Route::get('/logout', 'UsersController@logout');
 
-Route::get('/zona-personal', 'UsersController@zonaPersonal');
-Route::post('/zona-personal', 'UsersController@cambiarDatosUsuario');
+Route::get('/zona-personal', 'UsersController@zonaPersonal')->name('zonaPersonal');
+Route::post('/zona-personal', 'UsersController@update');
+
 
 Route::get('/mapa-incidentes','IncidentsController@mapaIncidentes')->name('mapaIncidentes');
 Route::get('/lista-incidentes','IncidentsController@listaIncidentes')->name('listaIncidentes');

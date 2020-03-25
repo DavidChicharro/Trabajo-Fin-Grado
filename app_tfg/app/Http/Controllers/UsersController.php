@@ -125,13 +125,13 @@ class UsersController extends Controller {
 	 */
 	public function store(Request $request) {
 		$datos = $request->validate([
-			'email' => 'required', 
-			'password' => 'required', 
-			'nombre' => 'required', 
-			'apellidos' => 'required', 
-			'dni' => 'required', 
-			'fecha_nacimiento' => 'required',
-			'telefono' => 'required'
+			'email' => 'bail|required|min:7|max:255',
+			'password' => 'required',
+			'nombre' => 'bail|required|min:2|max:255',
+			'apellidos' => 'bail|required|min:2|max:255',
+			'dni' => 'bail|required|min:9|max:10|regex:/([0-9]{8}\-?[A-Za-z])|([X-Zx-z][0-9]{7}\-?[A-Za-z])/',
+			'fecha_nacimiento' => 'bail|required|date|before:-12years',
+			'telefono' => 'bail|required|regex:/([6-7])[0-9]{8}/'
 		]);
 
 		User::create($datos);
@@ -140,6 +140,55 @@ class UsersController extends Controller {
 		return redirect()
 			->route('index')
 			->with('message', '¡Registrado correctamente!');
+	}
+
+	public function update(Request $request) {
+		$session = session('email');
+
+		$request->validate([
+			'email' => 'bail|required|min:7|max:255',
+			'nombre' => 'bail|required|min:2|max:255',
+			'apellidos' => 'bail|required|min:2|max:255',
+			'fecha_nacimiento' => 'bail|required|date|before:-12years',
+			'telefono' => 'bail|required|regex:/([6-7])[0-9]{8}/',
+			'telefono_fijo' => 'bail|required|regex:/([8-9])[0-9]{8}/'
+		]);
+
+		$userEmail = $session;
+		$user = User::where('email',$userEmail)->first();
+		$userTlf = $user['telefono'];
+
+		// Si modifica el email
+		if($request['email'] != $userEmail){
+			$email_exist = User::where('email',$request['email'])->count();
+
+			//Válido->Cambio
+			if($email_exist!=0) {
+				return redirect()->route('zonaPersonal')
+					->withErrors([
+						'message'=>'¡El email introducido pertenece a otro usuario!'
+					]);
+			}
+			session(['email' => $request['email']]);
+
+			/** ---- ¡MODIFICAR EMAIL EN CASCADA EN OTRAS TABLAS! ---- **/
+		}
+		// Si modifica el teléfono
+		if($request['telefono'] != $userTlf){ //Cambia el teléfono
+			$tlf_exist = User::where('telefono',$request['telefono'])->count();
+			if($tlf_exist!=0){
+				return redirect()->route('zonaPersonal')
+					->withErrors([
+						'message'=>'¡El teléfono introducido pertenece a otro usuario!'
+					]);
+			}
+		}
+		$user = User::where('email',$userEmail)->first();
+		$input = $request->all();
+		$user->fill($input)->save();
+
+		return redirect()->route('zonaPersonal')
+			->with('message', '¡Datos actualizados correctamente!');
 	}
 
 	public function email_available() {

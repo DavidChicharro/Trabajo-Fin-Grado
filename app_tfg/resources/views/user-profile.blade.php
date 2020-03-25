@@ -24,16 +24,16 @@
 		</article>
 
 		<article class="my-4">
-			<h5 class="p-1">Datos personales</h5>
+			<h5 class="p-1">Nombre</h5>
 			<form class="pl-3 pr-5 w-50" method="post" action="{{ Request::url() }}">
 				@csrf
 				<div class="form-group">
-					<label for="nombre">E-mail</label>
+					<label for="nombre">Nombre</label>
 					<input type="text" name="nombre" value="{{ $user['nombre'] }}" class="form-control">
 				</div>
 
 				<div class="form-group">
-					<label for="apellidos">E-mail</label>
+					<label for="apellidos">Apellidos</label>
 					<input type="text" name="apellidos" value="{{ $user['apellidos'] }}" class="form-control">
 				</div>
 
@@ -44,12 +44,12 @@
 
 				<div class="form-group">
 					<label for="dni">D.N.I. / N.I.E.</label>
-					<input type="text" name="dni" value="{{ $user['dni'] }}" class="form-control">
+					<input type="text" name="dni_" value="{{ $user['dni'] }}" class="form-control" readonly>
 				</div>
 
 				<div class="form-group">
-					<label for="fecha-nacimiento">Fecha de nacimiento</label>
-					<input type="date" name="fecha-nacimiento" value="@dateInputFormat($user['fecha_nacimiento'])" class="form-control">
+					<label for="fecha_nacimiento">Fecha de nacimiento</label>
+					<input type="date" name="fecha_nacimiento" value="@dateInputFormat($user['fecha_nacimiento'])" class="form-control">
 				</div>
 
 				<div class="form-group">
@@ -58,13 +58,21 @@
 				</div>
 
 				<div class="form-group">
-					<label for="telefono-fijo">Número de teléfono fijo</label>
-					<input type="tel" name="telefono-fijo" value="{{ $user['telefono_fijo'] }}" class="form-control">
+					<label for="telefono_fijo">Número de teléfono fijo</label>
+					<input type="tel" name="telefono_fijo" value="{{ $user['telefono_fijo'] }}" class="form-control">
 				</div>
 
 				<input type="submit" value="Guardar cambios" class="form-button">
 			</form>
 		</article>
+
+		<div>
+			@if($errors->any())
+				@foreach($errors->all() as $error)
+					<script>alert('{{$error}}')</script>
+				@endforeach
+			@endif
+		</div>
 
 		<article class="my-4">
 			<h5 class="p-1">Seguridad</h5>
