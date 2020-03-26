@@ -77,7 +77,7 @@
 					<input type="tel" name="telefono_fijo" value="{{ $user['telefono_fijo'] }}" class="form-control">
 				</div>
 
-				<input type="submit" value="Guardar cambios" class="form-button">
+				<input type="submit" value="Guardar cambios" class="form-button" name="formData">
 			</form>
 		</article>
 
@@ -99,16 +99,16 @@
 				</div>
 
 				<div class="form-group">
-					<label for="password">Nueva contraseña</label>
-					<input type="password" name="new-password" class="form-control">
+					<label for="new_password">Nueva contraseña</label>
+					<input type="password" name="new_password" class="form-control">
 				</div>
 
 				<div class="form-group">
-					<label for="password">Confirmar contraseña</label>
-					<input type="password" name="conf-password" class="form-control">
+					<label for="conf_password">Confirmar contraseña</label>
+					<input type="password" name="conf_password" class="form-control">
 				</div>
 
-				<input type="submit" value="Cambiar contraseña" class="form-button">
+				<input type="submit" value="Cambiar contraseña" class="form-button" name="formPass">
 			</form>
 		</article>
 

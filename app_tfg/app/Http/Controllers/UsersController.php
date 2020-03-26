@@ -71,7 +71,6 @@ class UsersController extends Controller {
 				->withInput($request->only('email'))
 				->withErrors(['message'=>'¡El usuario introducido no existe!']);
          }
-
 	 }
 
 	/**
@@ -97,14 +96,13 @@ class UsersController extends Controller {
 	 */
 	public function create(Request $request) {
 		$datos = $request->validate([
-			'email' => 'required',
-			'password' => 'required'
+			'email' => 'bail|required|min:7|max:255',
+			'password' => 'bail|required|min:8',
 		]);
 
 		$user_exist = User::where('email',$datos['email'])->count();
 
 		if($user_exist==0){
-			//return view register-2 with params mail and password(encoded)
 			return view('register-step-2')
 				->with('datos',$datos);
 		}else{
@@ -124,7 +122,7 @@ class UsersController extends Controller {
 	public function store(Request $request) {
 		$datos = $request->validate([
 			'email' => 'bail|required|min:7|max:255',
-			'password' => 'required',
+			'password' => 'bail|required|min:8',
 			'nombre' => 'bail|required|min:2|max:255',
 			'apellidos' => 'bail|required|min:2|max:255',
 			'dni' => 'bail|required|min:9|max:10',
@@ -143,52 +141,73 @@ class UsersController extends Controller {
 
 	public function update(Request $request) {
 		$session = session('email');
-
-		$request->validate([
-			'email' => 'bail|required|min:7|max:255',
-			'nombre' => 'bail|required|min:2|max:255',
-			'apellidos' => 'bail|required|min:2|max:255',
-			'fecha_nacimiento' => 'bail|required|date|before:-12years',
-			'telefono' => 'bail|required|regex:/([6-7])[0-9]{8}/',
-			'telefono_fijo' => 'bail|required|regex:/([8-9])[0-9]{8}/'
-		]);
-
 		$userEmail = $session;
-		$user = User::where('email',$userEmail)->first();
-		$userTlf = $user['telefono'];
+		$user = User::where('email', $userEmail)->first();
 
-		// Si modifica el email
-		if($request['email'] != $userEmail){
-			$email_exist = User::where('email',$request['email'])->count();
+		if($request->has('formData')) {
+			$request->validate([
+				'email' => 'bail|required|min:7|max:255',
+				'nombre' => 'bail|required|min:2|max:255',
+				'apellidos' => 'bail|required|min:2|max:255',
+				'fecha_nacimiento' => 'bail|required|date|before:-12years',
+				'telefono' => 'bail|required|regex:/([6-7])[0-9]{8}/',
+				'telefono_fijo' => 'nullable|regex:/([8-9])[0-9]{8}/'
+			]);
 
-			//Válido->Cambio
-			if($email_exist!=0) {
+			// Si modifica el email
+			if ($request['email'] != $userEmail) {
+				$email_exist = User::where('email', $request['email'])->count();
+
+				//Válido->Cambio
+				if ($email_exist != 0) {
+					return redirect()->route('zonaPersonal')
+						->withErrors([
+							'message' => '¡El email introducido pertenece a otro usuario!'
+						]);
+				}
+				session(['email' => $request['email']]);
+				/** ------------------------------------------------------ **/
+				/* ----- ¡MODIFICAR EMAIL EN CASCADA EN OTRAS TABLAS! ----- */
+				/** ------------------------------------------------------ **/
+			}
+			// Si modifica el teléfono
+			$userTlf = $user['telefono'];
+			if ($request['telefono'] != $userTlf) { //Cambia el teléfono
+				$tlf_exist = User::where('telefono', $request['telefono'])->count();
+				if ($tlf_exist != 0) {
+					return redirect()->route('zonaPersonal')
+						->withErrors([
+							'message' => '¡El teléfono introducido pertenece a otro usuario!'
+						]);
+				}
+			}
+			$input = $request->all();
+		}elseif($request->has('formPass')){
+			$request->validate([
+				'password' => 'bail|required|min:8',
+				'new_password' => 'bail|required|min:8'
+			]);
+
+			if(!Hash::check($request['password'], $user['password'])){
 				return redirect()->route('zonaPersonal')
 					->withErrors([
-						'message'=>'¡El email introducido pertenece a otro usuario!'
+						'message' => '¡La contraseña es incorrecta!'
 					]);
 			}
-			session(['email' => $request['email']]);
-			/** ------------------------------------------------------ **/
-			/* ----- ¡MODIFICAR EMAIL EN CASCADA EN OTRAS TABLAS! ----- */
-			/** ------------------------------------------------------ **/
+			$input = ['password' => Hash::make($request['new_password'],['rounds'=>15])];
 		}
-		// Si modifica el teléfono
-		if($request['telefono'] != $userTlf){ //Cambia el teléfono
-			$tlf_exist = User::where('telefono',$request['telefono'])->count();
-			if($tlf_exist!=0){
-				return redirect()->route('zonaPersonal')
-					->withErrors([
-						'message'=>'¡El teléfono introducido pertenece a otro usuario!'
-					]);
-			}
+
+		if(isset($input)) {
+			$user->fill($input)->save();
+
+			return redirect()->route('zonaPersonal')
+				->with('message', '¡Datos actualizados correctamente!');
 		}
-		$user = User::where('email',$userEmail)->first();
-		$input = $request->all();
-		$user->fill($input)->save();
 
 		return redirect()->route('zonaPersonal')
-			->with('message', '¡Datos actualizados correctamente!');
+			->withErrors([
+				'message' => '¡Algo salió mal!'
+			]);
 	}
 
 	public function email_available() {
