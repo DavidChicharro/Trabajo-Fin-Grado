@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller {
 	public function index() {
@@ -50,11 +51,9 @@ class UsersController extends Controller {
          $user_exist = User::where('email',$datos['email'])->count();
 
          if($user_exist){
-             $match = ['email'=>$datos['email'], 'password'=>$datos['password']];
-             $user_pass = User::where($match)->first();	// todos los datos del usuario de la BD
-//             dd($user_pass);
-             if(!is_null($user_pass)){
-             	//coinciden email y contraseña
+             $user_pass = User::where('email',$datos['email'])->first();
+
+			 if(Hash::check($datos['password'], $user_pass['password'])){
 			 	session(['email' => $datos['email']]);
 
 				if($user_pass['es_admin'] == 0)
@@ -63,7 +62,6 @@ class UsersController extends Controller {
 					return redirect()->route('admin');
              }
              else{
-				//no coinciden email y contraseña
 				return redirect()->back()
 					->withInput($request->only('email'))
 					->withErrors(['message'=>'¡El email y la contraseña no coinciden!']);
@@ -129,10 +127,11 @@ class UsersController extends Controller {
 			'password' => 'required',
 			'nombre' => 'bail|required|min:2|max:255',
 			'apellidos' => 'bail|required|min:2|max:255',
-			'dni' => 'bail|required|min:9|max:10|regex:/([0-9]{8}\-?[A-Za-z])|([X-Zx-z][0-9]{7}\-?[A-Za-z])/',
+			'dni' => 'bail|required|min:9|max:10',
 			'fecha_nacimiento' => 'bail|required|date|before:-12years',
 			'telefono' => 'bail|required|regex:/([6-7])[0-9]{8}/'
 		]);
+		$datos['password'] = Hash::make($datos['password'],['rounds'=>15]);
 
 		User::create($datos);
 
