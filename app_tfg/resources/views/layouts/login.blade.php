@@ -11,7 +11,7 @@
 		<label for="password">Contraseña</label>
 		<input type="password" name="password" class="form-control">
 	</div>
-	<input type="submit" value="Iniciar sesión" class="form-button">
+	<input type="submit" value="Iniciar sesión" class="form-button" disabled>
 </form>
 
 @if($errors->any())

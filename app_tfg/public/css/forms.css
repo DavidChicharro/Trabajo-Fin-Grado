@@ -22,6 +22,10 @@ form label {
 	border-color: var(--k-navy-blue)!important;
 	box-shadow: 0 0 0 .2rem var(--k-blue-op25)!important;
 }
+.form-button:disabled{
+	cursor: default;
+	filter: brightness(0.8);
+}
 
 .form-button {
 	width: 100%;
