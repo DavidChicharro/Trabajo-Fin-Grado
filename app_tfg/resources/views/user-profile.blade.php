@@ -108,7 +108,7 @@
 					<input type="password" name="conf_password" class="form-control">
 				</div>
 
-				<input type="submit" value="Cambiar contraseña" class="form-button" name="formPass">
+				<input type="submit" value="Cambiar contraseña" class="form-button" name="formPass" disabled>
 			</form>
 		</article>
 
@@ -118,4 +118,9 @@
 		</article>
 	</section>
 
+@endsection
+
+
+@section('scripts')
+	<script src="{{asset('js/user-profile.js')}}"></script>
 @endsection
