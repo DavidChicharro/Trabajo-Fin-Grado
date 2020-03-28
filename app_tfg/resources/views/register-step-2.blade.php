@@ -14,35 +14,35 @@
 
 			<form method="post" action="{{ action('UsersController@store') }}">
 				@csrf
-				<input type="hidden" name="email" value="{{$datos['email']}}">
-				<input type="hidden" name="password" value="{{$datos['password']}}">
+				<input type="hidden" name="email" value="{{$datos['email']}}" required>
+				<input type="hidden" name="password" value="{{$datos['password']}}" required>
 
 				<div class="form-group">
 					<label for="nombre">Nombre</label>
-					<input type="text" name="nombre" class="form-control">
+					<input type="text" name="nombre" class="form-control" required>
 				</div>
 
 				<div class="form-group">
 					<label for="apellidos">Apellidos</label>
-					<input type="text" name="apellidos" class="form-control">
+					<input type="text" name="apellidos" class="form-control" required>
 				</div>
 
 				<div class="form-group">
 					<label for="dni">D.N.I.</label>
-					<input type="text" name="dni" class="form-control">
+					<input type="text" name="dni" class="form-control" required>
 				</div>
 
 				<div class="form-group">
 					<label for="fecha_nacimiento">Fecha de nacimiento</label>
-					<input type="date" name="fecha_nacimiento" class="form-control">
+					<input type="date" name="fecha_nacimiento" class="form-control" required>
 				</div>
 
 				<div class="form-group">
 					<label for="telefono">Número de teléfono móvil</label>
-					<input type="tel" name="telefono" class="form-control">
+					<input type="tel" name="telefono" class="form-control" required>
 				</div>
 
-				<input type="submit" value="Registrarse" class="form-button">
+				<input type="submit" value="Registrarse" class="form-button" disabled>
 			</form>
 
 			<div class="text-center">
@@ -62,4 +62,9 @@
 		@endif
 	</div>
 
+@endsection
+
+
+@section('scripts')
+	<script src="{{asset('js/register-stp2.js')}}"></script>
 @endsection

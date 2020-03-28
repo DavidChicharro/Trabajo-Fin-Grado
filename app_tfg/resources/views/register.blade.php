@@ -16,12 +16,12 @@
 				@csrf
 				<div class="form-group">
 					<label for="email">E-mail</label>
-					<input type="email" name="email" class="form-control">
+					<input type="email" name="email" class="form-control" required>
 				</div>
 
 				<div class="form-group">
 					<label for="password">Contraseña</label>
-					<input type="password" name="password" class="form-control">
+					<input type="password" name="password" class="form-control" required>
 				</div>
 
 				<div id="passMatch" class="form-group d-none">
@@ -30,7 +30,7 @@
 
 				<div class="form-group">
 					<label for="conf_password">Confirmar contraseña</label>
-					<input type="password" name="conf_password" class="form-control">
+					<input type="password" name="conf_password" class="form-control" required>
 				</div>
 
 				<input type="submit" value="Siguiente" class="form-button" disabled>
