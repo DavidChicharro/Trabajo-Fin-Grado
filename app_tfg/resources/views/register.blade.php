@@ -24,12 +24,16 @@
 					<input type="password" name="password" class="form-control">
 				</div>
 
+				<div id="passMatch" class="form-group d-none">
+					<span class="text-danger">¡Las contraseñas no coinciden!</span>
+				</div>
+
 				<div class="form-group">
 					<label for="conf_password">Confirmar contraseña</label>
 					<input type="password" name="conf_password" class="form-control">
 				</div>
 
-				<input type="submit" value="Siguiente" class="form-button">
+				<input type="submit" value="Siguiente" class="form-button" disabled>
 			</form>
 
 			<div class="text-center">
@@ -49,4 +53,8 @@
 		@endif
 	</div>
 
+@endsection
+
+@section('scripts')
+	<script src="{{asset('js/register.js')}}"></script>
 @endsection
