@@ -247,4 +247,22 @@ class UsersController extends Controller {
 		}
 		return $modalParams;
 	}
+
+	public function setUserConfig(Request $request){
+		if(isset($request['configId']) and !empty($request['value'])){
+			$input = null;
+			switch ($request['configId']){
+				case 'panicact':
+					$input['accion_panico'] = $request['value'];
+					break;
+				case 'secretpin':
+					$input['pin_secreto'] = $request['value'];
+					break;
+				default:
+					break;
+			}
+			$user = User::where('email',session('email'))->first();
+			$user->fill($input)->save();
+		}
+	}
 }

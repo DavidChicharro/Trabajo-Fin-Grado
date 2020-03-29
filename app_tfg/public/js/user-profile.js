@@ -10,7 +10,6 @@ function checkMatchPass(form) {
     return pass.val() === passConf.val();
 }
 
-
 function showHideAlertMsg(input, msg) {
     let id = 'id-'+input.attr('name');
     let form = input.closest('form');
@@ -143,4 +142,144 @@ $('input[type=password]').keyup(function () {
 
 $('input[name=conf_password]').focus(function () {
     confPass = true;
+});
+
+
+function printVarModal(modal, params){
+    let title = "";
+    switch (modal){
+        case 'secretpin':
+            title = 'Establecer PIN secreto';
+            let pin = (params==null) ? "":params;
+            $('#pin-number').val(pin);
+            break;
+        case 'panicact':
+            title = 'Establecer acción de pánico';
+            let action = (params==null) ? "":params;
+            switch(action){
+                case 'ubicacion':
+                    $('#panicact-ubi').prop("checked",true);
+                    break;
+                case 'llamada':
+                    $('#panicact-call').prop("checked",true);
+                    break;
+                default:
+                    $('#panicact-not').prop("checked",true);
+                    break;
+            }
+            break;
+        default:
+            alert('Error: no se ha podido recuperar el valor consultado.');
+            break;
+    }
+    $('#config-title').html(title);
+}
+
+function getContentModal(modal){
+    let content = "";
+    switch (modal){
+        case 'secretpin':
+            content = '<span class="offset-2 col-2 text-left px-1 my-auto">PIN</span>\n' +
+                '<input type="text" class="col-4 px-0" id="pin-number" maxlength="4" pattern="[0-9]{4}" title="4 números">';
+            break;
+        case 'panicact':
+            content = '<div class="form-check offset-2 col-9 p-1">\n' +
+                '    <input type="radio" id="panicact-not" name="panicact" value="NULL" class="form-check-input">\n' +
+                '    <label for="not-act" class="form-check-label ml-2">Ninguna</label>\n' +
+                '  </div>\n' +
+                '  <div class="form-check offset-2 col-9 p-1">\n' +
+                '    <input type="radio" id="panicact-ubi" name="panicact" value="ubicacion" class="form-check-input">\n' +
+                '    <label for="not-act" class="form-check-label ml-2">Enviar ubicación</label>\n' +
+                '  </div>\n' +
+                '  <div class="form-check offset-2 col-9 p-1">\n' +
+                '    <input type="radio" id="panicact-call" name="panicact" value="llamada" class="form-check-input">\n' +
+                '    <label for="not-act" class="form-check-label ml-2">Llamar a contactos</label>\n' +
+                '  </div>';
+            break;
+        default:
+            alert('Error: no se ha podido establecer el modal.');
+            break;
+    }
+    return content;
+}
+
+$(".open-modal").click(function() {
+    let linkId = $(this).attr('id');
+    let contentModal = getContentModal(linkId);
+    let configContainer = $('.modal-body .row');
+    configContainer.html(contentModal);
+    configContainer.attr('id', linkId+"-container");
+
+    $.ajax({
+        url: '/user_config',
+        data: {
+            'params': linkId
+        },
+        type: 'get',
+        success: function (response) {
+            printVarModal(linkId,response);
+        },
+        statusCode: {
+            404: function () {
+                alert('web not found');
+            }
+        },
+    });
+});
+
+function getInputValues(id){
+    let inputValue = "";
+    switch(id){
+        case 'panicact':
+            $('.modal-body .row :input[type=radio]').each(function(){
+                if($(this).is(':checked'))
+                    inputValue = $(this).val();
+            });
+            break;
+        case 'secretpin':
+            inputValue = $('.modal-body .row :input').val();
+            break;
+        default:
+            break;
+
+    }
+    return inputValue;
+}
+
+$("#save-config").click(function () {
+    let configId = $('.modal-body .row').attr('id');
+    configId = configId.split("-container")[0];
+    let inputValue = getInputValues(configId);
+    if(configId === 'secretpin'){
+        let pinRegExp = new RegExp('^[0-9]{4}$');
+        let validPin = pinRegExp.test(inputValue);
+    }
+
+    $.ajax({
+        url: '/user_config',
+        data: {
+            '_token': "{{csrf_token()}}",
+            'configId': configId,
+            'value': inputValue
+        },
+        type: 'post',
+        success: function (response) {
+            alert("Los parámetros se han actualizado correctamente");
+        },
+        statusCode: {
+            404: function () {
+                alert('web not found');
+            }
+        },
+    });
+});
+
+$(document).on("keyup","#pin-number",function () {
+    let pinRegExp = new RegExp('^[0-9]{4}$');
+    let validPin = pinRegExp.test($(this).val());
+
+    if(!validPin)
+        $("#save-config").attr("disabled", true);
+    else
+        $("#save-config").attr("disabled", false);
 });
