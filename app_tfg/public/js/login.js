@@ -14,16 +14,9 @@ function allowLogin(form){
 
         if (input.attr('type') === 'email') {
             let emailRegExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$');
-            // if( emailRegExp.test(input.val()) ){
-            //     validEmail = true;
-            // }
             validEmail = emailRegExp.test(input.val());
         }
         if (input.attr('type') === 'password') {
-            // let passRegExp = new RegExp('^[A-Za-z\\d\\W|_]{8,}$');
-            // if( passRegExp.test(input.val()) ){
-            //     validPass = true;
-            // }
             validPass = input.val().length >= 8;
         }
 
@@ -33,17 +26,9 @@ function allowLogin(form){
     return allowLoginForm;
 }
 
-// $('input').blur(function () {
-//     let formParent = $(this).closest("form");
-//     if(allowLogin(formParent)){
-//         $('input[type=submit]').prop("disabled",false);
-//     }
-// });
-
 //Habilita o deshabilita el botón de inicio de sesión
 // según si se cumplen las restricciones
 function checkAllowLogin(form){
-    // let formParent = $(this).closest("form");
     if(allowLogin(form)){
         $('input[type=submit]').prop("disabled",false);
     }else
@@ -56,11 +41,6 @@ function checkAllowLogin(form){
 $('input[type=password]').keyup(function () {
     let formParent = $(this).closest("form");
     checkAllowLogin(formParent);
-    // let formParent = $(this).closest("form");
-    // if(allowLogin(formParent)){
-    //     $('input[type=submit]').prop("disabled",false);
-    // }else
-    //     $('input[type=submit]').prop("disabled",true);
 });
 
 //Cada vez que se pierde el foco en el campo del email
@@ -69,9 +49,4 @@ $('input[type=password]').keyup(function () {
 $('input[type=email]').blur(function () {
     let formParent = $(this).closest("form");
     checkAllowLogin(formParent);
-    // let formParent = $(this).closest("form");
-    // if(allowLogin(formParent)){
-    //     $('input[type=submit]').prop("disabled",false);
-    // }else
-    //     $('input[type=submit]').prop("disabled",true);
 });

@@ -15,6 +15,8 @@ Route::get('/logout', 'UsersController@logout');
 
 Route::get('/zona-personal', 'UsersController@zonaPersonal')->name('zonaPersonal');
 Route::post('/zona-personal', 'UsersController@update');
+Route::get('/user_config', 'UsersController@getUserConfig');
+Route::post('/user_config', 'UsersController@setUserConfig');
 
 
 Route::get('/mapa-incidentes','IncidentsController@mapaIncidentes')->name('mapaIncidentes');

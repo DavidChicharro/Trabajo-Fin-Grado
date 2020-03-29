@@ -230,7 +230,21 @@ class UsersController extends Controller {
 
     }
 
-    public function cambiarDatosUsuario() {
-
+	public function getUserConfig(Request $request){
+		$modalParams = null;
+		if(isset($request['params'])) {
+			switch ($request['params']) {
+				case 'panicact':
+					$modalParams = User::where('email',session('email'))->value('accion_panico');
+					break;
+				case 'secretpin':
+					$modalParams = User::where('email',session('email'))->value('pin_secreto');
+					break;
+				default:
+					$modalParams = null;
+					break;
+			}
+		}
+		return $modalParams;
 	}
 }

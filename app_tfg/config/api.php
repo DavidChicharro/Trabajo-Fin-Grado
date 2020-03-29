@@ -14,4 +14,8 @@
     'radio_max' => '2000',
     'zonas_max' => '5',
   ),
+  '' => 
+  array (
+    'number' => '1234',
+  ),
 );
