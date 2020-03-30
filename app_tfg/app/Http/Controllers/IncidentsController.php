@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Delito;
 use App\Incidente;
 use Illuminate\Http\Request;
 use App\User;
@@ -50,7 +51,7 @@ class IncidentsController extends Controller {
 		return redirect()->route('index');
 	}
 
-	public function getIncidentDetails(Request $request){
+	public function getIncidentDetails(Request $request) {
 //    	$d = Delito::orderBy('id','desc')->first();
 //		DB::select("")
 //		dd($request);
@@ -66,5 +67,44 @@ class IncidentsController extends Controller {
 //    	return "Estoy en el index del controlador de AJAX";
 //    	dd($var);
 //    	echo $var;
+	}
+
+	public function create(Request $request) {
+		$session = session('email');
+
+		if(isset($session)) {
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
+			$delitos_cat = Delito::groupBy('categoria_delito')
+				->value('categoria_delito');
+
+				//Provisional -> hasta que haya más
+					$delitos = [];
+					array_push($delitos, $delitos_cat);
+//			dd($delitos_cat);
+
+			return view('incidents.new-incident',compact(['delitos','username']));
+		}
+
+//		$datos = $request->validate([
+//			'email' => 'bail|required|min:7|max:255',
+//			'password' => 'bail|required|min:8',
+//		]);
+//
+//		$user_exist = User::where('email',$datos['email'])->count();
+//
+//		if($user_exist==0){
+//			return view('register-step-2')
+//				->with('datos',$datos);
+//		}else{
+//			return redirect()->back()
+//				->withErrors([
+//					'message'=>'¡El usuario introducido ya se encuentra registrado!'
+//				]);
+//		}
+	}
+
+	public function store() {
+
 	}
 }

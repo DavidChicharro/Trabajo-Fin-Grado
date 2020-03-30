@@ -10,7 +10,9 @@
 		<input type="date"/>
 		<button type="button" class="btn btn-info">Filtrar</button>
 
-		<button type="button" class="btn btn-danger mt-4">Añadir incidente</button>
+		<button type="button" class="btn btn-danger mt-4">
+			<a href="/nuevo-incidente">Añadir incidente</a>
+		</button>
 	</div>
 @endsection
 

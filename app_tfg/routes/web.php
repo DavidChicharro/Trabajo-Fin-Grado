@@ -22,6 +22,8 @@ Route::post('/user_config', 'UsersController@setUserConfig');
 Route::get('/mapa-incidentes','IncidentsController@mapaIncidentes')->name('mapaIncidentes');
 Route::get('/lista-incidentes','IncidentsController@listaIncidentes')->name('listaIncidentes');
 Route::post('/get_incident_details', 'IncidentsController@getIncidentDetails');
+Route::get('/nuevo-incidente','IncidentsController@create')->name('nuevoIncidente');
+Route::post('/nuevo-incidente','IncidentsController@store');
 
 Route::post('/ajax','AjaxController@index');
 Route::get('/ajax_config', 'AjaxController@getConfigParams');

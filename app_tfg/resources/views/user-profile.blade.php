@@ -74,7 +74,7 @@
 
 				<div class="form-group">
 					<label for="dni">D.N.I. / N.I.E.</label>
-					<input type="text" name="dni_" value="{{ $user['dni'] }}" class="form-control" readonly>
+					<input type="text" name="dni" value="{{ $user['dni'] }}" class="form-control" readonly>
 				</div>
 
 				<div class="form-group">
