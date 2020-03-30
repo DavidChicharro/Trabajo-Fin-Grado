@@ -23,12 +23,12 @@
 					</select>
 				</div>
 
-				<div class="form-group col-md-6">
-					<label for="categ-delito">Delito</label>
+				<div class="form-group col-md-6" id="div-delito">
+					<label for="delito">Delito</label>
 					<select class="form-control selectpicker" id="delito" title="Delito" multiple data-live-search="true" data-selected-text-format="count > 3">
-						@foreach($delitos as $del)
-							<option value="{{$del}}">{{ucfirst(strtolower($del))}}</option>
-						@endforeach
+{{--						@foreach($delitos as $del)--}}
+{{--							<option value="{{$del}}">{{ucfirst(strtolower($del))}}</option>--}}
+{{--						@endforeach--}}
 					</select>
 				</div>
 			</div>
@@ -107,11 +107,37 @@
 
 @section('scripts')
 {{--	<script src="{{asset('js/user-profile.js')}}"></script>--}}
+<script>
+    $('#div-delito').click(function(){
+        let categDelitos = $('#categ-delito').val();
+
+        if(categDelitos.length > 0){
+            $.ajax({
+                url: '/get_delitos',
+                data: {
+                    'delitos': categDelitos
+                },
+                type: 'get',
+                success: function (response) {
+                    console.log(response);
+                    // alert("Delitos recibidos");
+                },
+                statusCode: {
+                    404: function () {
+                        alert('web not found');
+                    }
+                },
+            });
+        }
+    });
+
+
+</script>
+
 	<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-
-	<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
+	<!-- Latest compiled and minified JavaScript translation files -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-es_ES.min.js"></script>
 
 @endsection

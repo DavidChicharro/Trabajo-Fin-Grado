@@ -79,7 +79,7 @@ class IncidentsController extends Controller {
 				->value('categoria_delito');
 
 				//Provisional -> hasta que haya más
-					$delitos = [];
+					$delitos = ['contra el honor','contra la verdad'];
 					array_push($delitos, $delitos_cat);
 //			dd($delitos_cat);
 
@@ -106,5 +106,15 @@ class IncidentsController extends Controller {
 
 	public function store() {
 
+	}
+
+	public function getDelitos(Request $request) {
+		if(isset($request['delitos'])){
+//			dd($request['delitos']);
+			$delitos = Delito::whereIn('categoria_delito',$request['delitos'])->get();
+//				->value('categoria_delito');
+//			dd($delitos);
+			return $delitos;
+		}
 	}
 }

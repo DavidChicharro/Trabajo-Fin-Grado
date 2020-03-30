@@ -24,6 +24,7 @@ Route::get('/lista-incidentes','IncidentsController@listaIncidentes')->name('lis
 Route::post('/get_incident_details', 'IncidentsController@getIncidentDetails');
 Route::get('/nuevo-incidente','IncidentsController@create')->name('nuevoIncidente');
 Route::post('/nuevo-incidente','IncidentsController@store');
+Route::get('get_delitos','IncidentsController@getDelitos');
 
 Route::post('/ajax','AjaxController@index');
 Route::get('/ajax_config', 'AjaxController@getConfigParams');
