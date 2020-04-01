@@ -1,0 +1,25 @@
+<svg width="25" height="23" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="26" height="22" id="canvas_background" fill="none"/>
+  <g id="canvasGrid" display="none">
+   <rect id="svg_13" width="100%" height="100%" x="0" y="0" stroke-width="0" fill="url(#gridpattern)"/>
+  </g>
+ </g>
+
+ <g>
+  <title>Layer 1</title>
+  <rect fill="#fff" stroke="#083740" stroke-width="0.5" x="0.25" y="1.37903" width="23.41937" height="18.51614" id="svg_1"/>
+  <line fill="none" stroke="#083740" stroke-width="0.5" x1="0.37903" y1="4.6371" x2="23.48312" y2="4.6371" id="svg_2" stroke-linejoin="undefined" stroke-linecap="undefined"/>
+  <rect fill="#fff" stroke="#083740" stroke-width="0.5" x="1.73387" y="6.99194" width="20.45163" height="10.51614" id="svg_3"/>
+  <line fill="none" stroke="#083740" stroke-width="0.5" stroke-opacity="null" fill-opacity="null" x1="1.8629" y1="10.34678" x2="22.19379" y2="10.34678" id="svg_4" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#083740" stroke-width="0.5" stroke-opacity="null" fill-opacity="null" x1="1.66936" y1="14.12097" x2="22.13116" y2="14.12097" id="svg_5" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#083740" stroke-width="0.5" stroke-opacity="null" fill-opacity="null" x1="11.95968" y1="7.21775" x2="11.95968" y2="17.34708" id="svg_6" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#083740" stroke-width="0.5" stroke-opacity="null" fill-opacity="null" x1="8.50807" y1="7.15323" x2="8.50807" y2="17.47843" id="svg_7" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#083740" stroke-width="0.5" stroke-opacity="null" fill-opacity="null" x1="4.95968" y1="7.18549" x2="4.95968" y2="17.41595" id="svg_8" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#083740" stroke-width="0.5" stroke-opacity="null" fill-opacity="null" x1="15.54033" y1="7.15323" x2="15.54033" y2="17.47582" id="svg_9" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#083740" stroke-width="0.5" stroke-opacity="null" fill-opacity="null" x1="19.15324" y1="7.15323" x2="19.15324" y2="17.47697" id="svg_10" stroke-linejoin="null" stroke-linecap="null"/>
+  <rect fill="#ffffff" stroke="#083740" stroke-width="0.5" x="4.95968" y="0.25" width="1.09677" height="2.12903" id="svg_11"/>
+  <rect fill="#ffffff" stroke="#083740" stroke-width="0.5" x="17.95968" y="0.25" width="1.09677" height="2.12903" id="svg_12"/>
+ </g>
+</svg>

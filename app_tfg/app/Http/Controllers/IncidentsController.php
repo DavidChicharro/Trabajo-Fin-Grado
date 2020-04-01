@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Delito;
 use App\Incidente;
+use App\Suben;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -50,7 +52,7 @@ class IncidentsController extends Controller {
 		return redirect()->route('index');
 	}
 
-	public function getIncidentDetails(Request $request){
+	public function getIncidentDetails(Request $request) {
 //    	$d = Delito::orderBy('id','desc')->first();
 //		DB::select("")
 //		dd($request);
@@ -66,5 +68,96 @@ class IncidentsController extends Controller {
 //    	return "Estoy en el index del controlador de AJAX";
 //    	dd($var);
 //    	echo $var;
+	}
+
+	public function create(Request $request) {
+		$session = session('email');
+
+		if(isset($session)) {
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
+			$delitos_cat = Delito::groupBy('categoria_delito')
+				->value('categoria_delito');
+
+				//Provisional -> hasta que haya más
+					$delitos = ['contra el honor','contra la verdad'];
+					array_push($delitos, $delitos_cat);
+//			dd($delitos_cat);
+
+			return view('incidents.new-incident',compact(['delitos','username']));
+		}
+
+//		$datos = $request->validate([
+//			'email' => 'bail|required|min:7|max:255',
+//			'password' => 'bail|required|min:8',
+//		]);
+//
+//		$user_exist = User::where('email',$datos['email'])->count();
+//
+//		if($user_exist==0){
+//			return view('register-step-2')
+//				->with('datos',$datos);
+//		}else{
+//			return redirect()->back()
+//				->withErrors([
+//					'message'=>'¡El usuario introducido ya se encuentra registrado!'
+//				]);
+//		}
+	}
+
+	public function store(Request $request) {
+		$session = session('email');
+
+		if(isset($session)){
+			$datos = $request->validate([
+				'delito' => 'bail|required',
+				'fecha_incidente' => 'bail|required|date|before:tomorrow',
+				'hora_incidente' => 'bail|required',
+				'lugar' => 'bail|required',
+				'descripcion_incidente' => 'bail|required|min:10|max:1000',
+				'afectado_testigo' => 'bail|required|boolean'
+			]);
+
+			$lastId = Incidente::orderBy('id', 'desc')->value('id');
+			$lat_long_site = explode(",", $datos['lugar']);
+			$fecha_hora = $datos['fecha_incidente']." ".$datos['hora_incidente'];
+			$agravantes= isset($request['agravantes']) ? implode(",", $request['agravantes']) : null;
+
+			$incInput = array(
+				'id' => $lastId+1,
+				'delito_id' => $datos['delito'],
+				'latitud_incidente' => $lat_long_site[0],
+				'longitud_incidente' => $lat_long_site[1],
+				'fecha_hora_incidente' => $fecha_hora,
+				'descripcion_incidente' => $datos['descripcion_incidente'],
+				'afectado_testigo' => $datos['afectado_testigo'],
+				'agravantes' => $agravantes
+			);
+
+			$userId = User::where('email', $session)->value('id');
+			$upInput = array(
+				'usuario_id' => $userId,
+				'delito_id' => $datos['delito'],
+				'incidente_id' => $lastId+1
+			);
+
+			Incidente::create($incInput);
+			Suben::create($upInput);
+
+			return redirect()
+				->route('mapaIncidentes')
+				->with('message', 'Incidente registrado');
+		}
+		return redirect()->route('index');
+	}
+
+	public function getDelitos(Request $request) {
+		if(isset($request['delitos'])){
+//			dd($request['delitos']);
+			$delitos = Delito::whereIn('categoria_delito',$request['delitos'])->get();
+//				->value('categoria_delito');
+//			dd($delitos);
+			return $delitos;
+		}
 	}
 }

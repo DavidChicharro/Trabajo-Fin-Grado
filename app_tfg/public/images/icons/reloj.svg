@@ -1,0 +1,21 @@
+<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="14.90322" height="14.90322" id="canvas_background" fill="none"/>
+  <g id="canvasGrid" display="none">
+   <rect id="svg_1" width="100%" height="100%" x="0" y="0" stroke-width="0" fill="url(#gridpattern)"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <ellipse fill="#ffffff" stroke="#083740" stroke-width="0.5" cx="10" cy="10" id="svg_13" rx="8" ry="8"/>
+  <ellipse fill="#083740" stroke="#ffffff" stroke-width="0" cx="10" cy="10" id="svg_14" rx="0.75" ry="0.75"/>
+  <line fill="none" stroke="#083740" x1="10" y1="9.74194" x2="10" y2="5.03257" id="svg_15" stroke-linejoin="null" stroke-linecap="null" stroke-width="0.5"/>
+  <path id="svg_2" d="m10,9.74194l0,-4.70936"/>
+  <path id="svg_3" d="m10,9.74194l0,-4.70936"/>
+  <path stroke="#083740" stroke-width="0.75" id="svg_4" d="m10,9.74194l0,-6.77713"/>
+  <path id="svg_5" d="m8.79988,12.76261l0,-3.08395"/>
+  <path d="m8.79988,12.76261l0,-3.08395"/>
+  <line fill="none" stroke="#083740" x1="8.33113" y1="13.89426" x2="8.33113" y2="9.4845" id="svg_16" stroke-linejoin="null" stroke-linecap="null" stroke-width="0.7" transform="rotate(45, 8.33113, 11.6894)"/>
+ </g>
+</svg>
