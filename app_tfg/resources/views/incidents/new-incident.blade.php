@@ -25,14 +25,7 @@
 
 				<div class="form-group col-md-6" id="div-delito">
 					<label for="delito">Delito</label>
-					<select class="form-control selectpicker" id="delito" title="Delito" data-live-search="true">
-{{--						<option value="1">Homicidio</option>--}}
-{{--						<option value="2">Aborto</option>--}}
-{{--						<option value="3">Lesiones</option>--}}
-{{--						<option value="4">Lesiones al feto</option>--}}
-						{{--						@foreach($delitos as $del)--}}
-{{--							<option value="{{$del}}">{{ucfirst(strtolower($del))}}</option>--}}
-{{--						@endforeach--}}
+					<select class="form-control selectpicker" name="delito" id="delito" title="Delito" data-live-search="true" required>
 					</select>
 				</div>
 			</div>
@@ -41,7 +34,7 @@
 				<div class="form-group col-md-6">
 					<label for="fecha_incidente">Fecha</label>
 					<div class="input-group">
-						<input type="date" name="fecha_incidente" class="form-control">
+						<input type="date" name="fecha_incidente" class="form-control" required>
 						<div class="input-group-prepend">
 							<img class="input-group-text px-1" src="{{asset('images/icons/calendario.svg')}}">
 						</div>
@@ -51,7 +44,7 @@
 				<div class="form-group col-md-6">
 					<label for="hora_incidente">Hora</label>
 					<div class="input-group">
-						<input type="time" name="hora_incidente" class="form-control">
+						<input type="time" name="hora_incidente" class="form-control" required>
 						<div class="input-group-prepend">
 							<img class="input-group-text py-2 px-1" src="{{asset('images/icons/reloj.svg')}}">
 						</div>
@@ -67,25 +60,25 @@
 
 			<div class="form-group">
 				<label for="descripcion">Descripción</label>
-				<textarea id="descripcion" class="form-control" rows="4"></textarea>
+				<textarea name="descripcion_incidente" id="descripcion" class="form-control" rows="4" required></textarea>
 			</div>
 
 			<div class="form-group">
 				<label class="d-block" for="agravantes">Agravantes</label>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="checkbox" id="agr-disfraz" value="agr-1">
+					<input class="form-check-input" name="agravantes[]" type="checkbox" id="agr-disfraz" value="1">
 					<label class="form-check-label" for="agr-disfraz">Disfraz</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="checkbox" id="agr-abuso" value="agr-2">
+					<input class="form-check-input" name="agravantes[]" type="checkbox" id="agr-abuso" value="2">
 					<label class="form-check-label" for="agr-abuso">Abuso de superioridad</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="checkbox" id="agr-sufimiento" value="agr-3">
+					<input class="form-check-input" name="agravantes[]" type="checkbox" id="agr-sufimiento" value="3">
 					<label class="form-check-label" for="agr-sufimiento">Sufrimiento inhumano</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="checkbox" id="agr-discriminacion" value="agr-4">
+					<input class="form-check-input" name="agravantes[]" type="checkbox" id="agr-discriminacion" value="4">
 					<label class="form-check-label" for="agr-discriminacion">
 						Racismo, discriminación, homofobia, machismo, ...
 					</label>
@@ -93,13 +86,23 @@
 			</div>
 
 			<div class="form-group">
-				<label class="d-block" for="agravantes">He sido</label>
-				<span>Afectado</span>
-				<label class="switch">
-					<input type="checkbox" id="afectado_testigo" value="1" checked>
-					<span class="slider round"></span>
-				</label>
-				<span>Testigo</span>
+				<label class="d-block">He sido</label>
+				<div class="form-check">
+					<input class="form-check-input" name="afectado_testigo" type="radio" id="radio-testigo" value="1" checked required>
+					<label class="form-check-label" for="radio-testigo">Testigo</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" name="afectado_testigo" type="radio" id="radio-afectado" value="0">
+					<label class="form-check-label" for="radio-afectado">Afectado</label>
+				</div>
+
+{{--				<label class="d-block" for="agravantes">He sido</label>--}}
+{{--				<span>Afectado</span>--}}
+{{--				<label class="switch" id="af-test-switch">--}}
+{{--					<input name="afectado_testigo" type="checkbox" id="afectado_testigo" value="1" checked="checked">--}}
+{{--					<span class="slider round switch_afect_test"></span>--}}
+{{--				</label>--}}
+{{--				<span>Testigo</span>--}}
 			</div>
 
 
@@ -119,7 +122,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-es_ES.min.js"></script>
 
 <script>
-    const capitalize = (s) => {
+	const capitalize = (s) => {
         if (typeof s !== 'string') return '';
         return s.charAt(0).toUpperCase() + s.slice(1);
     };
@@ -139,7 +142,6 @@
         });
         $('#delito').html(output);
         $('#delito').selectpicker('refresh');
-        // console.log(output);
     }
 
     $('h2').click(function(){
@@ -169,6 +171,21 @@
         }
     });
 
+    // $('.switch_afect_test').click(function () {
+	// 	let switchInput = $('#afectado_testigo');
+	// 	console.log(switchInput.val());
+	// 	if (switchInput.val() == '1'){
+	// 		switchInput.attr('checked', false);
+    //         switchInput.val('0');
+	// 	}else{
+    //         switchInput.attr('checked', true);
+    //         switchInput.val('1');
+	// 	}
+    // });
+
+    $('.nav-link').click(function () {
+        window.location.href = $(this)[0].pathname;
+    });
 
 </script>
 @endsection

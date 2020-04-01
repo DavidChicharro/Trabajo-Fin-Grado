@@ -49,12 +49,21 @@ class CreateMigrationV1Table extends Migration
 			$table->decimal('longitud_incidente',8,4);
 			$table->datetime('fecha_hora_incidente');
 			$table->tinyInteger('afectado_testigo');
-			$table->string('agraventes')->nullable();
+			$table->string('agravantes')->nullable();
 			$table->tinyInteger('nivel_gravedad')->nullable();
 			$table->tinyInteger('oculto')->default(0);
 			$table->tinyInteger('caducado')->default(0);
 			$table->foreign('delito_id')->references('id')->on('delitos');
 			$table->primary(['delito_id','id']);
+		});
+		Schema::create('suben', function (Blueprint $table) {
+			$table->unsignedBigInteger('usuario_id');
+			$table->datetime('fecha_hora_sube_incidente')->useCurrent();
+			$table->unsignedBigInteger('delito_id');
+			$table->unsignedBigInteger('incidente_id');
+			$table->foreign('usuario_id')->references('id')->on('users');
+			$table->foreign(['delito_id','incidente_id'])->references(['delito_id','id'])->on('incidentes');
+			$table->primary(['usuario_id','fecha_hora_sube_incidente']);
 		});
     }
 

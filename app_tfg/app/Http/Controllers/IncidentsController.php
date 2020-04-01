@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Delito;
 use App\Incidente;
+use App\Suben;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -104,8 +105,50 @@ class IncidentsController extends Controller {
 //		}
 	}
 
-	public function store() {
+	public function store(Request $request) {
+		$session = session('email');
 
+		if(isset($session)){
+			$datos = $request->validate([
+				'delito' => 'bail|required',
+				'fecha_incidente' => 'bail|required|date|before:tomorrow',
+				'hora_incidente' => 'bail|required',
+				'lugar' => 'bail|required',
+				'descripcion_incidente' => 'bail|required|min:10|max:1000',
+				'afectado_testigo' => 'bail|required|boolean'
+			]);
+
+			$lastId = Incidente::orderBy('id', 'desc')->value('id');
+			$lat_long_site = explode(",", $datos['lugar']);
+			$fecha_hora = $datos['fecha_incidente']." ".$datos['hora_incidente'];
+			$agravantes= isset($request['agravantes']) ? implode(",", $request['agravantes']) : null;
+
+			$incInput = array(
+				'id' => $lastId+1,
+				'delito_id' => $datos['delito'],
+				'latitud_incidente' => $lat_long_site[0],
+				'longitud_incidente' => $lat_long_site[1],
+				'fecha_hora_incidente' => $fecha_hora,
+				'descripcion_incidente' => $datos['descripcion_incidente'],
+				'afectado_testigo' => $datos['afectado_testigo'],
+				'agravantes' => $agravantes
+			);
+
+			$userId = User::where('email', $session)->value('id');
+			$upInput = array(
+				'usuario_id' => $userId,
+				'delito_id' => $datos['delito'],
+				'incidente_id' => $lastId+1
+			);
+
+			Incidente::create($incInput);
+			Suben::create($upInput);
+
+			return redirect()
+				->route('mapaIncidentes')
+				->with('message', 'Incidente registrado');
+		}
+		return redirect()->route('index');
 	}
 
 	public function getDelitos(Request $request) {
