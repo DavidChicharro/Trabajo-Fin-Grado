@@ -95,14 +95,6 @@
 					<input class="form-check-input" name="afectado_testigo" type="radio" id="radio-afectado" value="0">
 					<label class="form-check-label" for="radio-afectado">Afectado</label>
 				</div>
-
-{{--				<label class="d-block" for="agravantes">He sido</label>--}}
-{{--				<span>Afectado</span>--}}
-{{--				<label class="switch" id="af-test-switch">--}}
-{{--					<input name="afectado_testigo" type="checkbox" id="afectado_testigo" value="1" checked="checked">--}}
-{{--					<span class="slider round switch_afect_test"></span>--}}
-{{--				</label>--}}
-{{--				<span>Testigo</span>--}}
 			</div>
 
 
@@ -144,7 +136,7 @@
         $('#delito').selectpicker('refresh');
     }
 
-    $('h2').click(function(){
+    $('#div-delito').mouseover(function(){
         let categDelitos = $('#categ-delito').val();
 
         if(categDelitos.length > 0){
@@ -170,18 +162,6 @@
             $('#delito').selectpicker('refresh');
         }
     });
-
-    // $('.switch_afect_test').click(function () {
-	// 	let switchInput = $('#afectado_testigo');
-	// 	console.log(switchInput.val());
-	// 	if (switchInput.val() == '1'){
-	// 		switchInput.attr('checked', false);
-    //         switchInput.val('0');
-	// 	}else{
-    //         switchInput.attr('checked', true);
-    //         switchInput.val('1');
-	// 	}
-    // });
 
     $('.nav-link').click(function () {
         window.location.href = $(this)[0].pathname;

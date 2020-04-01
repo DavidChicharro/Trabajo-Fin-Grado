@@ -184,3 +184,15 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
     bottom: 30px;
     left: 50px;
 }
+
+.btn-add-incidcente {
+    background-color: var(--k-red);
+    padding: 8px;
+    text-align: center;
+    color: white!important;
+    border-radius: 5px;
+}
+
+.btn-add-incidcente:hover {
+    text-decoration: none;
+}

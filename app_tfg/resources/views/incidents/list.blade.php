@@ -10,9 +10,7 @@
 		<input type="date"/>
 		<button type="button" class="btn btn-info">Filtrar</button>
 
-		<button type="button" class="btn btn-danger mt-4">
-			<a href="/nuevo-incidente">Añadir incidente</a>
-		</button>
+		<a class="btn-add-incidcente mt-4" href="/nuevo-incidente">Añadir incidente</a>
 	</div>
 @endsection
 
@@ -53,25 +51,8 @@
 
 @section('scripts')
 	<script>
-		// $(document).ready(function () {
-		// 	alert("Inside");
-		// });
-
-		// $("#vm").click(function() {
-		//     alert("Click!");
-		// });
-
-		// $.ajaxSetup({
-		// 	headers: {
-		// 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		// 	}
-		// });
-
 		function expandIncident(tabla, incidente){
-		    // console.log(tabla);
-		    // console.log(incidente);
-			let descRow = '<tr class="expanded"><td colspan="2" class="pt-3">'+incidente.descripcion+'</td></tr>';
-			//si en shareLessRow no utilizo comilla simple, sustitutir los escapes (\)
+		    let descRow = '<tr class="expanded"><td colspan="2" class="pt-3">'+incidente.descripcion+'</td></tr>';
 			let shareLessRow = '<tr class="expanded"><td class="pt-4"><div class="share-incident sp-as-lk px-3"><img class="icon-img" src="{{asset("images/icons/compartir.svg")}}"><span>Compartir incidente</span></div></td><td class="text-right pt-4"><span id="vl" class="view-less text-right sp-as-lk">Ver menos</span></td></tr>';
 			tabla.after(shareLessRow).delay(500);
             tabla.after(descRow).delay(500);
@@ -106,8 +87,6 @@
                     },
                     type: 'post',
                     success: function (response) {
-                        // alert(response);
-                        // alert(response.msg);
                         expandIncident(tabla, response.incidente);
                     },
                     statusCode: {
