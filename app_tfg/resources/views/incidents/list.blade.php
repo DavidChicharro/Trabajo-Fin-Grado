@@ -53,7 +53,7 @@
 						<table class="w-100" cellpadding="8">
 							<tbody>
 								<tr>
-									<td><h5>Incidente {{$inc['id']}}</h5></td>
+									<td><h5>{{ucfirst($inc['incidente'])}}</h5></td>
 									<td class="w-25"><small class="float-right">@dateTimeFormat($inc['fecha_hora'])</small></td>
 								</tr>
 								<tr>

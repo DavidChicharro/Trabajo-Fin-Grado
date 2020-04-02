@@ -28,6 +28,7 @@ class IncidentsController extends Controller {
 		$session = session('email');
 
 		if(isset($session)) {
+			/** -- AÑADIR DATOS PARA DEVOLVER A LA VISTA QUE SE HA REALIZADO UN FILTRO -- */
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 
@@ -50,7 +51,7 @@ class IncidentsController extends Controller {
 						->paginate($this->numPags);
 				}
 			}else{
-				$incidents_pag = Incidente::paginate(10);
+				$incidents_pag = Incidente::paginate($this->numPags);
 			}
 
 			$groupIncidents = Delito::all()->groupBy('id')->toArray();
@@ -62,13 +63,12 @@ class IncidentsController extends Controller {
 			if($incidents_pag->total() != 0) {
 				//if !oculto && !caducado
 				foreach ($incidents_pag->items() as $key => $inc) {
-					dd($inc);
 					$incidents[$key]['id'] = $inc['id'];
-//					$incidents[$key]['incidente'] = delito_incidente
+					$incidents[$key]['incidente'] = Delito::where('id',$inc['delito_id'])->value('nombre_delito');
 					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
 					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
 //					$incidents[$key]['lugar'] = ciudad-zona
-//					$incidents[$key] = $inc;
+//					$incidents[$key] = $inc;)
 				}
 //				dd($result);
 //				dd($incidents);

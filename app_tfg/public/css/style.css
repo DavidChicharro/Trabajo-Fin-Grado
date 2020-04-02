@@ -52,6 +52,10 @@ main a, .top-right-aside a, main a:hover, .top-right-aside a:hover {
     color: var(--k-blue);
 }
 
+a.icon:hover {
+    text-decoration: none!important;
+}
+
 .icon .icon-img {
     width: 45px;
 }
