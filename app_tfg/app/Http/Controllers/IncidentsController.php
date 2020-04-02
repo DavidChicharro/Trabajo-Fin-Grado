@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\User;
 
 class IncidentsController extends Controller {
+	private $numPags = 10;
+
 	public function mapaIncidentes() {
 		$session = session('email');
 
@@ -22,31 +24,59 @@ class IncidentsController extends Controller {
 		return redirect()->route('index');
 	}
 
-	public function listaIncidentes() {
+	public function listaIncidentes(Request $request) {
 		$session = session('email');
 
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
-			
-//			$incidentes = Incidente::all();
-			$incidents_pag = Incidente::paginate(10);
 
-//			dd($incidentes->items());
-			//if !oculto && !caducado
-			foreach($incidents_pag->items() as $key => $inc){
-				$incidents[$key]['id'] = $inc['id'];
-//				$incidents[$key]['incidente'] = delito_incidente
-				$incidents[$key]['lugar'] = $inc['latitud_incidente'].', '.$inc['longitud_incidente'];
-				$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
-//				$incidents[$key]['lugar'] = ciudad-zona
-//				$incidents[$key] = $inc;
+			$req_date = $request['desde']!=null && $request['hasta']!=null;
+			$req_type = $request['tipos_incidentes']!=null;
+
+			if($req_date || $req_type){
+				$range_id_delito = $req_type ? $request['tipos_incidentes'] : null;
+				$range_date_delito = $req_date ? [$request['desde'], $request['hasta']] : null;
+
+				if($req_date && $req_type){
+					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
+					->whereBetween('fecha_hora_incidente',$range_date_delito)
+					->paginate($this->numPags);
+				}elseif ($req_date && !$req_type){
+					$incidents_pag = Incidente::whereBetween('fecha_hora_incidente',$range_date_delito)
+						->paginate($this->numPags);
+				}else{
+					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
+						->paginate($this->numPags);
+				}
+			}else{
+				$incidents_pag = Incidente::paginate(10);
 			}
-//			dd($result);
-//			dd($incidents);
 
-			// Quizás no sea necesario devolver la sesión (email)
-			$result = compact(['session', 'username','incidents','incidents_pag']);
+			$groupIncidents = Delito::all()->groupBy('id')->toArray();
+			$incidentTypes = array();
+			foreach ($groupIncidents as $id => $incident){
+				$incidentTypes[$id] = $incident[0]['nombre_delito'];
+			}
+
+			if($incidents_pag->total() != 0) {
+				//if !oculto && !caducado
+				foreach ($incidents_pag->items() as $key => $inc) {
+					dd($inc);
+					$incidents[$key]['id'] = $inc['id'];
+//					$incidents[$key]['incidente'] = delito_incidente
+					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
+					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
+//					$incidents[$key]['lugar'] = ciudad-zona
+//					$incidents[$key] = $inc;
+				}
+//				dd($result);
+//				dd($incidents);
+			}else{
+				$incidents = [];
+			}
+
+			$result = compact(['username','incidents','incidents_pag','incidentTypes']);
 			return view('incidents.list', $result);
 		}
 		return redirect()->route('index');

@@ -3,12 +3,36 @@
 @section('title', 'Mapa de incidentes')
 @section('username',$username)
 
+@section('stylesheet')
+	<link href="{{asset('css/forms.css')}}" rel="stylesheet"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+@endsection
+
 @section('filter')
 	<div class="filter float-right w-100 mt-2 pr-1 pr-md-0">
-		<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-light border dropdown-toggle">Tipos de incidentes</button>
-		<input type="date"/>
-		<input type="date"/>
-		<button type="button" class="btn btn-info">Filtrar</button>
+		<form class="" method="get" action="{{ Request::url() }}">
+		<div class="form-group">
+			<select class="form-control selectpicker" name="tipos_incidentes[]" id="tipos-incid" title="Tipos incidentes" multiple data-live-search="true" data-selected-text-format="count > 3">
+				@foreach($incidentTypes as $id => $incid)
+					<option value="{{$id}}">{{ucfirst(strtolower($incid))}}</option>
+				@endforeach
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="desde">Desde</label>
+			<input type="date" name="desde" class="form-control">
+		</div>
+
+		<div class="form-group">
+			<label for="hasta">Hasta</label>
+			<input type="date" name="hasta" class="form-control">
+		</div>
+
+		<input type="submit" value="Filtrar" class="form-button">
+{{--		<button type="button" class="btn btn-info">Filtrar</button>--}}
+		</form>
 
 		<a class="btn-add-incidcente mt-4" href="/nuevo-incidente">Añadir incidente</a>
 	</div>
@@ -23,33 +47,44 @@
 		</div>
 
 		<div class="incidents">
-			@foreach($incidents as $inc)
-				<article class="incident px-2 py-3 mb-1">
-					<table class="w-100" cellpadding="8">
-						<tbody>
-							<tr>
-								<td><h5>Incidente {{$inc['id']}}</h5></td>
-								<td class="w-25"><small class="float-right">@dateTimeFormat($inc['fecha_hora'])</small></td>
-							</tr>
-							<tr>
-								<td class="pt-2">{{$inc['lugar']}}</td>
-								<td class="w-25 pt-2 text-right">
-									<span id="vm{{$inc['id']}}" class="view-more text-right sp-as-lk">Ver más</span>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+			@if(!empty($incidents))
+				@foreach($incidents as $inc)
+					<article class="incident px-2 py-3 mb-1">
+						<table class="w-100" cellpadding="8">
+							<tbody>
+								<tr>
+									<td><h5>Incidente {{$inc['id']}}</h5></td>
+									<td class="w-25"><small class="float-right">@dateTimeFormat($inc['fecha_hora'])</small></td>
+								</tr>
+								<tr>
+									<td class="pt-2">{{$inc['lugar']}}</td>
+									<td class="w-25 pt-2 text-right">
+										<span id="vm{{$inc['id']}}" class="view-more text-right sp-as-lk">Ver más</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+				@endforeach
+				<div class="m-3 w-75">
+					{{ $incidents_pag->links() }}
+				</div>
+			@else
+				<article class="incident pt-3 text-center">
+					<p>No hay incidentes según el criterio seleccionado</p>
 				</article>
-			@endforeach
-			<div class="m-3 w-75">
-				{{ $incidents_pag->links() }}
-			</div>
+			@endif
 		</div>
 	</section>
 
 @endsection
 
 @section('scripts')
+	<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
 	<script>
 		function expandIncident(tabla, incidente){
 		    let descRow = '<tr class="expanded"><td colspan="2" class="pt-3">'+incidente.descripcion+'</td></tr>';

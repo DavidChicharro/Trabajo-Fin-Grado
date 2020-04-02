@@ -163,9 +163,5 @@
         }
     });
 
-    $('.nav-link').click(function () {
-        window.location.href = $(this)[0].pathname;
-    });
-
 </script>
 @endsection

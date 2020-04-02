@@ -17,10 +17,10 @@
                 <section class="col-3 px-1 px-md-3 lateral-nav">
                     <img class="img-fluid" src="{{asset('images/logo/logo.png')}}" alt="logo">
 
-                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" data-toggle="pill" href="/mapa-incidentes" role="tab" aria-selected="true">Incidentes</a>
-                        <a class="nav-link {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" data-toggle="pill" href="/contactos-favoritos" role="tab" aria-selected="false">Contactos favoritos</a>
-                        <a class="nav-link {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" data-toggle="pill" href="/zonas-interes" role="tab" aria-selected="false">Zonas de interés</a>
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" {{--role="tablist"--}} aria-orientation="vertical">
+                        <a class="nav-link {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" href="/mapa-incidentes" role="tab" aria-selected="true">Incidentes</a>
+                        <a class="nav-link {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" href="/contactos-favoritos" role="tab" aria-selected="false">Contactos favoritos</a>
+                        <a class="nav-link {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" href="/zonas-interes" role="tab" aria-selected="false">Zonas de interés</a>
                     </div>
                 </section>
             @show
