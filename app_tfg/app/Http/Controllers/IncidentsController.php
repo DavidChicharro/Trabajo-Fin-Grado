@@ -64,7 +64,7 @@ class IncidentsController extends Controller {
 				//if !oculto && !caducado
 				foreach ($incidents_pag->items() as $key => $inc) {
 					$incidents[$key]['id'] = $inc['id'];
-					$incidents[$key]['incidente'] = Delito::where('id',$inc['delito_id'])->value('nombre_delito');
+					$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
 					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
 					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
 //					$incidents[$key]['lugar'] = ciudad-zona
