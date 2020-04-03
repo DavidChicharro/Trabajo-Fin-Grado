@@ -1,6 +1,9 @@
 <html>
 <head>
     <title>{{config('app.name')}} - @yield('title')</title>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="icon" type="image/png" href="{{asset('images/favicon.ico')}}"/>
 
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet"/>
