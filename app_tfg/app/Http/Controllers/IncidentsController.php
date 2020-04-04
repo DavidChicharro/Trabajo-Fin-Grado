@@ -190,4 +190,54 @@ class IncidentsController extends Controller {
 			return $delitos;
 		}
 	}
+
+	public function incidentesSubidos(Request $request) {
+		$session = session('email');
+
+		if(isset($session)) {
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
+
+			$uploaded = Suben::all()->where('usuario_id', $user['id']);
+//			dd($uploaded);
+			$range_incidents = array();
+			$date_upload = array();
+			foreach ($uploaded as $up) {
+				array_push($range_incidents, $up['incidente_id']);
+				$date_upload[$up['incidente_id']] = $up['fecha_hora_sube_incidente'];
+			}
+
+			$incidents_pag = Incidente::whereIn('id',$range_incidents)
+				->paginate($this->numPags);
+
+			$groupIncidents = Delito::all()->groupBy('id')->toArray();
+			$incidentTypes = array();
+			foreach ($groupIncidents as $id => $incident){
+				$incidentTypes[$id] = $incident[0]['nombre_delito'];
+			}
+
+			if($incidents_pag->total() != 0) {
+				//if !oculto && !caducado
+				foreach ($incidents_pag->items() as $key => $inc) {
+					$incidents[$key]['id'] = $inc['id'];
+					$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
+					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
+					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
+					$incidents[$key]['fecha_hora_subida'] = $date_upload[$inc['id']];
+//					$incidents[$key]['lugar'] = ciudad-zona
+//					$incidents[$key] = $inc;)
+				}
+//				dd($result);
+//				dd($incidents);
+			}else{
+				$incidents = [];
+			}
+//			dd($incidents);
+
+			$result = compact(['username','incidents','incidents_pag']);
+
+			return view('incidents.uploaded', $result);
+		}
+		return redirect()->route('index');
+	}
 }
