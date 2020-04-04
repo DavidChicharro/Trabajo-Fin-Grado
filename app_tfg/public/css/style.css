@@ -66,6 +66,10 @@ a.icon:hover {
     width: 85%;
 }
 
+.text-k-red {
+    color: var(--k-red)!important;
+}
+
 /* fake link */
 .sp-as-lk {
     color: var(--k-blue);
@@ -198,5 +202,18 @@ a.icon:hover {
 }
 
 .btn-add-incidcente:hover {
+    text-decoration: none;
+}
+
+.btn-add-contacto {
+    background-color: var(--k-blue);
+    padding: 8px;
+    text-align: center;
+    color: white!important;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+.btn-add-contacto:hover {
     text-decoration: none;
 }

@@ -35,6 +35,10 @@ Route::get('/ajax_config', 'AjaxController@getConfigParams');
 Route::post('/ajax_config', 'AjaxController@setConfigParams');
 
 
+/* ********** CONTACTOS FAVORITOS ********** */
+Route::get('/contactos-favoritos','FavContactsController@contactosFavoritos')->name('contactosFavoritos');
+
+
 // Administración
 Route::get('/admin', 'UsersController@admin')->name('admin');
 Route::post('/admin', 'UsersController@login');

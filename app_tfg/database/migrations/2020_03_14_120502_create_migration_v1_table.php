@@ -65,6 +65,16 @@ class CreateMigrationV1Table extends Migration
 			$table->foreign(['delito_id','incidente_id'])->references(['delito_id','id'])->on('incidentes');
 			$table->primary(['usuario_id','fecha_hora_sube_incidente']);
 		});
+		Schema::create('son_contactos_favoritos', function (Blueprint $table) {
+			$table->unsignedBigInteger('usuario_id');
+			$table->unsignedBigInteger('contacto_favorito_id');
+			$table->tinyInteger('son_contactos')->default(0);
+			$table->tinyInteger('contador')->default(0);
+			$table->smallInteger('orden')->default(99);
+			$table->foreign('usuario_id')->references('id')->on('users');
+			$table->foreign('contacto_favorito_id')->references('id')->on('users');
+			$table->primary(['usuario_id','contacto_favorito_id']);
+		});
     }
 
     /**
