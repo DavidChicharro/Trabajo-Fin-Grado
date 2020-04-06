@@ -217,3 +217,7 @@ a.icon:hover {
 .btn-add-contacto:hover {
     text-decoration: none;
 }
+
+.icon-pointer {
+    cursor: pointer;
+}

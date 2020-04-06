@@ -35,10 +35,10 @@
             @section('top-right-header')
                 <aside class="top-right-aside col-2 offset-lg-1 p-0 pr-md-2 pr-xl-4 d-none d-sm-block">
                     <div class="icon-group mt-2 float-right">
-                        <a href="/" id="lupa" class="icon my-2 my-lg-0">
+                        <a href="#" id="lupa" class="icon my-2 my-lg-0">
                             <img class="icon-img" src="{{asset('images/icons/lupa.svg')}}">
                         </a>
-                        <a href="/" id="campana" class="icon my-2 my-lg-0">
+                        <a href="#" id="campana" class="icon my-2 my-lg-0">
                             <img class="icon-img" src="{{asset('images/icons/campana.svg')}}">
                         </a>
                         <a href="/zona-personal" id="user" class="icon my-2 my-lg-0">

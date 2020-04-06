@@ -1,0 +1,22 @@
+<svg width="55" height="54" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="gradient0" gradientUnits="objectBoundingBox" x1="0.18014" y1="-0.6432" x2="0.19236" y2="-0.7316" spreadMethod="pad">
+   <stop stop-color="#000000" offset="0"/>
+   <stop stop-color="#000000" offset="1" stop-opacity="0"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="57" height="56" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer0">
+   <g id="group0" fill="none"/>
+   <ellipse id="shape0" rx="12.81134" ry="12.1109" cx="22.40303" cy="13.85146" fill="#083740" fill-rule="evenodd" stroke="#0099ff" stroke-width="0.08504" stroke-linecap="square" stroke-miterlimit="1.98426"/>
+   <path id="shape1" fill="#083740" fill-rule="evenodd" stroke="url(#gradient0)" stroke-width="0" stroke-linecap="square" stroke-miterlimit="1.98426" d="m41.85196,43.31915c-0.53791,4.16887 -2.56556,6.86659 -6.08287,8.09278c-17.4621,0.09809 -26.29663,0.1961 -26.50354,0.2942c-2.94072,-0.15884 -2.94445,0.35282 -5.33795,-2.05991c-1.1947,-1.02898 -2.3547,-3.23784 -2.66898,-6.18c0.49656,-13.19367 1.6138,-13.29176 3.2276,-16.33268c1.46517,-1.94867 3.18241,-3.07676 5.15175,-3.38425c1.96933,-0.30751 3.43827,0.08488 4.4069,1.17713c5.95867,3.87473 11.91733,3.4333 17.876,-1.32427c2.76217,-0.3481 3.98254,-0.41212 5.15176,1.47141c0,0 0,0 0,0c0.01238,0.0188 0.02457,0.03761 0.03687,0.05643c3.57397,5.4785 5.15483,11.54149 4.74245,18.18917"/>
+  </g>
+  <rect rx="2" id="svg_1" height="18.26215" width="3.24006" y="8.70844" x="43.77157" stroke-width="0" stroke="#000" fill="#083740"/>
+  <rect transform="rotate(90, 45.3916, 17.8395)" rx="2" id="svg_2" height="18.26215" width="3.24006" y="8.70844" x="43.77157" stroke-width="0" stroke="#000" fill="#083740"/>
+ </g>
+</svg>
