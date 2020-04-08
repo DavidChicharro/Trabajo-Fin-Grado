@@ -21,12 +21,9 @@ class UsersController extends Controller {
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
+//			$notifications = $user->unreadNotifications;
 
-//			config(['api.caducidad_incidentes.radio' => '30']);
-//			$val = config('api.caducidad_incidentes');
-//			dd($val);
-
-			$result = compact(['session', 'username']);
+			$result = compact(['session', 'username', 'notifications']);
 			return view('admin', $result);
 		}
 		return view('login-admin');
@@ -210,20 +207,15 @@ class UsersController extends Controller {
 			]);
 	}
 
-	public function email_available() {
-
-	}
-
     public function zonaPersonal() {
 		$session = session('email');
 
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
-//dd($user);
+			$notifications = $user->unreadNotifications;
 
-			// Quizás no sea necesario devolver la sesión (email)
-			$result = compact(['username','user']);
+			$result = compact(['username', 'notifications', 'user']);
 			return view('user-profile', $result);
 		}
 		return redirect()->route('index');

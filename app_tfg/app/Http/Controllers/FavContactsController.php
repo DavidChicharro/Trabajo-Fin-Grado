@@ -14,6 +14,7 @@ class FavContactsController extends Controller
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
+			$notifications = $user->unreadNotifications;
 
 			$data = ContactosFavoritos::where('usuario_id',$user['id'])
 				->join('users', 'son_contactos_favoritos.contacto_favorito_id', '=', 'users.id')
@@ -38,7 +39,7 @@ class FavContactsController extends Controller
 //				dd($contacts);
 			}
 
-			$result = compact(['username', 'contacts']);
+			$result = compact(['username', 'notifications', 'contacts']);
 			return view('fav_contacts.contacts', $result);
 		}
 		return redirect()->route('index');
@@ -50,8 +51,9 @@ class FavContactsController extends Controller
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
+			$notifications = $user->unreadNotifications;
 
-			$result = compact(['username']);
+			$result = compact(['username', 'notifications']);
 			return view('fav_contacts.new-contact', $result);
 		}
 		return redirect()->route('index');
@@ -101,8 +103,11 @@ class FavContactsController extends Controller
 				'usuario_id' => $user['id'],
 				'contacto_favorito_id' => $contact['id']
 			);
-			
+
 			ContactosFavoritos::create($input);
+
+			//Crear notificación
+			return redirect()->route('enviarNotificacion', $input);
 		}
 	}
 }

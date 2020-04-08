@@ -15,10 +15,12 @@ class IncidentsController extends Controller {
 		$session = session('email');
 
 		if(isset($session)) {
-			$username = User::where('email', $session)->first()->value('nombre');
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
+			$notifications = $user->unreadNotifications;
 
 			// Quizás no sea necesario devolver la sesión (email)
-			$result = compact(['session', 'username']);
+			$result = compact(['session', 'username', 'notifications']);
 			return view('incidents.map', $result);
 		}
 		return redirect()->route('index');
@@ -31,6 +33,7 @@ class IncidentsController extends Controller {
 			/** -- AÑADIR DATOS PARA DEVOLVER A LA VISTA QUE SE HA REALIZADO UN FILTRO -- */
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
+			$notifications = $user->unreadNotifications;
 
 			$req_date = $request['desde']!=null && $request['hasta']!=null;
 			$req_type = $request['tipos_incidentes']!=null;
@@ -76,7 +79,7 @@ class IncidentsController extends Controller {
 				$incidents = [];
 			}
 
-			$result = compact(['username','incidents','incidents_pag','incidentTypes']);
+			$result = compact(['username','incidents','incidents_pag','incidentTypes', 'notifications']);
 			return view('incidents.list', $result);
 		}
 		return redirect()->route('index');

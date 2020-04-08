@@ -12,6 +12,20 @@
 			<a href="/mis-publicaciones-incidentes">Mis publicaciones de incidentes</a>
 			<a class="float-right" href="/lista-incidentes">Ver lista</a>
 		</div>
+
+		<div>
+{{--			{{dd($notifications->count())}}--}}
+{{--			@if($user->unreadNotifications->count() > 0)--}}
+{{--			@endif--}}
+{{--			{{dd($user->unreadNotifications->count())}}--}}
+			@foreach($notifications as $notification)
+{{--				{{dd($notification->data['sender'], $notification->data['message'])}}--}}
+{{--				{{dd($notification->data['message'])}}--}}
+
+{{--				{{dd($notification)}}--}}
+{{--				{{$notification->data}}--}}
+			@endforeach
+		</div>
 	</section>
 
 @endsection

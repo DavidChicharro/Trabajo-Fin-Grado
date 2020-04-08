@@ -38,9 +38,19 @@
                         <a href="#" id="lupa" class="icon my-2 my-lg-0">
                             <img class="icon-img" src="{{asset('images/icons/lupa.svg')}}">
                         </a>
-                        <a href="#" id="campana" class="icon my-2 my-lg-0">
+
+                        <a tabindex="0" id="campana" class="btn icon my-2 my-lg-0" role="button" data-toggle="popover">
                             <img class="icon-img" src="{{asset('images/icons/campana.svg')}}">
+                            @if($notifications->count() > 0)
+                                <span id="notif-badge" class="badge badge-pill badge-danger">
+                                    {{$notifications->count()}}
+                                </span>
+                            @endif
                         </a>
+
+{{--                        <a href="#" id="campana" class="icon my-2 my-lg-0">--}}
+{{--                            <img class="icon-img" src="{{asset('images/icons/campana.svg')}}">--}}
+{{--                        </a>--}}
                         <a href="/zona-personal" id="user" class="icon my-2 my-lg-0">
                             <img class="icon-img" src="{{asset('images/icons/user.svg')}}">
                         </a>
@@ -57,8 +67,42 @@
         </div>
     </div>
 
+    <div id="popover-content" {{--class="d-none"--}}>
+        <span>Carlitos quiere que seais amiwis</span>
+        <button class="btn pls-prs-me">botoncito</button>
+    </div>
+
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/jquery-3.4.1.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script>
+        $(function(){
+            // var content = $('#popover-content');
+            // Enables popover
+            $("[data-toggle=popover]").popover({
+                html: true,
+                placement: 'bottom',
+                content: function () {
+                    return $('#popover-content').html();
+                },
+                title: function () {
+                    return '<h5 class="text-center">Notificaciones</h5>';
+                }
+            });
+            // .on('show.bs.popover', function () {
+            //
+            // });
+        });
+
+        $(document).on("click",".pls-prs-me", function () {
+            alert('aquí está el tiburón');
+        });
+
+        // $('.pls-prs-me').click(function() {
+        //     alert('aquí está el tiburón');
+        // });
+    </script>
     @yield('scripts')
 </body>
 </html>

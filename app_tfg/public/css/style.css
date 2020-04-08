@@ -221,3 +221,12 @@ a.icon:hover {
 .icon-pointer {
     cursor: pointer;
 }
+
+#campana {
+    max-width: 70px!important;
+}
+
+#notif-badge {
+    top: -7px!important;
+    left: -25px!important;
+}
