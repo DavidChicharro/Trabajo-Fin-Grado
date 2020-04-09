@@ -60,6 +60,7 @@ class UserNotification extends Notification
             'notification_type' => $this->details['notification_type'],
 			'sender_id' => $this->details['sender_id'],
 			'sender_name' => $this->details['sender_name'],
+			'sender_email' => $this->details['sender_email'],
 			'recipient_id' => $this->details['recipient_id'],
 			'recipient_name' => $this->details['recipient_name'],
 			'message' => $this->details['message']

@@ -41,8 +41,10 @@ Route::get('/nuevo-contacto-favorito', 'FavContactsController@nuevoContacto')->n
 Route::post('/buscar_contacto', 'FavContactsController@buscarContacto');
 Route::post('/add_fav_contact', 'FavContactsController@addContacto');
 
-Route::get('/send_notification/{usuario_id}/{contacto_favorito_id}',
-	'UserNotificationsController@sendNotification')->name('enviarNotificacion');
+//Route::get('/send_notification/{notification_type}/{usuario_id}/{contacto_favorito_id}',
+//	'UserNotificationsController@sendNotification')->name('enviarNotificacion');
+Route::post('/accept_favourite_contact', 'FavContactsController@aceptarContacto');
+Route::post('/reject_favourite_contact', 'FavContactsController@rechazarContacto');
 
 // Administración
 Route::get('/admin', 'UsersController@admin')->name('admin');

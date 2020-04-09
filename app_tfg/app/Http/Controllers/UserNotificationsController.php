@@ -9,25 +9,30 @@ use Notification;
 
 class UserNotificationsController extends Controller
 {
-    public function sendNotification(Request $request) {
-    	if($request['usuario_id']!=null && $request['contacto_favorito_id']!=null){
+    public static function sendNotification(/*Request $request*/$notificacion) {
+    	if($notificacion['usuario_id']!=null && $notificacion['contacto_favorito_id']!=null){
 //			dd($request['usuario_id']);
-			// Creo la notificación
-			// Envío la notificación
-			$user = User::where('id', $request['usuario_id'])->first();
-			$recipient = User::where('id', $request['contacto_favorito_id'])->first();
+//			dd($request['notification_type']);
+			if($notificacion['notification_type']!=null) {
+				$message = "";
+				if ($notificacion['notification_type'] == 'befavcontact')
+					$message = "quiere agregarte como contacto favorito";
 
-			$details = [
-				'notification_type' => 'befavcontact',
-				'sender_id' => $user['id'],
-				'sender_name' => $user['nombre'],
-				'recipient_id' => $recipient['id'],
-				'recipient_name' => $recipient['name'],
-				'message' => "quiere agregarte como contacto favorito"
-			];
+				$user = User::where('id', $notificacion['usuario_id'])->first();
+				$recipient = User::where('id', $notificacion['contacto_favorito_id'])->first();
 
-			Notification::send($recipient, new UserNotification($details));
+				$details = [
+					'notification_type' => $notificacion['notification_type'],
+					'sender_id' => $user['id'],
+					'sender_name' => $user['nombre'],
+					'sender_email' => $user['email'],
+					'recipient_id' => $recipient['id'],
+					'recipient_name' => $recipient['nombre'],
+					'message' => $message
+				];
 
+				Notification::send($recipient, new UserNotification($details));
+			}
 		}
 	}
 }

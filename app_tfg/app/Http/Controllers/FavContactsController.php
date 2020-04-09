@@ -107,7 +107,24 @@ class FavContactsController extends Controller
 			ContactosFavoritos::create($input);
 
 			//Crear notificación
-			return redirect()->route('enviarNotificacion', $input);
+			$notification = array_merge(array('notification_type'=>'befavcontact'), $input);
+			UserNotificationsController::sendNotification($notification);
 		}
+	}
+
+	public function aceptarContacto(Request $request) {
+    	if($request['userId']!=null && $request['favContactId']!=null) {
+    		$usersRelation = ContactosFavoritos::where('usuario_id', $request['userId'])
+				->where('contacto_favorito_id', $request['favContactId'])->first();
+
+			if($usersRelation['son_contactos'] == 0) {
+				$usersRelation['son_contactos'] = 1;
+				$usersRelation->save();
+
+				return "success";
+			}
+		}
+
+    	return null;
 	}
 }

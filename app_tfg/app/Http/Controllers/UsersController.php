@@ -21,7 +21,7 @@ class UsersController extends Controller {
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
-//			$notifications = $user->unreadNotifications;
+			$notifications = $user->unreadNotifications;
 
 			$result = compact(['session', 'username', 'notifications']);
 			return view('admin', $result);
