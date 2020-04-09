@@ -9,10 +9,8 @@ use Notification;
 
 class UserNotificationsController extends Controller
 {
-    public static function sendNotification(/*Request $request*/$notificacion) {
+    public static function sendNotification($notificacion) {
     	if($notificacion['usuario_id']!=null && $notificacion['contacto_favorito_id']!=null){
-//			dd($request['usuario_id']);
-//			dd($request['notification_type']);
 			if($notificacion['notification_type']!=null) {
 				$message = "";
 				if ($notificacion['notification_type'] == 'befavcontact')
@@ -34,5 +32,17 @@ class UserNotificationsController extends Controller
 				Notification::send($recipient, new UserNotification($details));
 			}
 		}
+	}
+
+	public function markNotificationAsRead(Request $request) {
+    	if($request['notificationId']!=null){
+			$user = User::where('email',session('email'))->first();
+			$unreadNotifications = $user->unreadNotifications->count();
+			$user->unreadNotifications->where('id', $request['notificationId'])->markAsRead();
+
+			return $unreadNotifications-1;
+		}
+
+    	return -1;
 	}
 }

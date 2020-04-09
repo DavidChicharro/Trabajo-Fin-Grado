@@ -67,18 +67,11 @@
         </div>
     </div>
 
-    <div id="popover-content" {{--class="d-none"--}}>
-{{--        {{dd($notifications)}}--}}
+    <div id="popover-content" class="popover-content d-none">
         @foreach($notifications as $notification)
-{{--            {{dd($notification->data['notification_type'])}}--}}
-{{--            {{dd(print_r($notification['data']))}}--}}
-{{--            @php $notif = json_encode($notification->data) @endphp--}}
-{{--        {{dd($notif['notification_type'])}}--}}
-{{--        {{$notification->data[notification_type]}}--}}
-{{--            {{dd($notification->data['notification_type'])}}--}}
-            <div>
             @isset($notification->data['notification_type'])
                 @if($notification->data['notification_type'] == "befavcontact")
+                <div id="notification_{{$notification->id}}" class="notification_{{$notification->id}}">
                     <img class="float-left mr-1" src="{{asset('images/icons/nuevo-contacto.svg')}}" width="20px">
                     <span><b>
                         <abbr title="{{$notification->data['sender_email']}}">{{$notification->data['sender_name']}}</abbr> {{$notification->data['message']}}
@@ -89,12 +82,10 @@
                         <button id="notfc-{{$notification->data['sender_id']}}-{{$notification->data['recipient_id']}}"
                                 class="btn btn-danger pls-prs-me ml-3">Rechazar</button>
                     </div>
+                </div>
                 @endif
-            @endisset
-            </div>
+                @endisset
         @endforeach
-{{--        <span>Carlitos quiere que seais amiwis</span>--}}
-{{--        <button class="btn pls-prs-me">botoncito</button>--}}
     </div>
 
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -119,16 +110,48 @@
             //
             // });
         });
-        //
-        // $(document).on("click",".pls-prs-me", function () {
-        //     alert('aquí está el tiburón');
-        // });
-        // $('[id*=bfc-]');
+
+        function markAsRead(parentId) {
+            let notificationId = parentId.split('_')[1];
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/mark_notification_as_read',
+                data: {
+                    'notificationId': notificationId
+                },
+                type: 'post',
+                success: function (response) {
+                    console.log(response);
+                    if(response>=0) {
+                        let popover = $("[data-toggle=popover]").data('bs.popover');
+
+                        if(response==0) {
+                            popover.config.content = "No tienes ningunta notificación pendiente";
+                            $('#notif-badge').remove();
+                        }else{
+                            $('#notif-badge').text(response);
+                        }
+
+                        popover.hide();
+                    }
+                },
+                statusCode: {
+                    404: function () {
+                        alert('web not found');
+                    }
+                },
+            });
+        }
+
+        // Clico en aceptar ser contacto favorito
         $(document).on("click","[id*=bfc-]", function () {
-            // alert('ACEPTO: aquí está el tiburón');
-            //En la relación de contactos favoritos cambiar
-            // son_contactos: si 0->1
             let splitId = $(this).attr('id').split('-');
+            let divParentId = $(this).closest('[class*=notification_]').attr('id');
 
             $.ajaxSetup({
                 headers: {
@@ -144,8 +167,10 @@
                 type: 'post',
                 success: function (response) {
                     console.log(response);
-                    // Que desaparezca la notificación -> marcar como leída
-                    // expandIncident(tabla, response.incidente);
+                    if(response==="success") {
+                        markAsRead(divParentId);
+                        $('[class*='+divParentId+']').remove();
+                    }
                 },
                 statusCode: {
                     404: function () {

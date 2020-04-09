@@ -45,6 +45,7 @@ Route::post('/add_fav_contact', 'FavContactsController@addContacto');
 //	'UserNotificationsController@sendNotification')->name('enviarNotificacion');
 Route::post('/accept_favourite_contact', 'FavContactsController@aceptarContacto');
 Route::post('/reject_favourite_contact', 'FavContactsController@rechazarContacto');
+Route::post('/mark_notification_as_read', 'UserNotificationsController@markNotificationAsRead');
 
 // Administración
 Route::get('/admin', 'UsersController@admin')->name('admin');
