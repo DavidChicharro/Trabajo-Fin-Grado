@@ -22,6 +22,8 @@ Route::post('/user_config', 'UsersController@setUserConfig');
 
 /* ********** INCIDENTES ********** */
 Route::get('/mapa-incidentes','IncidentsController@mapaIncidentes')->name('mapaIncidentes');
+Route::post('/get_map_incidents', 'IncidentsController@getMapIncidents');
+
 Route::get('/lista-incidentes','IncidentsController@listaIncidentes')->name('listaIncidentes');
 Route::post('/get_incident_details', 'IncidentsController@getIncidentDetails');
 Route::get('/nuevo-incidente','IncidentsController@create')->name('nuevoIncidente');

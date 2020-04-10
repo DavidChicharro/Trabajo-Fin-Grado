@@ -11,7 +11,7 @@ use App\User;
 class IncidentsController extends Controller {
 	private $numPags = 10;
 
-	public function mapaIncidentes() {
+	public function mapaIncidentes(Request $request) {
 		$session = session('email');
 
 		if(isset($session)) {
@@ -19,11 +19,98 @@ class IncidentsController extends Controller {
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
 
+			/****/
+
+			$req_date = $request['desde']!=null && $request['hasta']!=null;
+			$req_type = $request['tipos_incidentes']!=null;
+
+			if($req_date || $req_type){
+				$range_id_delito = $req_type ? $request['tipos_incidentes'] : null;
+				$range_date_delito = $req_date ? [$request['desde'], $request['hasta']] : null;
+
+				if($req_date && $req_type){
+					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
+						->whereBetween('fecha_hora_incidente',$range_date_delito)
+						->paginate($this->numPags);
+				}elseif ($req_date && !$req_type){
+					$incidents_pag = Incidente::whereBetween('fecha_hora_incidente',$range_date_delito)
+						->paginate($this->numPags);
+				}else{
+					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
+						->paginate($this->numPags);
+				}
+			}else{
+				$incidents_pag = Incidente::all()->toArray();
+			}
+
+			$groupIncidents = Delito::all()->groupBy('id')->toArray();
+			$incidentTypes = array();
+			foreach ($groupIncidents as $id => $incident){
+				$incidentTypes[$id] = $incident[0]['nombre_delito'];
+			}
+//dd($incidents_pag);
+			if(!empty($incidents_pag)) {
+				//if !oculto && !caducado
+				foreach ($incidents_pag as $key => $inc) {
+					$incidents[$key]['id'] = $inc['id'];
+					$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
+					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
+					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
+//					$incidents[$key]['lugar'] = ciudad-zona
+//					$incidents[$key] = $inc;)
+				}
+//				dd($result);
+//				dd($incidents);
+			}else{
+				$incidents = [];
+			}
+
+			/****/
+
 			// Quizás no sea necesario devolver la sesión (email)
-			$result = compact(['session', 'username', 'notifications']);
+			$result = compact(['username', 'notifications', 'incidents', 'incidentTypes']);
 			return view('incidents.map', $result);
 		}
 		return redirect()->route('index');
+	}
+
+	public function getMapIncidents(Request $request) {
+//		$req_date = $request['desde']!=null && $request['hasta']!=null;
+//		$req_type = $request['tipos_incidentes']!=null;
+		if(!is_null($request['mapLimits'])){
+			$allIncidents = Incidente::all()->toArray();
+//			dd($request['mapLimits']);
+			//Añado un margen de 1.0 para cargar incidentes de alrededor de la vista
+			$westLimit = floatval($request['mapLimits'][0])-1.0;
+			$southLimit = floatval($request['mapLimits'][1])-1.0;
+			$eastLimit = floatval($request['mapLimits'][2])+1.0;
+			$northLimit = floatval($request['mapLimits'][3])+1.0;
+
+			$groupIncidents = Delito::all()->groupBy('id')->toArray();
+			$incidentTypes = array();
+			foreach ($groupIncidents as $id => $incident){
+				$incidentTypes[$id] = $incident[0]['nombre_delito'];
+			}
+
+			$incidents = [];
+			foreach($allIncidents as $key => $incident){
+				$latInc = floatval($incident['latitud_incidente']);
+				$longInc = floatval($incident['longitud_incidente']);
+//				dd($latInc, $longInc, $northLimit);
+				if($latInc < $northLimit && $latInc > $southLimit &&
+				$longInc < $eastLimit && $longInc > $westLimit){
+//					dd($incident);
+					$incidents[$key]['id'] = $incident['id'];
+					$incidents[$key]['incidente'] = ucfirst($incidentTypes[$incident['delito_id']]);
+					$incidents[$key]['latitud'] = $latInc;
+					$incidents[$key]['longitud'] = $longInc;
+					$incidents[$key]['fecha_hora'] = $incident['fecha_hora_incidente'];
+					$incidents[$key]['descripcion'] = $incident['descripcion_incidente'];
+				}
+			}
+			return json_encode($incidents);
+		}
+		return null;
 	}
 
 	public function listaIncidentes(Request $request) {
