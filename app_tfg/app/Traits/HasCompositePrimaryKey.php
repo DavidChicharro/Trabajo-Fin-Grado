@@ -4,18 +4,14 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-trait HasCompositePrimaryKey
-{
-//	public $incrementing = false;
-
+trait HasCompositePrimaryKey {
 	/**
 	 * Set the keys for a save update query.
 	 *
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @return \Illuminate\Database\Eloquent\Builder
+	 * @param Builder $query
+	 * @return Builder
 	 */
-	protected function setKeysForSaveQuery(Builder $query)
-	{
+	protected function setKeysForSaveQuery(Builder $query)	{
 		$keys = $this->getKeyName();
 		if (!is_array($keys)) {
 			return parent::setKeysForSaveQuery($query);
@@ -31,11 +27,10 @@ trait HasCompositePrimaryKey
 	/**
 	 * Get the primary key value for a save query.
 	 *
-	 * @param mixed $keyName
+	 * @param null $keyName
 	 * @return mixed
 	 */
-	protected function getKeyForSaveQuery($keyName = null)
-	{
+	protected function getKeyForSaveQuery($keyName = null) {
 		if (is_null($keyName)) {
 			$keyName = $this->getKeyName();
 		}

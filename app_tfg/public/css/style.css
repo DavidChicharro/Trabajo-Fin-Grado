@@ -193,6 +193,11 @@ a.icon:hover {
     left: 50px;
 }
 
+.btn:focus {
+    outline: none!important;
+    box-shadow: none!important;
+}
+
 .btn-add-incidcente {
     background-color: var(--k-red);
     padding: 8px;

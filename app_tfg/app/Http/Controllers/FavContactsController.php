@@ -127,4 +127,20 @@ class FavContactsController extends Controller
 
     	return null;
 	}
+
+	public function rechazarContacto(Request $request) {
+    	if($request['userId']!=null && $request['favContactId']!=null) {
+    		$usersRelation = ContactosFavoritos::where('usuario_id', $request['userId'])
+				->where('contacto_favorito_id', $request['favContactId'])->first();
+
+    		$contador = $usersRelation['contador'];
+
+			$usersRelation['contador'] = $contador+1;
+			$usersRelation->save();
+
+			return "success";
+		}
+
+    	return null;
+	}
 }

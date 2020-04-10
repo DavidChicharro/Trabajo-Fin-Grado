@@ -200,6 +200,7 @@ class IncidentsController extends Controller {
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
+			$notifications = $user->unreadNotifications;
 
 			$uploaded = Suben::all()->where('usuario_id', $user['id']);
 //			dd($uploaded);
@@ -237,7 +238,7 @@ class IncidentsController extends Controller {
 			}
 //			dd($incidents);
 
-			$result = compact(['username','incidents','incidents_pag']);
+			$result = compact(['username', 'incidents', 'incidents_pag', 'notifications']);
 
 			return view('incidents.uploaded', $result);
 		}
