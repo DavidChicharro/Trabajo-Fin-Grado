@@ -196,6 +196,8 @@ class IncidentsController extends Controller {
 		if(isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
+			$notifications = $user->unreadNotifications;
+
 			$delitos_cat = Delito::groupBy('categoria_delito')
 				->value('categoria_delito');
 
@@ -204,7 +206,9 @@ class IncidentsController extends Controller {
 					array_push($delitos, $delitos_cat);
 //			dd($delitos_cat);
 
-			return view('incidents.new-incident',compact(['delitos','username']));
+			$result = compact(['delitos', 'username', 'notifications']);
+
+			return view('incidents.new-incident', $result);
 		}
 
 //		$datos = $request->validate([
