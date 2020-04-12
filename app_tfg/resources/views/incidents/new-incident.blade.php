@@ -12,6 +12,7 @@
 	      crossorigin=""/>
 
 	<link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css">
+{{--	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />--}}
 @endsection
 
 @section('content')
@@ -65,6 +66,7 @@
 			<div class="form-group">
 				<label for="lugar">Lugar</label>
 				<input type="text" name="lugar" id="lugar" class="form-control" hidden>
+				<input type="text" name="nombre_lugar" id="nombre_lugar" class="form-control" hidden>
 				<div class="map-cursor-pointer my-2" id="mapid" style="height: 400px"></div>
 			</div>
 
@@ -123,6 +125,9 @@
 <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
 <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
 
+<!-- Leaflet JS Control Geocoder -->
+{{--<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>--}}
+
 <script>
     const mymap = L.map('mapid').setView([37.18,-3.6], 14);
     // var settedMarker = false;
@@ -144,11 +149,32 @@
         incidentsLayerGroup.clearLayers();
         // if(!settedMarker)
         //     settedMarker = true;
-        L.marker(latLng).addTo(incidentsLayerGroup);
+
 		$('#lugar').val(
 		    parseFloat(latLng.lat).toFixed(4) +','+
 			parseFloat(latLng.lng).toFixed(4)
 		);
+		let placeName = "";
+        $.ajax({
+	        url: 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' +
+		        latLng.lat + '&lon=' + latLng.lng,
+            success: function(data){
+                placeName = ((typeof(data.address.locality)!== 'undefined')?data.address.locality +", ":"")+
+	                ((typeof(data.address.city_district)!== 'undefined')?data.address.city_district +", ":"")+
+	                ((typeof(data.address.village)!== 'undefined')?data.address.village:"")+
+	                ((typeof(data.address.town)!== 'undefined')?data.address.town:"")+
+	                ((typeof(data.address.city)!== 'undefined')?data.address.city:"")+
+                    ((typeof(data.address.county)!== 'undefined')?" ("+data.address.county +")":"");
+
+	            $('#nombre_lugar').val((placeName !== "")?placeName:data.address.country);
+            },
+	        error : function() {
+	            placeName = latLng.lat + ', ' + latLng.lng;
+                $('#nombre_lugar').val(placeName);
+            }
+        });
+
+        L.marker(latLng).addTo(incidentsLayerGroup);
     });
 
 </script>

@@ -7,6 +7,9 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
 	      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 	      crossorigin=""/>
+
+{{--	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />--}}
+
 @endsection
 
 @section('content')
@@ -53,7 +56,8 @@
                         console.log(index, value);
                         L.marker([value.latitud, value.longitud])
 	                        .bindPopup('<b>'+value.incidente+'</b>  -  '+
-		                        value.fecha_hora+'.<br>'+value.descripcion)
+		                        value.fecha_hora+'.<br>'+value.nombre_lugar
+		                        +'<br>'+value.descripcion)
 	                        .addTo(incidentsLayerGroup);
                     });
                 },
@@ -72,13 +76,6 @@
         mymap.setView([37.18,-3.6], 14);
 		const incidentsLayerGroup = L.layerGroup().addTo(mymap);
 
-
-        // var marker = L.marker([51.5, -0.09]).addTo(mymap);
-        // var popup = L.popup()
-        //     .setLatLng([51.5, -0.09])
-        //     .setContent("I am a standalone popup.")
-        //     .openOn(mymap);
-
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, ' +
                 '<a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank">CC-BY-SA</a>, ' +
@@ -88,6 +85,7 @@
             accessToken: 'pk.eyJ1IjoiZGF2aWRjaGljaGFycm8iLCJhIjoiY2s4dTRuenNqMDE5djNka2Q0amE3bHBnYyJ9.ebGkyWx_FQLj5oBW936UJg'
         }).addTo(mymap);
 
+        // Cada cambio de zoom limpia los marcadores y recarga los nuevos
         mymap.on('zoomend', function () {
 			console.log(mymap.getBounds());
             getIncidents(mymap.getBounds().toBBoxString());

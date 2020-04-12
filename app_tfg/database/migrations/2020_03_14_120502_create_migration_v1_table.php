@@ -47,6 +47,7 @@ class CreateMigrationV1Table extends Migration
 			$table->unsignedBigInteger('delito_id');
 			$table->decimal('latitud_incidente',8,4);
 			$table->decimal('longitud_incidente',8,4);
+			$table->string('nombre_lugar')->nullable();
 			$table->datetime('fecha_hora_incidente');
 			$table->tinyInteger('afectado_testigo');
 			$table->string('agravantes')->nullable();

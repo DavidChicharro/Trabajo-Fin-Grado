@@ -22,12 +22,11 @@ class CreateIncidentesTable extends Migration
     {
 		Schema::create('incidentes', function (Blueprint $table) {
 			$table->engine = 'InnoDB';
-//			$table->bigIncrements('id');
 			$table->unsignedBigInteger('id');
-//			$table->bigInteger('delito_id');
 			$table->unsignedBigInteger('delito_id');
 			$table->decimal('latitud_incidente',8,4);
 			$table->decimal('longitud_incidente',8,4);
+			$table->string('nombre_lugar')->nullable();
 			$table->datetime('fecha_hora_incidente');
 			$table->text('descripcion_incidente');
 			$table->tinyInteger('afectado_testigo');

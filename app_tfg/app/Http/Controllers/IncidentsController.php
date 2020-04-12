@@ -11,6 +11,25 @@ use App\User;
 class IncidentsController extends Controller {
 	private $numPags = 10;
 
+	/*private function getAddress($lat, $lng) {
+		$url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=".$lat."&lon=".$lng;
+		$context = stream_context_create(
+			array(
+				"http" => array(
+					"header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+				)
+			)
+		);
+
+		$lugar = json_decode(file_get_contents($url, false, $context), true);
+		return (isset($lugar['address']['locality'])?$lugar['address']['locality'].", ":"").
+			(isset($lugar['address']['city_district'])?$lugar['address']['city_district'].", ":"").
+			(isset($lugar['address']['village'])?$lugar['address']['village']."":"").
+			(isset($lugar['address']['town'])?$lugar['address']['town']:"").
+			(isset($lugar['address']['city'])?$lugar['address']['city']:"").
+			(isset($lugar['address']['county'])?" (".$lugar['address']['county'].")":"");
+	}*/
+
 	public function mapaIncidentes(Request $request) {
 		$session = session('email');
 
@@ -56,8 +75,7 @@ class IncidentsController extends Controller {
 					$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
 					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
 					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
-//					$incidents[$key]['lugar'] = ciudad-zona
-//					$incidents[$key] = $inc;)
+					$incidents[$key]['nombre_lugar'] = $inc['nombre_lugar'];
 				}
 //				dd($result);
 //				dd($incidents);
@@ -75,11 +93,12 @@ class IncidentsController extends Controller {
 	}
 
 	public function getMapIncidents(Request $request) {
+		/** AÑADIR FILTROS **/
 //		$req_date = $request['desde']!=null && $request['hasta']!=null;
 //		$req_type = $request['tipos_incidentes']!=null;
 		if(!is_null($request['mapLimits'])){
 			$allIncidents = Incidente::all()->toArray();
-//			dd($request['mapLimits']);
+
 			//Añado un margen de 1.0 para cargar incidentes de alrededor de la vista
 			$westLimit = floatval($request['mapLimits'][0])-1.0;
 			$southLimit = floatval($request['mapLimits'][1])-1.0;
@@ -96,16 +115,16 @@ class IncidentsController extends Controller {
 			foreach($allIncidents as $key => $incident){
 				$latInc = floatval($incident['latitud_incidente']);
 				$longInc = floatval($incident['longitud_incidente']);
-//				dd($latInc, $longInc, $northLimit);
+
 				if($latInc < $northLimit && $latInc > $southLimit &&
 				$longInc < $eastLimit && $longInc > $westLimit){
-//					dd($incident);
 					$incidents[$key]['id'] = $incident['id'];
 					$incidents[$key]['incidente'] = ucfirst($incidentTypes[$incident['delito_id']]);
 					$incidents[$key]['latitud'] = $latInc;
 					$incidents[$key]['longitud'] = $longInc;
 					$incidents[$key]['fecha_hora'] = $incident['fecha_hora_incidente'];
 					$incidents[$key]['descripcion'] = $incident['descripcion_incidente'];
+					$incidents[$key]['nombre_lugar'] = $incident['nombre_lugar'];
 				}
 			}
 			return json_encode($incidents);
@@ -157,8 +176,7 @@ class IncidentsController extends Controller {
 					$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
 					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
 					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
-//					$incidents[$key]['lugar'] = ciudad-zona
-//					$incidents[$key] = $inc;)
+					$incidents[$key]['nombre_lugar'] = $inc['nombre_lugar'];
 				}
 //				dd($result);
 //				dd($incidents);
@@ -210,23 +228,6 @@ class IncidentsController extends Controller {
 
 			return view('incidents.new-incident', $result);
 		}
-
-//		$datos = $request->validate([
-//			'email' => 'bail|required|min:7|max:255',
-//			'password' => 'bail|required|min:8',
-//		]);
-//
-//		$user_exist = User::where('email',$datos['email'])->count();
-//
-//		if($user_exist==0){
-//			return view('register-step-2')
-//				->with('datos',$datos);
-//		}else{
-//			return redirect()->back()
-//				->withErrors([
-//					'message'=>'¡El usuario introducido ya se encuentra registrado!'
-//				]);
-//		}
 	}
 
 	public function store(Request $request) {
@@ -238,6 +239,7 @@ class IncidentsController extends Controller {
 				'fecha_incidente' => 'bail|required|date|before:tomorrow',
 				'hora_incidente' => 'bail|required',
 				'lugar' => 'bail|required',
+				'nombre_lugar' => 'required',
 				'descripcion_incidente' => 'bail|required|min:10|max:1000',
 				'afectado_testigo' => 'bail|required|boolean'
 			]);
@@ -252,6 +254,7 @@ class IncidentsController extends Controller {
 				'delito_id' => $datos['delito'],
 				'latitud_incidente' => $lat_long_site[0],
 				'longitud_incidente' => $lat_long_site[1],
+				'nombre_lugar' => $datos['nombre_lugar'],
 				'fecha_hora_incidente' => $fecha_hora,
 				'descripcion_incidente' => $datos['descripcion_incidente'],
 				'afectado_testigo' => $datos['afectado_testigo'],
@@ -319,8 +322,7 @@ class IncidentsController extends Controller {
 					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
 					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
 					$incidents[$key]['fecha_hora_subida'] = $date_upload[$inc['id']];
-//					$incidents[$key]['lugar'] = ciudad-zona
-//					$incidents[$key] = $inc;)
+					$incidents[$key]['nombre_lugar'] = $inc['nombre_lugar'];
 				}
 //				dd($result);
 //				dd($incidents);
