@@ -30,6 +30,16 @@ class IncidentsController extends Controller {
 			(isset($lugar['address']['county'])?" (".$lugar['address']['county'].")":"");
 	}*/
 
+	private function getIncidentsTypes() {
+		$groupIncidents = Delito::all()->groupBy('id')->toArray();
+		$incidentTypes = array();
+		foreach ($groupIncidents as $id => $incident){
+			$incidentTypes[$id] = $incident[0]['nombre_delito'];
+		}
+
+		return $incidentTypes;
+	}
+
 	public function mapaIncidentes(Request $request) {
 		$session = session('email');
 
@@ -38,55 +48,13 @@ class IncidentsController extends Controller {
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
 
-			/****/
-
-			$req_date = $request['desde']!=null && $request['hasta']!=null;
-			$req_type = $request['tipos_incidentes']!=null;
-
-			if($req_date || $req_type){
-				$range_id_delito = $req_type ? $request['tipos_incidentes'] : null;
-				$range_date_delito = $req_date ? [$request['desde'], $request['hasta']] : null;
-
-				if($req_date && $req_type){
-					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
-						->whereBetween('fecha_hora_incidente',$range_date_delito)
-						->paginate($this->numPags);
-				}elseif ($req_date && !$req_type){
-					$incidents_pag = Incidente::whereBetween('fecha_hora_incidente',$range_date_delito)
-						->paginate($this->numPags);
-				}else{
-					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
-						->paginate($this->numPags);
-				}
-			}else{
-				$incidents_pag = Incidente::all()->toArray();
-			}
-
 			$groupIncidents = Delito::all()->groupBy('id')->toArray();
 			$incidentTypes = array();
 			foreach ($groupIncidents as $id => $incident){
 				$incidentTypes[$id] = $incident[0]['nombre_delito'];
 			}
-//dd($incidents_pag);
-			if(!empty($incidents_pag)) {
-				//if !oculto && !caducado
-				foreach ($incidents_pag as $key => $inc) {
-					$incidents[$key]['id'] = $inc['id'];
-					$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
-					$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
-					$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
-					$incidents[$key]['nombre_lugar'] = $inc['nombre_lugar'];
-				}
-//				dd($result);
-//				dd($incidents);
-			}else{
-				$incidents = [];
-			}
 
-			/****/
-
-			// Quizás no sea necesario devolver la sesión (email)
-			$result = compact(['username', 'notifications', 'incidents', 'incidentTypes']);
+			$result = compact(['username', 'notifications', 'incidentTypes']);
 			return view('incidents.map', $result);
 		}
 		return redirect()->route('index');
@@ -94,28 +62,43 @@ class IncidentsController extends Controller {
 
 	public function getMapIncidents(Request $request) {
 		/** AÑADIR FILTROS **/
-//		$req_date = $request['desde']!=null && $request['hasta']!=null;
-//		$req_type = $request['tipos_incidentes']!=null;
-		if(!is_null($request['mapLimits'])){
-			$allIncidents = Incidente::all()->toArray();
+		$req_date = !is_null($request['dateFrom']) && !is_null($request['dateTo']);
+		$req_type = !is_null($request['delitTypes']);
 
-			//Añado un margen de 1.0 para cargar incidentes de alrededor de la vista
-			$westLimit = floatval($request['mapLimits'][0])-1.0;
-			$southLimit = floatval($request['mapLimits'][1])-1.0;
-			$eastLimit = floatval($request['mapLimits'][2])+1.0;
-			$northLimit = floatval($request['mapLimits'][3])+1.0;
+		if($req_date || $req_type){
+			$range_id_delito = $req_type ? $request['delitTypes'] : null;
+			$range_date_delito = $req_date ? [$request['dateFrom'], $request['dateTo']] : null;
 
-			$groupIncidents = Delito::all()->groupBy('id')->toArray();
-			$incidentTypes = array();
-			foreach ($groupIncidents as $id => $incident){
-				$incidentTypes[$id] = $incident[0]['nombre_delito'];
+			if($req_date && $req_type){
+				$allIncidents = Incidente::whereIn('delito_id',$range_id_delito)
+					->whereBetween('fecha_hora_incidente',$range_date_delito)
+					->get();
+			}elseif ($req_date && !$req_type){
+				$allIncidents = Incidente::whereBetween('fecha_hora_incidente',$range_date_delito)
+					->get();
+			}else{
+				$allIncidents = Incidente::whereIn('delito_id',$range_id_delito)
+					->get();
 			}
+		}else{
+			$allIncidents = Incidente::all()->toArray();
+		}
+
+		if(!is_null($request['mapLimits'])){
+			//Añado un margen de 0.5 para cargar incidentes de alrededor de la vista
+			$westLimit = floatval($request['mapLimits'][0])-0.5;
+			$southLimit = floatval($request['mapLimits'][1])-0.5;
+			$eastLimit = floatval($request['mapLimits'][2])+0.5;
+			$northLimit = floatval($request['mapLimits'][3])+0.5;
+
+			$incidentTypes = $this->getIncidentsTypes();
 
 			$incidents = [];
 			foreach($allIncidents as $key => $incident){
 				$latInc = floatval($incident['latitud_incidente']);
 				$longInc = floatval($incident['longitud_incidente']);
 
+				//if !oculto && !caducado
 				if($latInc < $northLimit && $latInc > $southLimit &&
 				$longInc < $eastLimit && $longInc > $westLimit){
 					$incidents[$key]['id'] = $incident['id'];
@@ -163,11 +146,7 @@ class IncidentsController extends Controller {
 				$incidents_pag = Incidente::paginate($this->numPags);
 			}
 
-			$groupIncidents = Delito::all()->groupBy('id')->toArray();
-			$incidentTypes = array();
-			foreach ($groupIncidents as $id => $incident){
-				$incidentTypes[$id] = $incident[0]['nombre_delito'];
-			}
+			$incidentTypes = $this->getIncidentsTypes();
 
 			if($incidents_pag->total() != 0) {
 				//if !oculto && !caducado
