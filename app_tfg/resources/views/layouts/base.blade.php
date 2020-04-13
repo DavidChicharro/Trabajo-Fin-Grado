@@ -21,9 +21,9 @@
                     <img class="img-fluid" src="{{asset('images/logo/logo.png')}}" alt="logo">
 
                     <div class="nav flex-column nav-pills" id="v-pills-tab" {{--role="tablist"--}} aria-orientation="vertical">
-                        <a class="nav-link {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" href="/mapa-incidentes" role="tab" aria-selected="true">Incidentes</a>
-                        <a class="nav-link {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" href="/contactos-favoritos" role="tab" aria-selected="false">Contactos favoritos</a>
-                        <a class="nav-link {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" href="/zonas-interes" role="tab" aria-selected="false">Zonas de interés</a>
+                        <a class="nav-link {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" href="{{route('mapaIncidentes')}}" role="tab" aria-selected="true">Incidentes</a>
+                        <a class="nav-link {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" href="{{route('contactosFavoritos')}}" role="tab" aria-selected="false">Contactos favoritos</a>
+                        <a class="nav-link {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" href="{{route('zonasInteres')}}" role="tab" aria-selected="false">Zonas de interés</a>
                     </div>
                 </section>
             @show
@@ -51,14 +51,14 @@
 {{--                        <a href="#" id="campana" class="icon my-2 my-lg-0">--}}
 {{--                            <img class="icon-img" src="{{asset('images/icons/campana.svg')}}">--}}
 {{--                        </a>--}}
-                        <a href="/zona-personal" id="user" class="icon my-2 my-lg-0">
+                        <a href="{{route('zonaPersonal')}}" id="user" class="icon my-2 my-lg-0">
                             <img class="icon-img" src="{{asset('images/icons/user.svg')}}">
                         </a>
                     </div>
 
                     <div class="user-logout float-right">
                         <p class="m-1">@yield('username')</p>
-                        <a href="/logout">Cerrar sesión</a>
+                        <a href="{{route('logout')}}">Cerrar sesión</a>
                     </div>
 
                     @yield('filter')

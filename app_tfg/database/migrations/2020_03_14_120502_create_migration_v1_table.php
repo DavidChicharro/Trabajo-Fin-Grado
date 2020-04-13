@@ -76,6 +76,15 @@ class CreateMigrationV1Table extends Migration
 			$table->foreign('contacto_favorito_id')->references('id')->on('users');
 			$table->primary(['usuario_id','contacto_favorito_id']);
 		});
+		Schema::create('usuarios_zonas_interes', function (Blueprint $table) {
+			$table->bigIncrements('id');
+			$table->unsignedBigInteger('usuario_id');
+			$table->decimal('latitud_zona_interes',8,4);
+			$table->decimal('longitud_zona_interes',8,4);
+			$table->string('nombre_zona_interes')->nullable();
+			$table->integer('radio_zona_interes');
+			$table->foreign('usuario_id')->references('id')->on('users');
+		});
     }
 
     /**
