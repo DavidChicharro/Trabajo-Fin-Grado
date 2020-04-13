@@ -23,8 +23,12 @@
 			@csrf
 
 			<div class="form-group">
-				<input type="text" name="lugar" id="lugar" class="form-control" {{--hidden--}}>
+				<input type="text" name="lat_zona_int" id="lat_zona_int" class="form-control" {{--hidden--}}>
+				<input type="text" name="long_zona_int" id="long_zona_int" class="form-control" {{--hidden--}}>
 				<input type="text" name="nombre_lugar" id="nombre_lugar" class="form-control" {{--hidden--}}>
+				<input type="number" name="radio_zona_int" id="radio_zona_int" class="form-control"
+				       min="{{$config['radio_min']}}" max="{{$config['radio_max']}}" {{--hidden--}}>
+
 			</div>
 
 			<input type="submit" value="Añadir zona de interés" class="form-button col-md-6">
@@ -47,7 +51,6 @@
 
 	<script>
         const mymap = L.map('mapid').setView([37.18,-3.6], 14);
-        // var settedMarker = false;
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, ' +
@@ -67,8 +70,14 @@
             // if(!settedMarker)
             //     settedMarker = true;
 
-            $('#lugar').val(
-                parseFloat(latLng.lat).toFixed(4) +','+
+            // $('#lugar').val(
+            //     parseFloat(latLng.lat).toFixed(4) +','+
+            //     parseFloat(latLng.lng).toFixed(4)
+            // );
+            $('#lat_zona_int').val(
+                parseFloat(latLng.lat).toFixed(4)
+            );
+            $('#long_zona_int').val(
                 parseFloat(latLng.lng).toFixed(4)
             );
             let placeName = "";

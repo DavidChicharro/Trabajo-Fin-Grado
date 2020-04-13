@@ -46,6 +46,8 @@ Route::post('/add_fav_contact', 'FavContactsController@addContacto');
 /* *********** ZONAS DE INTERÉS *********** */
 Route::get('/zonas-interes', 'InterestAreasController@zonasInteres')->name('zonasInteres');
 Route::get('/nueva-zona-interes', 'InterestAreasController@nuevaZonaInteres')->name('nuevaZona');
+Route::post('/nueva-zona-interes', 'InterestAreasController@store');
+Route::post('/get_interest_areas', 'InterestAreasController@getInterestAreas');
 
 //Route::get('/send_notification/{notification_type}/{usuario_id}/{contacto_favorito_id}',
 //	'UserNotificationsController@sendNotification')->name('enviarNotificacion');

@@ -29,6 +29,10 @@ class AjaxController extends Controller
 		return config(('api.'.$key));
 	}
 
+	public function getZonasInteresParms(){
+    	return $this->getParams('zonas_interes');
+	}
+
 	public function getConfigParams(Request $request){
     	$modalParams = null;
 		if(isset($request['params'])) {

@@ -47,7 +47,7 @@
 	<h2>Zonas de interés</h2>
 
 	<section class="main-content mx-1 my-4 row">
-		@if(!empty($interestAreas))
+		@if($numInterestAreas > 0)
 			<div id="mapid" class="col-8" style="height: 500px"></div>
 
 		@else
@@ -80,23 +80,24 @@
                 }
             });
             $.ajax({
-                url: '/get_map_incidents',
+                url: '/get_interest_areas',
                 data: {
-                    'mapLimits': mapLimits,
-                    'delitTypes': delitTypes,
-                    'dateFrom': dateFrom,
-                    'dateTo': dateTo
+                    // 'mapLimits': mapLimits,
+                    // 'delitTypes': delitTypes,
+                    // 'dateFrom': dateFrom,
+                    // 'dateTo': dateTo
                 },
                 type: 'post',
                 success: function (response) {
                     // console.log(response);
                     let result = JSON.parse(response);
                     $.each(result, function(index, value){
-                        L.marker([value.latitud, value.longitud])
-                            .bindPopup('<b>'+value.incidente+'</b>  -  '+
-                                value.fecha_hora+'.<br>'+value.nombre_lugar
-                                +'<br>'+value.descripcion)
-                            .addTo(incidentsLayerGroup);
+                        let marker = L.marker([value.latitud_zona_interes, value.longitud_zona_interes])
+                            .bindPopup('<b>'+value.nombre_zona_interes+'</b><br>'
+	                            + 'Radio: ' + value.radio_zona_interes + ' m');
+                        let radius = L.circle([value.latitud_zona_interes, value.longitud_zona_interes],
+                            value.radio_zona_interes, {color: "red"});
+	                    mymap.addLayer(L.layerGroup([marker, radius]));
                     });
                 },
                 statusCode: {
@@ -133,13 +134,10 @@
             incidentsLayerGroup.clearLayers();
         }
         // Cada cambio de zoom limpia los marcadores y recarga los nuevos
-        mymap.on('zoomend', function () {
-            callGetIncidents();
-        });
+        // mymap.on('zoomend', function () {
+        //     callGetIncidents();
+        // });
 
-        $('#btn-filter-incident').click(function () {
-            callGetIncidents();
-        });
 
 	</script>
 @endsection
