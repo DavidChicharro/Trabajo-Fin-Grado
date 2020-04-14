@@ -12,26 +12,29 @@
 	      crossorigin=""/>
 
 	<link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css">
-	{{--	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />--}}
 @endsection
 
 @section('content')
 	<h2>Añadir zona de interés</h2>
 	<section class="main-content mx-1">
-		<div id="mapid" class="map-cursor-pointer my-4" style="height: 500px"></div>
+		<div id="mapid" class="map-cursor-pointer my-4" style="height: 420px"></div>
 		<form class="px-3 pr-5" method="post" action="{{ Request::url() }}">
 			@csrf
 
 			<div class="form-group">
-				<input type="text" name="lat_zona_int" id="lat_zona_int" class="form-control" {{--hidden--}}>
-				<input type="text" name="long_zona_int" id="long_zona_int" class="form-control" {{--hidden--}}>
-				<input type="text" name="nombre_lugar" id="nombre_lugar" class="form-control" {{--hidden--}}>
-				<input type="number" name="radio_zona_int" id="radio_zona_int" class="form-control"
-				       min="{{$config['radio_min']}}" max="{{$config['radio_max']}}" {{--hidden--}}>
+				<input type="text" name="lat_zona_int" id="lat_zona_int" class="form-control" hidden>
+				<input type="text" name="long_zona_int" id="long_zona_int" class="form-control" hidden>
+				<input type="text" name="nombre_lugar" id="nombre_lugar" class="form-control" hidden>
+				<div id="slider-radio" hidden>
+					<input type="range" name="radio_zona_int" id="radio_zona_int" class="form-control"
+					       min="{{$config['radio_min']}}" max="{{$config['radio_max']}}"
+					       value="600" step="50">
+					<span id="radio-value"></span>
+				</div>
 
 			</div>
 
-			<input type="submit" value="Añadir zona de interés" class="form-button col-md-6">
+			<input type="submit" value="Añadir zona de interés" class="form-button col-md-5" disabled>
 		</form>
 	</section>
 
@@ -46,11 +49,13 @@
 	<script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
 	<script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
 
-	<!-- Leaflet JS Control Geocoder -->
-	{{--<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>--}}
-
 	<script>
+        $(document).ready(function () {
+            $('#radio-value').html( $('#radio_zona_int').val()+' m');
+        });
+
         const mymap = L.map('mapid').setView([37.18,-3.6], 14);
+        const areaLayerGroup = L.layerGroup().addTo(mymap);
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, ' +
@@ -62,18 +67,12 @@
         }).addTo(mymap);
 
         var searchControl = new L.esri.Controls.Geosearch().addTo(mymap);
-        var incidentsLayerGroup = new L.LayerGroup().addTo(mymap);
 
+		var radius;
         mymap.on('click', function (e) {
             let latLng = mymap.mouseEventToLatLng(e.originalEvent);
-            incidentsLayerGroup.clearLayers();
-            // if(!settedMarker)
-            //     settedMarker = true;
+            areaLayerGroup.clearLayers();
 
-            // $('#lugar').val(
-            //     parseFloat(latLng.lat).toFixed(4) +','+
-            //     parseFloat(latLng.lng).toFixed(4)
-            // );
             $('#lat_zona_int').val(
                 parseFloat(latLng.lat).toFixed(4)
             );
@@ -100,7 +99,20 @@
                 }
             });
 
-            L.marker(latLng).addTo(incidentsLayerGroup);
+            L.marker(latLng).addTo(areaLayerGroup);
+            radius = L.circle(latLng, parseInt($('#radio_zona_int').val()), {color: "red"}).addTo(areaLayerGroup);;
+
+            if($('#slider-radio').is(":hidden")){
+                $('#slider-radio').removeAttr('hidden');
+                $('input[type=submit]').removeAttr('disabled');
+            }
+        });
+
+		// Actualizo el valor del radio al lado del slider y la amplitud en el mapa
+        $(document).on('input', '#radio_zona_int', function () {
+            let newRadius = $(this).val();
+			$('#radio-value').html( newRadius+' m');
+            radius.setRadius(newRadius);
         });
 
 	</script>

@@ -10,41 +10,19 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
 	      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 	      crossorigin=""/>
-
-	{{--	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />--}}
-
 @endsection
-
-{{--@section('filter')--}}
-{{--	<div class="filter float-right w-100 mt-2 pr-1 pr-md-0">--}}
-{{--		<div>--}}
-{{--			<div class="form-group">--}}
-{{--				<select class="form-control selectpicker" name="tipos_incidentes[]" id="tipos-incid" title="Tipos incidentes" multiple data-live-search="true" data-selected-text-format="count > 3">--}}
-{{--					@foreach($incidentTypes as $id => $incid)--}}
-{{--						<option value="{{$id}}">{{ucfirst(strtolower($incid))}}</option>--}}
-{{--					@endforeach--}}
-{{--				</select>--}}
-{{--			</div>--}}
-
-{{--			<div class="form-group">--}}
-{{--				<label for="desde">Desde</label>--}}
-{{--				<input type="date" name="desde" class="form-control" id="date-from">--}}
-{{--			</div>--}}
-
-{{--			<div class="form-group">--}}
-{{--				<label for="hasta">Hasta</label>--}}
-{{--				<input type="date" name="hasta" class="form-control" id="date-to">--}}
-{{--			</div>--}}
-
-{{--			<button id="btn-filter-incident" class="btn form-button">Filtrar</button>--}}
-{{--		</div>--}}
-
-{{--		<a class="btn-add-incidcente mt-4" href="/nuevo-incidente">Añadir incidente</a>--}}
-{{--	</div>--}}
-{{--@endsection--}}
 
 @section('content')
 	<h2>Zonas de interés</h2>
+
+	@if(Session::has('error'))
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			{{Session::get('error')}}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	@endif
 
 	<section class="main-content mx-1 my-4 row">
 		@if($numInterestAreas > 0)
@@ -81,16 +59,9 @@
             });
             $.ajax({
                 url: '/get_interest_areas',
-                data: {
-                    // 'mapLimits': mapLimits,
-                    // 'delitTypes': delitTypes,
-                    // 'dateFrom': dateFrom,
-                    // 'dateTo': dateTo
-                },
                 type: 'post',
                 success: function (response) {
-                    // console.log(response);
-                    let result = JSON.parse(response);
+                    let result = JSON.parse(response.interestAreas);
                     $.each(result, function(index, value){
                         let marker = L.marker([value.latitud_zona_interes, value.longitud_zona_interes])
                             .bindPopup('<b>'+value.nombre_zona_interes+'</b><br>'
@@ -99,6 +70,12 @@
                             value.radio_zona_interes, {color: "red"});
 	                    mymap.addLayer(L.layerGroup([marker, radius]));
                     });
+
+                    let bounds = JSON.parse(response.bounds);
+                    mymap.fitBounds([
+                        [bounds.south, bounds.west],
+                        [bounds.north, bounds.east]
+                    ],{maxZoom: 16});
                 },
                 statusCode: {
                     404: function () {
@@ -133,11 +110,6 @@
             );
             incidentsLayerGroup.clearLayers();
         }
-        // Cada cambio de zoom limpia los marcadores y recarga los nuevos
-        // mymap.on('zoomend', function () {
-        //     callGetIncidents();
-        // });
-
 
 	</script>
 @endsection
