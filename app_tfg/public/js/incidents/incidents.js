@@ -34,7 +34,6 @@ $(".view-more").click(function() {
         $.ajax({
             url: '/get_incident_details',
             data: {
-                // '_token': "{{csrf_token()}}",
                 'incidentId': incidentId
             },
             type: 'post',

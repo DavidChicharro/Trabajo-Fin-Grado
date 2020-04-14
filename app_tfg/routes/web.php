@@ -48,6 +48,7 @@ Route::get('/zonas-interes', 'InterestAreasController@zonasInteres')->name('zona
 Route::get('/nueva-zona-interes', 'InterestAreasController@nuevaZonaInteres')->name('nuevaZona');
 Route::post('/nueva-zona-interes', 'InterestAreasController@store');
 Route::post('/get_interest_areas', 'InterestAreasController@getInterestAreas');
+Route::post('/remove_interest_area', 'InterestAreasController@removeInterestArea');
 
 //Route::get('/send_notification/{notification_type}/{usuario_id}/{contacto_favorito_id}',
 //	'UserNotificationsController@sendNotification')->name('enviarNotificacion');

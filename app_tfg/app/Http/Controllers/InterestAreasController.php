@@ -33,7 +33,7 @@ class InterestAreasController extends Controller
 	 * Devuelve las zonas de interés de un usuario
 	 *
 	 * @param Request $request
-	 * @return array
+	 * @return array|string|null
 	 */
     public function getInterestAreas(Request $request) {
 		$session = session('email');
@@ -62,8 +62,23 @@ class InterestAreasController extends Controller
 
 			return array(
 				'interestAreas' => $interestAreas->toJson(),
-				'bounds' => json_encode($bounds)
+				'bounds' => json_encode($bounds),
+				'empty' => empty($interestAreas->toArray())
 			);
+		}
+		return null;
+	}
+
+	public function removeInterestArea(Request $request){
+		$session = session('email');
+
+		if(isset($session) && !is_null($request['idIntArea'])) {
+			$user = User::where('email', $session)->first();
+
+			$interestAreas = ZonasInteres::where('usuario_id', $user['id'])
+				->where('id', $request['idIntArea'])->delete();
+
+			return "success";
 		}
 		return null;
 	}

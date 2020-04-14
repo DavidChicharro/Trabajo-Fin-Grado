@@ -71,12 +71,7 @@ a.icon:hover {
 }
 
 /* fake link */
-.sp-as-lk {
-    color: var(--k-blue);
-    cursor: pointer;
-}
-
-.li-as-lk {
+.sp-as-lk, .li-as-lk, .img-as-lk {
     color: var(--k-blue);
     cursor: pointer;
 }
@@ -183,6 +178,12 @@ a.icon:hover {
 .incident {
     border: 1px solid #dddddd;
     border-radius: 10px;
+}
+
+.no-interest-area {
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+    height: 60px;
 }
 
 .req-icon {
