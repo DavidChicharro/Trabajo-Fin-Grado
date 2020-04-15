@@ -30,7 +30,7 @@ Route::get('/nuevo-incidente','IncidentsController@create')->name('nuevoIncident
 Route::post('/nuevo-incidente','IncidentsController@store');
 Route::get('/get_delitos','IncidentsController@getDelitos');
 
-Route::get('/mis-publicaciones-incidentes', 'IncidentsController@incidentesSubidos');
+Route::get('/mis-publicaciones-incidentes', 'IncidentsController@incidentesSubidos')->name('incidentesSubidos');
 
 Route::post('/ajax','AjaxController@index');
 Route::get('/ajax_config', 'AjaxController@getConfigParams');

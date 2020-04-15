@@ -33,7 +33,7 @@
 		<input type="submit" value="Filtrar" class="form-button">
 		</form>
 
-		<a class="btn-add-incidcente mt-4" href="/nuevo-incidente">Añadir incidente</a>
+		<a class="btn-add-incidcente mt-4" href="{{route('nuevoIncidente')}}">Añadir incidente</a>
 	</div>
 @endsection
 
@@ -41,8 +41,8 @@
 	<h2>Lista de incidentes</h2>
 	<section class="main-content mx-1">
 		<div class="my-3">
-			<a href="/mis-publicaciones-incidentes">Mis publicaciones de incidentes</a>
-			<a class="float-right" href="/mapa-incidentes">Ver mapa</a>
+			<a href="{{route('incidentesSubidos')}}">Mis publicaciones de incidentes</a>
+			<a class="float-right" href="{{route('mapaIncidentes')}}">Ver mapa</a>
 		</div>
 
 		<div class="incidents">
@@ -79,8 +79,6 @@
 @endsection
 
 @section('scripts')
-{{--	<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>--}}
-
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 	<script>
