@@ -42,6 +42,8 @@ Route::get('/contactos-favoritos','FavContactsController@contactosFavoritos')->n
 Route::get('/nuevo-contacto-favorito', 'FavContactsController@nuevoContacto')->name('nuevoContacto');
 Route::post('/buscar_contacto', 'FavContactsController@buscarContacto');
 Route::post('/add_fav_contact', 'FavContactsController@addContacto');
+Route::post('/delete_reject_fav_contact', 'FavContactsController@removeRejectContact');
+Route::post('/accept_favourite_contact', 'FavContactsController@acceptContact');
 
 /* *********** ZONAS DE INTERÉS *********** */
 Route::get('/zonas-interes', 'InterestAreasController@zonasInteres')->name('zonasInteres');
@@ -52,8 +54,7 @@ Route::post('/remove_interest_area', 'InterestAreasController@removeInterestArea
 
 //Route::get('/send_notification/{notification_type}/{usuario_id}/{contacto_favorito_id}',
 //	'UserNotificationsController@sendNotification')->name('enviarNotificacion');
-Route::post('/accept_favourite_contact', 'FavContactsController@aceptarContacto');
-Route::post('/reject_favourite_contact', 'FavContactsController@rechazarContacto');
+//Route::post('/reject_favourite_contact', 'FavContactsController@rechazarContacto');
 Route::post('/mark_notification_as_read', 'UserNotificationsController@markNotificationAsRead');
 
 // Administración

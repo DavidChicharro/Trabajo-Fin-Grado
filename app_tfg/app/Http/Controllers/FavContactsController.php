@@ -94,8 +94,13 @@ class FavContactsController extends Controller
 		return "";
 	}
 
+	/**
+	 * Petición para ser contacto favorito
+	 *
+	 * @param Request $request
+	 */
 	public function addContacto(Request $request) {
-		if(isset($request['userId'])) {
+		if(!is_null($request['userId'])) {
 			$user = User::where('email', session('email'))->first();
 			$contact = User::where('id', $request['userId'])->first();
 
@@ -104,7 +109,18 @@ class FavContactsController extends Controller
 				'contacto_favorito_id' => $contact['id']
 			);
 
-			ContactosFavoritos::create($input);
+			if(!is_null($request['petition'])) {
+				if ($request['petition'] == "false") {
+					ContactosFavoritos::create($input);
+				} else {
+					$favContact = ContactosFavoritos::where('usuario_id', $user['id'])
+						->where('contacto_favorito_id', $contact['id'])
+						->first();
+
+					$favContact['son_contactos'] = 0;
+					$favContact->save();
+				}
+			}
 
 			//Crear notificación
 			$notification = array_merge(array('notification_type'=>'befavcontact'), $input);
@@ -112,7 +128,42 @@ class FavContactsController extends Controller
 		}
 	}
 
-	public function aceptarContacto(Request $request) {
+	/**
+	 * Eliminar o rechazar un contacto favorito. En ambos casos se
+	 * mantiene la relación pero cambian dos entradas para reflejarlo
+	 *
+	 * @param Request $request
+	 * @return string|null
+	 */
+	public function removeRejectContact(Request $request) {
+		$session = session('email');
+
+		if( isset($session)) {
+			$user = User::where('email', $session)->first();
+
+			if(isset($request['contactId'])) { // rechazar
+				$contact = $request['contactId'];
+				$favContactUser = $user['id'];
+			}elseif ($request['userId']){ // eliminar
+				$contact = $user['id'];
+				$favContactUser = $request['userId'];
+			}
+
+			$favContact = ContactosFavoritos::where('usuario_id', $contact)
+				->where('contacto_favorito_id', $favContactUser)
+				->first();
+
+			$favContact['son_contactos'] = 2;
+			$favContact['contador'] = $favContact['contador'] + 1;
+			$favContact->save();
+
+			return "success";
+		}
+		return null;
+	}
+	
+
+	public function acceptContact(Request $request) {
     	if($request['userId']!=null && $request['favContactId']!=null) {
     		$usersRelation = ContactosFavoritos::where('usuario_id', $request['userId'])
 				->where('contacto_favorito_id', $request['favContactId'])->first();
@@ -124,23 +175,6 @@ class FavContactsController extends Controller
 				return "success";
 			}
 		}
-
-    	return null;
-	}
-
-	public function rechazarContacto(Request $request) {
-    	if($request['userId']!=null && $request['favContactId']!=null) {
-    		$usersRelation = ContactosFavoritos::where('usuario_id', $request['userId'])
-				->where('contacto_favorito_id', $request['favContactId'])->first();
-
-    		$contador = $usersRelation['contador'];
-
-			$usersRelation['contador'] = $contador+1;
-			$usersRelation->save();
-
-			return "success";
-		}
-
     	return null;
 	}
 }

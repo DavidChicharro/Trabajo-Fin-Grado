@@ -27,7 +27,7 @@
 									<td>
 										<p class="">Teléfono: {{$contact['telefono']}}</p>
 										<p class="">Email: {{$contact['email']}}</p>
-										<span class="sp-as-lk text-k-red">
+										<span class="sp-as-lk text-k-red" id="delete-fav-contact-{{$contact['fav_contact_id']}}">
 											Eliminar contacto favorito
 											<img class="img-fluid" src="{{asset('images/icons/papelera.svg')}}" width="25px">
 										</span>

@@ -163,9 +163,9 @@ class UsersController extends Controller {
 						]);
 				}
 				session(['email' => $request['email']]);
-				/** ------------------------------------------------------ **/
+				/** ------------------------- todo ----------------------------- **/
 				/* ----- ¡MODIFICAR EMAIL EN CASCADA EN OTRAS TABLAS! ----- */
-				/** ------------------------------------------------------ **/
+				/** ------------------------- todo ----------------------------- **/
 			}
 			// Si modifica el teléfono
 			$userTlf = $user['telefono'];

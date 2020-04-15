@@ -35,12 +35,15 @@ function showSearchContact(response) {
         } else {
             let postContent = "";
             if(response.is_fav === 0)
-                postContent = '<span class="h6 text-muted ml-3 mt-1 border rounded p-1">Solicitud enviada</span>';
-            else
-                postContent = '<span class="h2 my-auto" data-toggle="tooltip" data-placement="right" '+
+                postContent = '<span class="h6 float-left text-muted ml-3 mt-1 border rounded p-1">Solicitud enviada</span>';
+            else if(response.is_fav === 1)
+                postContent = '<span class="h2 float-left my-auto" data-toggle="tooltip" data-placement="right" '+
                     'title="Ya es tu contacto favorito">  &#10003;</span>';
+            else
+                postContent = '<img src="' + addContactIcon + '" id="readd-fav-contact-' + response.id +
+                    '" class="ml-3 float-left icon-pointer" width="35px">';
 
-            content = '<span class="h4 p-1">' + response.name + '</span>' + postContent;
+            content = '<span class="h4 float-left p-1">' + response.name + '</span>' + postContent;
         }
     }else{
         content = '<p class="h6 p-2">No se han encontrado usuarios</p>';
@@ -49,8 +52,10 @@ function showSearchContact(response) {
     $('#contacts').html(content);
 }
 
+// Añadir un nuevo contacto
 $(document).on("click","[id*=add-fav-contact-]", function () {
     let userId = $(this).attr('id').split('-')[3];
+    let notFirstPetition = ($(this).attr('id').split('-')[0] === 'readd');
     let elem = $(this);
 
     $.ajaxSetup({
@@ -61,7 +66,8 @@ $(document).on("click","[id*=add-fav-contact-]", function () {
     $.ajax({
         url: '/add_fav_contact',
         data: {
-            'userId': userId
+            'userId': userId,
+            'petition': notFirstPetition
         },
         type: 'post',
         success: function (response) {
@@ -91,6 +97,33 @@ $("#btn-search-contact").click(function() {
         type: 'post',
         success: function (response) {
             showSearchContact(response);
+        },
+        statusCode: {
+            404: function () {
+                alert('web not found');
+            }
+        },
+    });
+});
+
+// Eliminar un contacto favorito
+$(document).on("click","[id*=delete-fav-contact-]", function () {
+    let userId = $(this).attr('id').split('-')[3];
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: '/delete_reject_fav_contact',
+        data: {
+            'userId': userId
+        },
+        type: 'post',
+        success: function (response) {
+            if(response==="success")
+                location.reload();
         },
         statusCode: {
             404: function () {

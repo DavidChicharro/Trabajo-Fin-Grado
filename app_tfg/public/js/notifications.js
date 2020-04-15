@@ -95,10 +95,10 @@ $(document).on("click","[id*=notfc-]", function () {
         }
     });
     $.ajax({
-        url: '/reject_favourite_contact',
+        url: '/delete_reject_fav_contact',
         data: {
-            'userId': splitId[1],
-            'favContactId': splitId[2]
+            'contactId': splitId[1],
+            'senderUserId': splitId[2]
         },
         type: 'post',
         success: function (response) {
