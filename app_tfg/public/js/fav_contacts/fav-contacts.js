@@ -108,7 +108,16 @@ $("#btn-search-contact").click(function() {
 
 // Eliminar un contacto favorito
 $(document).on("click","[id*=delete-fav-contact-]", function () {
-    let userId = $(this).attr('id').split('-')[3];
+    let swapContent = false;
+    let splittedId = $(this).attr('id').split('-');
+    let userId = "";
+
+    // Si un usuario se elimina como contacto favorito
+    if(splittedId[0] === 'i') {
+        userId = splittedId[4];
+        swapContent = true;
+    }else
+        userId = splittedId[3];
 
     $.ajaxSetup({
         headers: {
@@ -118,7 +127,8 @@ $(document).on("click","[id*=delete-fav-contact-]", function () {
     $.ajax({
         url: '/delete_reject_fav_contact',
         data: {
-            'userId': userId
+            'userId': userId,
+            'swap': swapContent
         },
         type: 'post',
         success: function (response) {

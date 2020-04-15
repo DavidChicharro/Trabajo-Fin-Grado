@@ -141,12 +141,16 @@ class FavContactsController extends Controller
 		if( isset($session)) {
 			$user = User::where('email', $session)->first();
 
-			if(isset($request['contactId'])) { // rechazar
+			if(isset($request['contactId'])) { // Si se rechaza la petición para ser contacto favorito
 				$contact = $request['contactId'];
 				$favContactUser = $user['id'];
-			}elseif ($request['userId']){ // eliminar
+			}elseif ($request['userId']){ // Si se elimina un contacto favorito
 				$contact = $user['id'];
 				$favContactUser = $request['userId'];
+
+				// Si un usuario se elimina como contacto favorito
+				if($request['swap'] == "true")
+					[$contact, $favContactUser] = [$favContactUser, $contact];
 			}
 
 			$favContact = ContactosFavoritos::where('usuario_id', $contact)
@@ -161,7 +165,7 @@ class FavContactsController extends Controller
 		}
 		return null;
 	}
-	
+
 
 	public function acceptContact(Request $request) {
     	if($request['userId']!=null && $request['favContactId']!=null) {
@@ -176,5 +180,35 @@ class FavContactsController extends Controller
 			}
 		}
     	return null;
+	}
+
+	public function whoseContactIm() {
+		$session = session('email');
+
+		if(isset($session)) {
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
+			$notifications = $user->unreadNotifications;
+
+			$data = ContactosFavoritos::where('contacto_favorito_id',$user['id'])
+				->join('users', 'son_contactos_favoritos.usuario_id', '=', 'users.id')
+				->get()->toArray();
+
+			$contacts = [];
+			if(!empty($data)){
+				foreach ($data as $key => $favContact){
+					if($favContact['son_contactos'] == 1){
+						$contacts[$key]['nombre'] = $favContact['nombre']." ".$favContact['apellidos'];
+						$contacts[$key]['fav_contact_id'] = $favContact['id'];
+						$contacts[$key]['email'] = $favContact['email'];
+						$contacts[$key]['telefono'] = $favContact['telefono'];
+					}
+				}
+			}
+
+			$result = compact(['username', 'notifications', 'contacts']);
+			return view('fav_contacts.whose-favc-im', $result);
+		}
+		return redirect()->route('index');
 	}
 }

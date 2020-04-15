@@ -46,7 +46,19 @@
 
 
 		<div class="contacts-menu col-4 p-1">
-			<a class="btn-add-contacto mt-4" href="/nuevo-contacto-favorito">Añadir contacto favorito</a>
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<a class="btn-add-contacto nav-link" href="{{route('nuevoContacto')}}">Añadir contacto favorito</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="fc nav-link p-0" href="{{route('deQuienSoyContacto')}}">De quién soy contacto favorito</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="fc nav-link p-0" href="#">Ordenar contactos</a>
+				</li>
+			</ul>
 		</div>
 	</section>
 

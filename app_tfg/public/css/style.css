@@ -20,6 +20,16 @@ main h2, main h5{
     margin: auto;
 }
 
+.fc.nav-link {
+    color: var(--k-blue);
+    background-color: white;
+}
+.fc.nav-link:hover {
+    color: var(--k-blue);
+    background-color: white;
+    text-decoration: underline;
+}
+
 .nav-link{
     color: var(--k-dark-blue);
     background-color: var(--k-blue-op25);
