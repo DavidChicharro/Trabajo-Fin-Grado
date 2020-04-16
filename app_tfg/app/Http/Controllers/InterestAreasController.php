@@ -96,10 +96,9 @@ class InterestAreasController extends Controller
 
 			$numInteresAreasUser = ZonasInteres::where('usuario_id', $user['id'])->count();
 			if($numInteresAreasUser >= $config['zonas_max'])
-				return redirect()->back()
-					->with([
-						'error'=>'¡Tienes el número máximo de zonas de interés permitidas!'
-					]);
+				return redirect()->back()->with([
+					'error'=>'¡Tienes el número máximo de zonas de interés permitidas!'
+				]);
 
 			$result = compact(['username', 'notifications', 'config']);
 			return view('interest_areas.new-area', $result);

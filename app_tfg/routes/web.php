@@ -39,6 +39,9 @@ Route::post('/ajax_config', 'AjaxController@setConfigParams');
 
 /* ********** CONTACTOS FAVORITOS ********** */
 Route::get('/contactos-favoritos','FavContactsController@contactosFavoritos')->name('contactosFavoritos');
+Route::get('/ordenar-contactos-favoritos','FavContactsController@ordenarContactosFavoritos')
+	->name('ordenarContactosFavoritos');
+Route::post('/ordenar-contactos-favoritos','FavContactsController@updateContactsOrder');
 Route::get('/nuevo-contacto-favorito', 'FavContactsController@nuevoContacto')->name('nuevoContacto');
 Route::get('/de-quien-soy-contacto', 'FavContactsController@whoseContactIm')->name('deQuienSoyContacto');
 Route::post('/buscar_contacto', 'FavContactsController@buscarContacto');

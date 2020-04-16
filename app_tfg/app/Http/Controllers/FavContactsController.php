@@ -8,6 +8,32 @@ use Illuminate\Http\Request;
 
 class FavContactsController extends Controller
 {
+	private function getFavouriteContacts($userId) {
+		$data = ContactosFavoritos::where('usuario_id',$userId)
+			->join('users', 'son_contactos_favoritos.contacto_favorito_id', '=', 'users.id')
+			->orderBy('orden')
+			->get()->toArray();
+
+		$contacts = [];
+		if(!empty($data)){
+
+			$order = 1;
+			foreach ($data as $key => $favContact){
+				if($favContact['son_contactos'] == 1){
+					$contacts[$key]['orden_real'] = $favContact['orden'];
+					$contacts[$key]['orden_vista'] = $order;
+					$contacts[$key]['nombre'] = $favContact['nombre']." ".$favContact['apellidos'];
+					$contacts[$key]['fav_contact_id'] = $favContact['id'];
+					$contacts[$key]['email'] = $favContact['email'];
+					$contacts[$key]['telefono'] = $favContact['telefono'];
+				}
+				$order++;
+			}
+		}
+
+		return $contacts;
+	}
+
     public function contactosFavoritos() {
 		$session = session('email');
 
@@ -16,33 +42,53 @@ class FavContactsController extends Controller
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
 
-			$data = ContactosFavoritos::where('usuario_id',$user['id'])
-				->join('users', 'son_contactos_favoritos.contacto_favorito_id', '=', 'users.id')
-				->orderBy('orden')
-				->get()->toArray();
-
-//			dd($data);
-			$contacts = [];
-			if(!empty($data)){
-				$order = 1;
-				foreach ($data as $key => $favContact){
-					if($favContact['son_contactos'] == 1){
-						$contacts[$key]['orden_real'] = $favContact['orden'];
-						$contacts[$key]['orden_vista'] = $order;
-						$contacts[$key]['nombre'] = $favContact['nombre']." ".$favContact['apellidos'];
-						$contacts[$key]['fav_contact_id'] = $favContact['id'];
-						$contacts[$key]['email'] = $favContact['email'];
-						$contacts[$key]['telefono'] = $favContact['telefono'];
-					}
-					$order++;
-				}
-//				dd($contacts);
-			}
+			$contacts = $this->getFavouriteContacts($user['id']);
 
 			$result = compact(['username', 'notifications', 'contacts']);
 			return view('fav_contacts.contacts', $result);
 		}
 		return redirect()->route('index');
+	}
+
+	public function ordenarContactosFavoritos() {
+		$session = session('email');
+
+		if(isset($session)) {
+			$user = User::where('email', $session)->first();
+			$username = $user['nombre'];
+			$notifications = $user->unreadNotifications;
+
+			$contacts = $this->getFavouriteContacts($user['id']);
+
+			if(count($contacts) < 2)
+				return redirect()->back()->with([
+					'error'=>'¡No tienes contactos favorito suficientes para ordenar!'
+				]);
+
+			$result = compact(['username', 'notifications', 'contacts']);
+			return view('fav_contacts.order-contacts', $result);
+		}
+		return redirect()->route('index');
+	}
+
+	public function updateContactsOrder(Request $request) {
+		$session = session('email');
+
+		if(isset($session)) {
+			$user = User::where('email', $session)->first();
+
+			if(!is_null($request['order'])){
+				foreach ($request['order'] as $ord => $contact) {
+					$contacts = ContactosFavoritos::where('usuario_id', $user['id'])
+						->where('contacto_favorito_id', $contact)->first();
+
+					$contacts['orden'] = $ord+1;
+					$contacts->save();
+				}
+				return "success";
+			}
+		}
+		return null;
 	}
 
 	public function nuevoContacto() {

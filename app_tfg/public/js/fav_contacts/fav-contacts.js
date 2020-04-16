@@ -142,3 +142,41 @@ $(document).on("click","[id*=delete-fav-contact-]", function () {
         },
     });
 });
+
+$("#sortable").sortable({
+    stop: function () {
+        let cont = 1;
+        $('.order-contact').each(function(){
+            $(this).find('.list-order').html(cont);
+            cont++;
+        });
+    }
+});
+
+$('#btn-sort-contacts').click(function () {
+    let order = $('#sortable').sortable('toArray');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: '/ordenar-contactos-favoritos',
+        data: {
+            'order': order
+        },
+        type: 'post',
+        success: function (response) {
+            if(response==="success"){
+                $('#alert-success').removeClass('d-none');
+            }else{
+                $('#alert-error').removeClass('d-none');
+            }
+        },
+        statusCode: {
+            404: function () {
+                alert('web not found');
+            }
+        },
+    });
+});

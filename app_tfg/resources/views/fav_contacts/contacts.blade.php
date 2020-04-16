@@ -5,6 +5,16 @@
 
 @section('content')
 	<h2>Contactos favoritos</h2>
+
+	@if(Session::has('error'))
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			{{Session::get('error')}}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	@endif
+
 	<section class="main-content mx-1 my-4 row">
 		<div class="contacts col-8">
 			@if(!empty($contacts))
@@ -55,9 +65,11 @@
 					<a class="fc nav-link p-0" href="{{route('deQuienSoyContacto')}}">De quién soy contacto favorito</a>
 				</li>
 
-				<li class="nav-item">
-					<a class="fc nav-link p-0" href="#">Ordenar contactos</a>
-				</li>
+				@if(count($contacts) > 1)
+					<li class="nav-item">
+						<a class="fc nav-link p-0" href="{{route('ordenarContactosFavoritos')}}">Ordenar contactos</a>
+					</li>
+				@endif
 			</ul>
 		</div>
 	</section>

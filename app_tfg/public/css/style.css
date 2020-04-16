@@ -238,6 +238,14 @@ a.icon:hover {
     cursor: pointer;
 }
 
+.order-contact {
+    cursor: move;
+}
+
+.icon-order-contact {
+    width: 25px;
+}
+
 #campana {
     max-width: 70px!important;
 }
