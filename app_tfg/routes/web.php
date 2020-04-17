@@ -7,7 +7,7 @@ Route::post('/', 'UsersController@login');
 
 /* ********** REGISTRO ********** */
 // Route::get('/registro', 'UsersController@registro');
-Route::view('/registro', 'register'); //Devuelvo la vista
+Route::view('/registro', 'register')->name('registro'); //Devuelvo la vista
 Route::post('/registro', 'UsersController@create');
 Route::post('/registro-paso-2', 'UsersController@store');
 // Route::get('/registro-paso-2', 'UsersController@create');  //Devuelvo la vista

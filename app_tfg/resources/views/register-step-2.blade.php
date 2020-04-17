@@ -52,7 +52,7 @@
 
 			<article class="reg-log text-center p-3 mt-2">
 				<span>¿Ya tienes cuenta?</span><br>
-				<a href="/">Inicia sesión</a>
+				<a href="{{route('index')}}">Inicia sesión</a>
 			</article>
 		</section>
 

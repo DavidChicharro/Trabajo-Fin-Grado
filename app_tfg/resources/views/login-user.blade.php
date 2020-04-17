@@ -13,7 +13,7 @@
 
 			<article class="reg-log text-center p-3 mt-2">
 				<span>¿No tienes cuenta?</span><br>
-				<a href="/registro">Regístrate</a>
+				<a href="{{route('registro')}}">Regístrate</a>
 			</article>
 		</section>
 	</div>

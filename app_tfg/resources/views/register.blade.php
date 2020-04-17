@@ -3,7 +3,7 @@
 
 @section('content')
 
-	<a href="/" class="mx-auto">
+	<a href="{{route('index')}}" class="mx-auto">
 		<img class="img-fluid px-4" src="{{asset('images/logo/logo.png')}}" alt="logo" width="400px">
 	</a>
 
@@ -41,7 +41,7 @@
 
 			<article class="reg-log text-center p-3 mt-2">
 				<span>¿Ya tienes cuenta?</span><br>
-				<a href="/">Inicia sesión</a>
+				<a href="{{route('index')}}">Inicia sesión</a>
 			</article>
 		</section>
 
