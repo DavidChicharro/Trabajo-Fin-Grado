@@ -43,6 +43,23 @@
 @section('content')
 	<h2>Mapa de incidentes</h2>
 	<section class="main-content mx-1">
+		<article class="applied-filter my-2 px-2 d-none">
+{{--			@isset($appliedFilter['rango'])--}}
+{{--				<p class="my-0">--}}
+{{--					<b>Intervalo de fecha: </b>--}}
+{{--					@dateFormat($appliedFilter['rango'][0]) ---}}
+{{--					@dateFormat($appliedFilter['rango'][1])--}}
+{{--				</p>--}}
+{{--			@endisset--}}
+{{--			@isset($appliedFilter['delitos'])--}}
+{{--				<p class="my-0"><b>Tipos de incidentes: </b>--}}
+{{--					@foreach($appliedFilter['delitos'] as $del)--}}
+{{--						{{$incidentTypes[$del]}}@if(!$loop->last), @endif--}}
+{{--					@endforeach--}}
+{{--				</p>--}}
+{{--			@endisset--}}
+		</article>
+
 		<div id="mapid" style="height: 500px"></div>
 
 		<div class="my-3">

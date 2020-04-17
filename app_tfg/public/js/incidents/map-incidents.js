@@ -1,3 +1,29 @@
+function dateFormat(date){
+    let spltDate = date.split('-');
+    return spltDate[2]+'/'+spltDate[1]+'/'+spltDate[0];
+}
+
+function showAppliedFilters(appliedFilter, incTypes) {
+    let dateFilter = '';
+    let delFilter = '';
+
+    if(typeof appliedFilter.rango !== 'undefined') {
+        let rango = dateFormat(appliedFilter.rango[0]) + ' - ' + dateFormat(appliedFilter.rango[1]);
+        dateFilter = '<p class="my-0"><b>Intervalo de fecha: </b>'+ rango + '</p>';
+    }
+
+    if(typeof appliedFilter.delitos !== 'undefined') {
+        let delitos = '';
+        $.each(appliedFilter.delitos, function(index, value){
+            delitos += incTypes[value];
+            if(index !== (appliedFilter.delitos.length - 1))
+                delitos += ", ";
+        });
+        delFilter = '<p class="my-0"><b>Tipos de incidentes: </b>'+ delitos + '</p>';
+    }
+    return dateFilter + delFilter;
+}
+
 function getIncidents(bounds, delitTypes=[], dateFrom="", dateTo="") {
     let mapLimits = bounds.split(',');
     $.ajaxSetup({
@@ -15,8 +41,8 @@ function getIncidents(bounds, delitTypes=[], dateFrom="", dateTo="") {
         },
         type: 'post',
         success: function (response) {
-            // console.log(response);
-            let result = JSON.parse(response);
+            let jsonResponse = JSON.parse(response);
+            let result = jsonResponse.incidents;
             $.each(result, function(index, value){
                 L.marker([value.latitud, value.longitud])
                     .bindPopup('<b>'+value.incidente+'</b>  -  '+
@@ -24,6 +50,12 @@ function getIncidents(bounds, delitTypes=[], dateFrom="", dateTo="") {
                         +'<br>'+value.descripcion)
                     .addTo(incidentsLayerGroup);
             });
+            if(typeof jsonResponse.appliedFilter !== 'undefined') {
+                let apl = showAppliedFilters(jsonResponse.appliedFilter, jsonResponse.incTypes);
+                console.log(apl);
+                $('.applied-filter').removeClass('d-none');
+                $('.applied-filter').html(apl);
+            }
         },
         statusCode: {
             404: function () {

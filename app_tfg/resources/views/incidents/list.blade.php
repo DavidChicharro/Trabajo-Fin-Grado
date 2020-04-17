@@ -45,6 +45,25 @@
 			<a class="float-right" href="{{route('mapaIncidentes')}}">Ver mapa</a>
 		</div>
 
+		@if(!empty($appliedFilter))
+			<article class="applied-filter my-2 px-2">
+				@isset($appliedFilter['rango'])
+				<p class="my-0">
+					<b>Intervalo de fecha: </b>
+					@dateFormat($appliedFilter['rango'][0]) -
+					@dateFormat($appliedFilter['rango'][1])
+				</p>
+				@endisset
+				@isset($appliedFilter['delitos'])
+					<p class="my-0"><b>Tipos de incidentes: </b>
+						@foreach($appliedFilter['delitos'] as $del)
+							{{$incidentTypes[$del]}}@if(!$loop->last), @endif
+						@endforeach
+					</p>
+				@endisset
+			</article>
+		@endif
+
 		<div class="incidents">
 			@if(!empty($incidents))
 				@foreach($incidents as $inc)
