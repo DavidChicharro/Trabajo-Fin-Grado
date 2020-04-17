@@ -132,7 +132,7 @@ class UsersController extends Controller {
 
 		session(['email' => $datos['email']]);
 		return redirect()
-			->route('index')
+			->route('mapaIncidentes')
 			->with('message', '¡Registrado correctamente!');
 	}
 

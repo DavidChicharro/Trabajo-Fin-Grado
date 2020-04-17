@@ -42,23 +42,18 @@
 
 @section('content')
 	<h2>Mapa de incidentes</h2>
+
+	@if(Session::has('message'))
+		<div class="alert alert-primary alert-dismissible fade show" role="alert">
+			{{Session::get('message')}}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	@endif
+
 	<section class="main-content mx-1">
-		<article class="applied-filter my-2 px-2 d-none">
-{{--			@isset($appliedFilter['rango'])--}}
-{{--				<p class="my-0">--}}
-{{--					<b>Intervalo de fecha: </b>--}}
-{{--					@dateFormat($appliedFilter['rango'][0]) ---}}
-{{--					@dateFormat($appliedFilter['rango'][1])--}}
-{{--				</p>--}}
-{{--			@endisset--}}
-{{--			@isset($appliedFilter['delitos'])--}}
-{{--				<p class="my-0"><b>Tipos de incidentes: </b>--}}
-{{--					@foreach($appliedFilter['delitos'] as $del)--}}
-{{--						{{$incidentTypes[$del]}}@if(!$loop->last), @endif--}}
-{{--					@endforeach--}}
-{{--				</p>--}}
-{{--			@endisset--}}
-		</article>
+		<article class="applied-filter my-2 px-2 d-none"></article>
 
 		<div id="mapid" style="height: 500px"></div>
 

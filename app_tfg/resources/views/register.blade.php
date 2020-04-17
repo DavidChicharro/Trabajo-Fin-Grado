@@ -1,5 +1,4 @@
 @extends('layouts.index-base')
-
 @section('title', ' - Registro')
 
 @section('content')
@@ -15,12 +14,12 @@
 			<form method="post" action="{{ Request::url() }}">
 				@csrf
 				<div class="form-group">
-					<label for="email">E-mail</label>
+					<label class="required-input" for="email">E-mail</label>
 					<input type="email" name="email" class="form-control" required>
 				</div>
 
 				<div class="form-group">
-					<label for="password">Contraseña</label>
+					<label class="required-input" for="password">Contraseña</label>
 					<input type="password" name="password" class="form-control" required>
 				</div>
 
@@ -29,7 +28,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="conf_password">Confirmar contraseña</label>
+					<label class="required-input" for="conf_password">Confirmar contraseña</label>
 					<input type="password" name="conf_password" class="form-control" required>
 				</div>
 

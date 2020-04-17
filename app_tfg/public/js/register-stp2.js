@@ -11,7 +11,6 @@ function calcDniLetter(number){
 }
 
 function allowRegisterStp2(input) {
-    // let allowRegisterForm = false;
     switch (input.attr('name')) {
         case 'nombre':
             validName = (input.val().length>1 && input.val().length<255);
@@ -24,6 +23,10 @@ function allowRegisterStp2(input) {
             let dniCtrl = calcDniLetter(dni.substr(0,8));
             let dniRegExp = new RegExp('^[0-9]{8}(-)?['+dniCtrl+','+dniCtrl.toLowerCase()+']$');
             validDNI = dniRegExp.test(dni);
+            if(!validDNI)
+                $('#invalid-dni').show();
+            else
+                $('#invalid-dni').hide();
             break;
         case 'fecha_nacimiento':
             let minDate = new Date(new Date().setFullYear(new Date().getFullYear()-12));
@@ -49,7 +52,6 @@ function checkAllowRegisterStp2(input){
 
 
 $('input').change(function () {
-    // let formParent = $(this).closest("form");
     checkAllowRegisterStp2($(this));
 });
 

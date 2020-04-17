@@ -17,6 +17,11 @@ form label {
 	margin-bottom: 3px;
 }
 
+.required-input::after {
+	color: red;
+	content: " *";
+}
+
 .form-control:focus {
 	color: var(--k-navy-blue)!important;
 	border-color: var(--k-navy-blue)!important;
