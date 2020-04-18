@@ -26,7 +26,7 @@ Route::post('/get_map_incidents', 'IncidentsController@getMapIncidents');
 
 Route::get('/lista-incidentes','IncidentsController@listaIncidentes')->name('listaIncidentes');
 Route::post('/get_incident_details', 'IncidentsController@getIncidentDetails');
-Route::get('/nuevo-incidente','IncidentsController@create')->name('nuevoIncidente');
+Route::get('/nuevo-incidente','IncidentsController@nuevoIncidente')->name('nuevoIncidente');
 Route::post('/nuevo-incidente','IncidentsController@store');
 Route::get('/get_delitos','IncidentsController@getDelitos');
 

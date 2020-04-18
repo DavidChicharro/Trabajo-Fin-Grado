@@ -206,7 +206,7 @@ class IncidentsController extends Controller {
 		return response()->json(array('msg'=>$var, 'incidente'=>$incidente), 200);
 	}
 
-	public function create(Request $request) {
+	public function nuevoIncidente(Request $request) {
 		$session = session('email');
 
 		if(isset($session)) {
@@ -214,18 +214,12 @@ class IncidentsController extends Controller {
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
 
-			$delitos_cat = Delito::groupBy('categoria_delito')
-				->value('categoria_delito');
-
-				//Provisional -> hasta que haya más
-					$delitos = ['contra el honor','contra la verdad'];
-					array_push($delitos, $delitos_cat);
-//			dd($delitos_cat);
+			$delitos = array_keys(Delito::all()->groupBy('categoria_delito')->toArray());
 
 			$result = compact(['delitos', 'username', 'notifications']);
-
 			return view('incidents.new-incident', $result);
 		}
+		return redirect()->route('index');
 	}
 
 	public function store(Request $request) {

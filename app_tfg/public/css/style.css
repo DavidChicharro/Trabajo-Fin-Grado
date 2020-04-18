@@ -190,6 +190,10 @@ a.icon:hover {
     border-radius: 10px;
 }
 
+.dropdown-menu.show {
+    z-index: 1500!important;
+}
+
 .no-interest-area {
     border: 1px solid #dddddd;
     border-radius: 10px;
