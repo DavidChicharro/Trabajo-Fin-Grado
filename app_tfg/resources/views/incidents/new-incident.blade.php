@@ -64,7 +64,7 @@
 
 			<div class="form-group">
 				<label for="lugar">Lugar</label>
-				<input type="text" name="lugar" id="lugar" class="form-control" hidden>
+				<input type="text" name="lugar" id="lugar" class="form-control" required hidden>
 				<input type="text" name="nombre_lugar" id="nombre_lugar" class="form-control" hidden>
 				<div class="map-cursor-pointer my-2" id="mapid" style="height: 400px"></div>
 			</div>

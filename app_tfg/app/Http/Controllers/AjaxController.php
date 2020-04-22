@@ -79,4 +79,19 @@ class AjaxController extends Controller
 			$this->setParams($key,$request['values']);
 		}
 	}
+
+	public function getData(Request $request){
+    	$data = array(
+    		0 => array(
+    			"nombre" => "David",
+				"edad" => 22
+			),
+			1 => array(
+				"nombre" => "Javier",
+				"edad" => 21
+			),
+		);
+
+		return response()->json($data);
+	}
 }

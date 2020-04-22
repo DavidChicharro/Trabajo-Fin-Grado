@@ -78,7 +78,6 @@ class IncidentsController extends Controller {
 	}
 
 	public function getMapIncidents(Request $request) {
-		/** AÑADIR FILTROS **/
 		$req_date = !is_null($request['dateFrom']) && !is_null($request['dateTo']);
 		$req_type = !is_null($request['delitTypes']);
 		$appliedFilter = [];
@@ -147,7 +146,6 @@ class IncidentsController extends Controller {
 		$session = session('email');
 
 		if(isset($session)) {
-			/** -- AÑADIR DATOS PARA DEVOLVER A LA VISTA QUE SE HA REALIZADO UN FILTRO -- */
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -162,23 +160,27 @@ class IncidentsController extends Controller {
 
 				if($req_date && $req_type){
 					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
-					->whereBetween('fecha_hora_incidente',$range_date_delito)
-					->where('oculto', 0)->where('caducado', 0)
-					->paginate($this->numPags);
+						->whereBetween('fecha_hora_incidente',$range_date_delito)
+						->where('oculto', 0)->where('caducado', 0)
+						->orderBy('fecha_hora_incidente', 'desc')
+						->paginate($this->numPags);
 					$appliedFilter = ["delitos" => $range_id_delito, "rango" => $range_date_delito];
 				}elseif ($req_date && !$req_type){
 					$incidents_pag = Incidente::whereBetween('fecha_hora_incidente',$range_date_delito)
 						->where('oculto', 0)->where('caducado', 0)
+						->orderBy('fecha_hora_incidente', 'desc')
 						->paginate($this->numPags);
 					$appliedFilter = ["rango" => $range_date_delito];
 				}else{
 					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
 						->where('oculto', 0)->where('caducado', 0)
+						->orderBy('fecha_hora_incidente', 'desc')
 						->paginate($this->numPags);
 					$appliedFilter = ["delitos" => $range_id_delito];
 				}
 			}else{
 				$incidents_pag = Incidente::where('oculto', 0)->where('caducado', 0)
+					->orderBy('fecha_hora_incidente', 'desc')
 					->paginate($this->numPags);
 			}
 
@@ -192,18 +194,14 @@ class IncidentsController extends Controller {
 	}
 
 	public function getIncidentDetails(Request $request) {
-//    	$d = Delito::orderBy('id','desc')->first();
-//		DB::select("")
-//		dd($request);
-		$input = $request->all();
-		$incident_id = $input['incidentId'];
+		if(isset($request['incidentId'])){
+			$inc = Incidente::where('id', $request['incidentId'])->first();
 
-		$inc = Incidente::where('id',$incident_id)->first();
+			$incidente['descripcion'] = $inc['descripcion_incidente'];
 
-		$incidente['descripcion'] = $inc['descripcion_incidente'];
-
-		$var = "Estoy en el index del controlador de Incidentes - AJAX";
-		return response()->json(array('msg'=>$var, 'incidente'=>$incidente), 200);
+			return response()->json(array('incidente'=>$incidente), 200);
+		}
+		return response()->json(array('msg'=>'error'), 404);
 	}
 
 	public function nuevoIncidente(Request $request) {
@@ -272,11 +270,7 @@ class IncidentsController extends Controller {
 
 	public function getDelitos(Request $request) {
 		if(isset($request['delitos'])){
-//			dd($request['delitos']);
-			$delitos = Delito::whereIn('categoria_delito',$request['delitos'])->get();
-//				->value('categoria_delito');
-//			dd($delitos);
-			return $delitos;
+			return Delito::whereIn('categoria_delito',$request['delitos'])->get();
 		}
 	}
 

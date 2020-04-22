@@ -11,6 +11,9 @@ class Suben extends Model
 	public $timestamps = false;
 
 	protected $fillable = [
-		'usuario_id', 'fecha_hora_sube_incidente', 'delito_id', 'incidente_id'
+		'usuario_id',
+		'fecha_hora_sube_incidente',
+		'delito_id',
+		'incidente_id'
 	];
 }

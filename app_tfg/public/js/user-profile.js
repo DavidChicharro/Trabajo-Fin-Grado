@@ -241,7 +241,6 @@ function getInputValues(id){
             break;
         default:
             break;
-
     }
     return inputValue;
 }
@@ -255,10 +254,14 @@ $("#save-config").click(function () {
         let validPin = pinRegExp.test(inputValue);
     }
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $.ajax({
         url: '/user_config',
         data: {
-            '_token': "{{csrf_token()}}",
             'configId': configId,
             'value': inputValue
         },

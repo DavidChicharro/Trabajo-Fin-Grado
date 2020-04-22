@@ -64,3 +64,7 @@ Route::post('/mark_notification_as_read', 'UserNotificationsController@markNotif
 // Administración
 Route::get('/admin', 'UsersController@admin')->name('admin');
 Route::post('/admin', 'UsersController@login');
+
+
+// Pruebas
+Route::get('/get_data', 'AjaxController@getData');

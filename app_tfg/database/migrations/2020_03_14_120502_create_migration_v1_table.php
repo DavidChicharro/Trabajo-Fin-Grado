@@ -49,6 +49,7 @@ class CreateMigrationV1Table extends Migration
 			$table->decimal('longitud_incidente',8,4);
 			$table->string('nombre_lugar')->nullable();
 			$table->datetime('fecha_hora_incidente');
+			$table->text('descripcion_incidente');
 			$table->tinyInteger('afectado_testigo');
 			$table->string('agravantes')->nullable();
 			$table->tinyInteger('nivel_gravedad')->nullable();
@@ -57,6 +58,7 @@ class CreateMigrationV1Table extends Migration
 			$table->foreign('delito_id')->references('id')->on('delitos');
 			$table->primary(['delito_id','id']);
 		});
+
 		Schema::create('suben', function (Blueprint $table) {
 			$table->unsignedBigInteger('usuario_id');
 			$table->datetime('fecha_hora_sube_incidente')->useCurrent();
@@ -66,6 +68,7 @@ class CreateMigrationV1Table extends Migration
 			$table->foreign(['delito_id','incidente_id'])->references(['delito_id','id'])->on('incidentes');
 			$table->primary(['usuario_id','fecha_hora_sube_incidente']);
 		});
+
 		Schema::create('son_contactos_favoritos', function (Blueprint $table) {
 			$table->unsignedBigInteger('usuario_id');
 			$table->unsignedBigInteger('contacto_favorito_id');
@@ -76,6 +79,7 @@ class CreateMigrationV1Table extends Migration
 			$table->foreign('contacto_favorito_id')->references('id')->on('users');
 			$table->primary(['usuario_id','contacto_favorito_id']);
 		});
+
 		Schema::create('usuarios_zonas_interes', function (Blueprint $table) {
 			$table->bigIncrements('id');
 			$table->unsignedBigInteger('usuario_id');
@@ -84,6 +88,15 @@ class CreateMigrationV1Table extends Migration
 			$table->string('nombre_zona_interes')->nullable();
 			$table->integer('radio_zona_interes');
 			$table->foreign('usuario_id')->references('id')->on('users');
+		});
+
+		Schema::create('notifications', function (Blueprint $table) {
+			$table->uuid('id')->primary();
+			$table->string('type');
+			$table->morphs('notifiable');
+			$table->text('data');
+			$table->timestamp('read_at')->nullable();
+			$table->timestamps();
 		});
     }
 

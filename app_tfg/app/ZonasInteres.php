@@ -11,7 +11,12 @@ class ZonasInteres extends Model
 	public $timestamps = false;
 
 	protected $fillable = [
-		'id', 'usuario_id', 'latitud_zona_interes', 'longitud_zona_interes', 'nombre_zona_interes', 'radio_zona_interes'
+		'id',
+		'usuario_id',
+		'latitud_zona_interes',
+		'longitud_zona_interes',
+		'nombre_zona_interes',
+		'radio_zona_interes'
 	];
 
 }
