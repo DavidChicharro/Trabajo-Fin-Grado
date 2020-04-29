@@ -30,7 +30,7 @@ class IncidentsController extends Controller {
 			(isset($lugar['address']['county'])?" (".$lugar['address']['county'].")":"");
 	}*/
 
-	private function getIncidentsTypes() {
+	public function getIncidentsTypes() {
 		$groupIncidents = Delito::all()->groupBy('id')->toArray();
 		$incidentTypes = array();
 		foreach ($groupIncidents as $id => $incident){

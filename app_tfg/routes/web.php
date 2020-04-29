@@ -68,3 +68,7 @@ Route::post('/admin', 'UsersController@login');
 
 // Pruebas
 Route::get('/get_data', 'AjaxController@getData');
+
+// API
+Route::get('/login_api', 'API\UsersController@login');
+Route::get('/api/get_list_incidents', 'API\IncidentsController@getList');
