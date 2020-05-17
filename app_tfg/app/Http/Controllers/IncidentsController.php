@@ -274,6 +274,24 @@ class IncidentsController extends Controller {
 		}
 	}
 
+	public function getUploadedIncidents($userId) {
+		$uploaded = Suben::all()->where('usuario_id', $userId);
+
+		$range_incidents = array();
+		$date_upload = array();
+		foreach ($uploaded as $up) {
+			array_push($range_incidents, $up['incidente_id']);
+			$date_upload[$up['incidente_id']] = $up['fecha_hora_sube_incidente'];
+		}
+
+		$incidents = Incidente::whereIn('id',$range_incidents);
+//			->paginate($this->numPags);
+
+		return compact(['incidents', 'date_upload']);
+		/*$incidentTypes = $this->getIncidentsTypes();
+		$incidents = $this->getListIncidents($incidents_pag, $incidentTypes, $date_upload);*/
+	}
+
 	public function incidentesSubidos(Request $request) {
 		$session = session('email');
 
@@ -282,7 +300,7 @@ class IncidentsController extends Controller {
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
 
-			$uploaded = Suben::all()->where('usuario_id', $user['id']);
+			/*$uploaded = Suben::all()->where('usuario_id', $user['id']);
 
 			$range_incidents = array();
 			$date_upload = array();
@@ -292,7 +310,11 @@ class IncidentsController extends Controller {
 			}
 
 			$incidents_pag = Incidente::whereIn('id',$range_incidents)
-				->paginate($this->numPags);
+				->paginate($this->numPags);*/
+
+			$uploaded = $this->getUploadedIncidents($user['id']);
+			$incidents_pag = $uploaded['incidents']->paginate($this->numPags);
+			$date_upload = $uploaded['date_upload'];
 
 			$incidentTypes = $this->getIncidentsTypes();
 			$incidents = $this->getListIncidents($incidents_pag, $incidentTypes, $date_upload);

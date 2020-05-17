@@ -71,4 +71,21 @@ Route::get('/get_data', 'AjaxController@getData');
 
 // API
 Route::get('/login_api', 'API\UsersController@login');
+Route::get('/api/check_user', 'API\UsersController@create');
+Route::get('/api/regist_user', 'API\UsersController@store');
+Route::get('/api/update_user', 'API\UsersController@update');
+Route::get('/api/update_pass', 'API\UsersController@updatePass');
+Route::get('/api/get_user_data', 'API\UsersController@getUserData');
+Route::get('/api/get_config', 'API\UsersController@getUserConfig');
+Route::get('/api/set_config', 'API\UsersController@setUserConfig');
+/*Route::get('/api/csrf', function() {
+	return csrf_token();
+});*/
+
 Route::get('/api/get_list_incidents', 'API\IncidentsController@getList');
+Route::get('/api/get_map_incidents', 'API\IncidentsController@getMapIncidents');
+Route::get('/api/get_uploaded_incidents', 'API\IncidentsController@getUploadedIncidentsByUser');
+Route::get('/api/get_delitos', 'API\IncidentsController@getDelitos');
+Route::get('/api/store_incident', 'API\IncidentsController@store');
+
+Route::post('/api/test', 'API\IncidentsController@test');
