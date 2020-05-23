@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 
 class FavContactsController extends Controller
 {
-	private function getFavouriteContacts($userId) {
-		$data = ContactosFavoritos::where('usuario_id',$userId)
+	public function getFavouriteContacts($userId) {
+		$data = ContactosFavoritos::where('usuario_id', $userId)
 			->join('users', 'son_contactos_favoritos.contacto_favorito_id', '=', 'users.id')
 			->orderBy('orden')
 			->get()->toArray();
@@ -53,7 +53,7 @@ class FavContactsController extends Controller
 	public function ordenarContactosFavoritos() {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -71,20 +71,31 @@ class FavContactsController extends Controller
 		return redirect()->route('index');
 	}
 
+	public function setContactsOrder($contacts, $userId) {
+		foreach ($contacts as $ord => $contactId) {
+			$contact = ContactosFavoritos::where('usuario_id', $userId)
+				->where('contacto_favorito_id', $contactId)->first();
+
+			$contact['orden'] = $ord+1;
+			$contact->save();
+		}
+	}
+
 	public function updateContactsOrder(Request $request) {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 
-			if(!is_null($request['order'])){
-				foreach ($request['order'] as $ord => $contact) {
-					$contacts = ContactosFavoritos::where('usuario_id', $user['id'])
-						->where('contacto_favorito_id', $contact)->first();
+			if (!is_null($request['order'])) {
+				$this->setContactsOrder($request['order'], $user['id']);
+				/*foreach ($request['order'] as $ord => $contactId) {
+					$contact = ContactosFavoritos::where('usuario_id', $user['id'])
+						->where('contacto_favorito_id', $contactId)->first();
 
-					$contacts['orden'] = $ord+1;
-					$contacts->save();
-				}
+					$contact['orden'] = $ord+1;
+					$contact->save();
+				}*/
 				return "success";
 			}
 		}
@@ -184,13 +195,13 @@ class FavContactsController extends Controller
 	public function removeRejectContact(Request $request) {
 		$session = session('email');
 
-		if( isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 
-			if(isset($request['contactId'])) { // Si se rechaza la petición para ser contacto favorito
+			if (isset($request['contactId'])) { // Si se rechaza la petición para ser contacto favorito
 				$contact = $request['contactId'];
 				$favContactUser = $user['id'];
-			}elseif ($request['userId']){ // Si se elimina un contacto favorito
+			}elseif (isset($request['userId'])){ // Si se elimina un contacto favorito
 				$contact = $user['id'];
 				$favContactUser = $request['userId'];
 

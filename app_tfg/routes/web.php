@@ -88,4 +88,13 @@ Route::get('/api/get_uploaded_incidents', 'API\IncidentsController@getUploadedIn
 Route::get('/api/get_delitos', 'API\IncidentsController@getDelitos');
 Route::get('/api/store_incident', 'API\IncidentsController@store');
 
+Route::get('/api/get_interest_areas', 'API\InterestAreasController@getInterestAreas');
+Route::get('/api/new_area', 'API\InterestAreasController@newArea');
+Route::get('/api/store_interest_area', 'API\InterestAreasController@store');
+
+Route::get('/api/get_fav_contacts','API\FavContactsController@getFavContacts');
+Route::get('/api/remove_reject_contact','API\FavContactsController@removeRejectContact');
+Route::get('/api/update_contacts_order','API\FavContactsController@updateContactsOrder');
+
+
 Route::post('/api/test', 'API\IncidentsController@test');

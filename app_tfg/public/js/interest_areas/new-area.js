@@ -48,7 +48,7 @@ mymap.on('click', function (e) {
     });
 
     L.marker(latLng).addTo(areaLayerGroup);
-    radius = L.circle(latLng, parseInt($('#radio_zona_int').val()), {color: "red"}).addTo(areaLayerGroup);;
+    radius = L.circle(latLng, parseInt($('#radio_zona_int').val()), {color: "red"}).addTo(areaLayerGroup);
 
     if($('#slider-radio').is(":hidden")){
         $('#slider-radio').removeAttr('hidden');

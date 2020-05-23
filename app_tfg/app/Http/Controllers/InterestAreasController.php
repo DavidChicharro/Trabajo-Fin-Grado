@@ -29,6 +29,29 @@ class InterestAreasController extends Controller
 		return redirect()->route('index');
 	}
 
+	public static function getUserInterestAreas($userId) {
+		$interestAreas = ZonasInteres::where('usuario_id', $userId)->get();
+
+		$bounds = array(
+			'north' => "-90",
+			'east' => "-180",
+			'south' => "90",
+			'west' => "180"
+		);
+		foreach ($interestAreas as $area){
+			if($area['latitud_zona_interes']>$bounds['north'])
+				$bounds['north'] = $area['latitud_zona_interes'];
+			if($area['latitud_zona_interes']<$bounds['south'])
+				$bounds['south'] = $area['latitud_zona_interes'];
+			if($area['longitud_zona_interes']>$bounds['east'])
+				$bounds['east'] = $area['longitud_zona_interes'];
+			if($area['longitud_zona_interes']<$bounds['west'])
+				$bounds['west'] = $area['longitud_zona_interes'];
+		}
+
+		return compact(['interestAreas', 'bounds']);
+	}
+
 	/**
 	 * Devuelve las zonas de interés de un usuario
 	 *
@@ -38,33 +61,19 @@ class InterestAreasController extends Controller
     public function getInterestAreas(Request $request) {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
+			if(!is_null($user)) {
+				$resInterestAreas = $this->getUserInterestAreas($user['id']);
+				$interestAreas = $resInterestAreas['interestAreas'];
+				$bounds = $resInterestAreas['bounds'];
 
-			$interestAreas = ZonasInteres::where('usuario_id', $user['id'])->get();
-
-			$bounds = array(
-				'north' => "-90",
-				'east' => "-180",
-				'south' => "90",
-				'west' => "180"
-			);
-			foreach ($interestAreas as $area){
-				if($area['latitud_zona_interes']>$bounds['north'])
-					$bounds['north'] = $area['latitud_zona_interes'];
-				if($area['latitud_zona_interes']<$bounds['south'])
-					$bounds['south'] = $area['latitud_zona_interes'];
-				if($area['longitud_zona_interes']>$bounds['east'])
-					$bounds['east'] = $area['longitud_zona_interes'];
-				if($area['longitud_zona_interes']<$bounds['west'])
-					$bounds['west'] = $area['longitud_zona_interes'];
+				return array(
+					'interestAreas' => $interestAreas->toJson(),
+					'bounds' => json_encode($bounds),
+					'empty' => empty($interestAreas->toArray())
+				);
 			}
-
-			return array(
-				'interestAreas' => $interestAreas->toJson(),
-				'bounds' => json_encode($bounds),
-				'empty' => empty($interestAreas->toArray())
-			);
 		}
 		return null;
 	}
@@ -86,7 +95,7 @@ class InterestAreasController extends Controller
 	public function nuevaZonaInteres() {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -97,7 +106,7 @@ class InterestAreasController extends Controller
 			$numInteresAreasUser = ZonasInteres::where('usuario_id', $user['id'])->count();
 			if($numInteresAreasUser >= $config['zonas_max'])
 				return redirect()->back()->with([
-					'error'=>'¡Tienes el número máximo de zonas de interés permitidas!'
+					'error'=> '¡Tienes el número máximo de zonas de interés permitidas!'
 				]);
 
 			$result = compact(['username', 'notifications', 'config']);
