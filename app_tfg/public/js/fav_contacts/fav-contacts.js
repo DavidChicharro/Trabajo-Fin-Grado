@@ -22,11 +22,11 @@ $(".view-more").click(function() {
 
 function showSearchContact(response) {
     console.log(response);
-    if($('#contacts').hasClass('d-none'))
+    if ($('#contacts').hasClass('d-none'))
         $('#contacts').removeClass('d-none');
 
     let content = "";
-    if(response !== "") {
+    if (response !== "") {
         if (response.is_fav === false) {
             content = '<h4 class="float-left p-1">' + response.name + '</h4>' +
                 '<img src="' + addContactIcon + '" id="add-fav-contact-' + response.id +
@@ -45,7 +45,7 @@ function showSearchContact(response) {
 
             content = '<span class="h4 float-left p-1">' + response.name + '</span>' + postContent;
         }
-    }else{
+    } else {
         content = '<p class="h6 p-2">No se han encontrado usuarios</p>';
     }
 

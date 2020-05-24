@@ -93,6 +93,9 @@ Route::get('/api/new_area', 'API\InterestAreasController@newArea');
 Route::get('/api/store_interest_area', 'API\InterestAreasController@store');
 
 Route::get('/api/get_fav_contacts','API\FavContactsController@getFavContacts');
+Route::get('/api/search_contact','API\FavContactsController@searchContact');
+Route::get('/api/add_contact','API\FavContactsController@addContact');
+Route::get('/api/get_whose_contact_im','API\FavContactsController@whoseContactIm');
 Route::get('/api/remove_reject_contact','API\FavContactsController@removeRejectContact');
 Route::get('/api/update_contacts_order','API\FavContactsController@updateContactsOrder');
 

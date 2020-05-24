@@ -26,8 +26,8 @@ class FavContactsController extends Controller
 					$contacts[$key]['fav_contact_id'] = $favContact['id'];
 					$contacts[$key]['email'] = $favContact['email'];
 					$contacts[$key]['telefono'] = $favContact['telefono'];
+					$order++;
 				}
-				$order++;
 			}
 		}
 
@@ -117,7 +117,7 @@ class FavContactsController extends Controller
 	}
 
 	public function buscarContacto(Request $request) {
-		if(isset($request['contact'])) {
+		if (isset($request['contact'])) {
 			$user_phone_email = str_replace(' ', '', $request['contact']);
 			$phonePattern = "/^([6,7][0-9]{8})$/";
 			if( filter_var($user_phone_email, FILTER_VALIDATE_EMAIL) ||
@@ -151,37 +151,39 @@ class FavContactsController extends Controller
 		return "";
 	}
 
+	public function addContact($userid, $contactId, $petition) {
+		$input = array(
+			'usuario_id' => $userid,
+			'contacto_favorito_id' => $contactId
+		);
+
+		if ($petition == "false") {
+			ContactosFavoritos::create($input);
+		} else {
+			$favContact = ContactosFavoritos::where('usuario_id', $userid)
+				->where('contacto_favorito_id', $contactId)
+				->first();
+
+			$favContact['son_contactos'] = 0;
+			$favContact->save();
+		}
+
+		//Crear notificación
+		$notification = array_merge(array('notification_type' => 'befavcontact'), $input);
+		UserNotificationsController::sendNotification($notification);
+	}
+
 	/**
 	 * Petición para ser contacto favorito
 	 *
 	 * @param Request $request
 	 */
 	public function addContacto(Request $request) {
-		if(!is_null($request['userId'])) {
+		if(!is_null($request['userId']) && !is_null($request['petition'])) {
 			$user = User::where('email', session('email'))->first();
 			$contact = User::where('id', $request['userId'])->first();
 
-			$input = array(
-				'usuario_id' => $user['id'],
-				'contacto_favorito_id' => $contact['id']
-			);
-
-			if(!is_null($request['petition'])) {
-				if ($request['petition'] == "false") {
-					ContactosFavoritos::create($input);
-				} else {
-					$favContact = ContactosFavoritos::where('usuario_id', $user['id'])
-						->where('contacto_favorito_id', $contact['id'])
-						->first();
-
-					$favContact['son_contactos'] = 0;
-					$favContact->save();
-				}
-			}
-
-			//Crear notificación
-			$notification = array_merge(array('notification_type'=>'befavcontact'), $input);
-			UserNotificationsController::sendNotification($notification);
+			$this->addContact($user['id'], $contact['id'], $request['petition']);
 		}
 	}
 
@@ -215,6 +217,7 @@ class FavContactsController extends Controller
 				->first();
 
 			$favContact['son_contactos'] = 2;
+			$favContact['orden'] = 99;
 			$favContact['contador'] = $favContact['contador'] + 1;
 			$favContact->save();
 
@@ -239,29 +242,34 @@ class FavContactsController extends Controller
     	return null;
 	}
 
+	public function getWhoseContactIm($userId) {
+		$data = ContactosFavoritos::where('contacto_favorito_id', $userId)
+			->join('users', 'son_contactos_favoritos.usuario_id', '=', 'users.id')
+			->get()->toArray();
+
+		$contacts = [];
+		if(!empty($data)){
+			foreach ($data as $key => $favContact){
+				if($favContact['son_contactos'] == 1){
+					$contacts[$key]['nombre'] = $favContact['nombre']." ".$favContact['apellidos'];
+					$contacts[$key]['fav_contact_id'] = $favContact['id'];
+					$contacts[$key]['email'] = $favContact['email'];
+					$contacts[$key]['telefono'] = $favContact['telefono'];
+				}
+			}
+		}
+
+		return $contacts;
+	}
+
 	public function whoseContactIm() {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
-
-			$data = ContactosFavoritos::where('contacto_favorito_id',$user['id'])
-				->join('users', 'son_contactos_favoritos.usuario_id', '=', 'users.id')
-				->get()->toArray();
-
-			$contacts = [];
-			if(!empty($data)){
-				foreach ($data as $key => $favContact){
-					if($favContact['son_contactos'] == 1){
-						$contacts[$key]['nombre'] = $favContact['nombre']." ".$favContact['apellidos'];
-						$contacts[$key]['fav_contact_id'] = $favContact['id'];
-						$contacts[$key]['email'] = $favContact['email'];
-						$contacts[$key]['telefono'] = $favContact['telefono'];
-					}
-				}
-			}
+			$contacts = $this->getWhoseContactIm($user['id']);
 
 			$result = compact(['username', 'notifications', 'contacts']);
 			return view('fav_contacts.whose-favc-im', $result);
