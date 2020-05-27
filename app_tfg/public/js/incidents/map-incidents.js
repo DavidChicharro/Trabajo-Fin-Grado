@@ -52,7 +52,7 @@ function getIncidents(bounds, delitTypes=[], dateFrom="", dateTo="") {
             });
             if(typeof jsonResponse.appliedFilter !== 'undefined') {
                 let apl = showAppliedFilters(jsonResponse.appliedFilter, jsonResponse.incTypes);
-                console.log(apl);
+                // console.log(apl);
                 $('.applied-filter').removeClass('d-none');
                 $('.applied-filter').html(apl);
             }

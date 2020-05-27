@@ -234,6 +234,15 @@ a.icon:hover {
     white-space: nowrap;
 }
 
+.btn-read-notification {
+    margin-top: 5px;
+    background-color: var(--k-blue);
+    padding: 2px 5px;
+    text-align: center;
+    color: white !important;
+    border-radius: 5px;
+}
+
 .btn-add-contacto:hover {
     text-decoration: none;
 }

@@ -261,6 +261,9 @@ class IncidentsController extends Controller {
 			Incidente::create($incInput);
 			Suben::create($upInput);
 
+			$notifCtrl = new UserNotificationsController();
+			$notifCtrl->notifyNewIncident($incInput);
+
 			return redirect()
 				->route('mapaIncidentes')
 				->with('message', 'Incidente registrado');
@@ -270,8 +273,9 @@ class IncidentsController extends Controller {
 
 	public function getDelitos(Request $request) {
 		if(isset($request['delitos'])){
-			return Delito::whereIn('categoria_delito',$request['delitos'])->get();
+			return Delito::whereIn('categoria_delito', $request['delitos'])->get();
 		}
+		return null;
 	}
 
 	public function getUploadedIncidents($userId) {

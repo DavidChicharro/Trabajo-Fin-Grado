@@ -142,4 +142,8 @@ class InterestAreasController extends Controller
 		}
 		return redirect()->route('index');
 	}
+
+	public function getAllInterestAreas() {
+    	return ZonasInteres::all()->toArray();
+	}
 }

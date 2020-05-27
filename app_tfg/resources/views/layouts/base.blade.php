@@ -70,21 +70,35 @@
     <div id="popover-content" class="popover-content d-none">
         @foreach($notifications as $notification)
             @isset($notification->data['notification_type'])
-                @if($notification->data['notification_type'] == "befavcontact")
-                <div id="notification_{{$notification->id}}" class="notification_{{$notification->id}}">
-                    <img class="float-left mr-1" src="{{asset('images/icons/nuevo-contacto.svg')}}" width="20px">
-                    <span><b>
-                        <abbr title="{{$notification->data['sender_email']}}">{{$notification->data['sender_name']}}</abbr> {{$notification->data['message']}}
-                    </b></span>
-                    <div class="text-center">
-                        <button id="bfc-{{$notification->data['sender_id']}}-{{$notification->data['recipient_id']}}"
-                                class="btn btn-success mr-3">Aceptar</button>
-                        <button id="notfc-{{$notification->data['sender_id']}}-{{$notification->data['recipient_id']}}"
-                                class="btn btn-danger ml-3">Rechazar</button>
-                    </div>
-                </div>
-                @endif
-                @endisset
+                @switch($notification->data['notification_type'])
+                    @case("befavcontact")
+                        <div id="notification_{{$notification->id}}" class="notification_{{$notification->id}}">
+                            <img class="float-left mr-1" src="{{asset('images/icons/nuevo-contacto.svg')}}" width="20px">
+                            <span><b>
+                                <abbr title="{{$notification->data['sender_email']}}">{{$notification->data['sender_name']}}</abbr> {{$notification->data['message']}}
+                            </b></span>
+                            <div class="text-center">
+                                <button id="bfc-{{$notification->data['sender_id']}}-{{$notification->data['recipient_id']}}"
+                                        class="btn btn-success mr-3">Aceptar</button>
+                                <button id="notfc-{{$notification->data['sender_id']}}-{{$notification->data['recipient_id']}}"
+                                        class="btn btn-danger ml-3">Rechazar</button>
+                            </div>
+                        </div>
+                        @break
+
+                    @case("interest_area_incident")
+                        <div id="notification_{{$notification->id}}" class="notification_{{$notification->id}}">
+                            <img class="float-left mr-1" src="{{asset('images/icons/alert.svg')}}" width="20px">
+                            <span><b>{{$notification->data['message']}}</b></span>
+                            <div class="text-center">
+                                <button id="iai-{{$notification->id}}" class="btn btn-read-notification">
+                                    Marcar como leída
+                                </button>
+                            </div>
+                        </div>
+                    @break
+                @endswitch
+            @endisset
         @endforeach
     </div>
 

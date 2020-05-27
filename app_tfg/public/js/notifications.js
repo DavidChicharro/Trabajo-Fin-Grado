@@ -30,7 +30,6 @@ function markAsRead(parentId) {
         },
         type: 'post',
         success: function (response) {
-            console.log(response);
             if(response>=0) {
                 let popover = $("[data-toggle=popover]").data('bs.popover');
 
@@ -51,6 +50,12 @@ function markAsRead(parentId) {
         },
     });
 }
+
+// Clico en marcar notificación como leída (notificación de incidente en zona de interés)
+$(document).on("click","[id*=iai-]", function () {
+    let divParentId = $(this).closest('[class*=notification_]').attr('id');
+    markAsRead(divParentId);
+});
 
 // Clico en aceptar ser contacto favorito
 $(document).on("click","[id*=bfc-]", function () {
