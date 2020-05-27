@@ -292,4 +292,47 @@ class UsersController extends Controller
 				'message' => 'Error en la petición'
 			], 401);
 	}
+
+	public function getNotifications(Request $request) {
+		if (isset($request['email'])) {
+			$user = User::where('email', $request['email'])->first();
+
+			if (!is_null($user)) {
+				$notifications = $user->unreadNotifications;
+
+				return response()
+					->json([
+						'status' => 'success',
+						'notifications' => $notifications
+					], 200);
+			}
+		}
+		return response()
+			->json([
+				'status' => 'error',
+				'message' => 'Error en la petición'
+			], 401);
+	}
+
+	public function markNotificationAsRead(Request $request) {
+		if (isset($request['email'])) {
+			$user = User::where('email', $request['email'])->first();
+
+			if (!is_null($user) && !is_null($request['notificationId'])) {
+				$unreadNotifications = $user->unreadNotifications->count();
+				$user->unreadNotifications->where('id', $request['notificationId'])->markAsRead();
+
+				return response()
+					->json([
+						'status' => 'success',
+						'unreadNotifications' => $unreadNotifications - 1
+					], 200);
+			}
+		}
+
+		return response()
+			->json([
+				'status' => 'error',
+			], 200);
+	}
 }

@@ -110,6 +110,32 @@ class FavContactsController extends Controller {
 			], 200);
 	}
 
+	public function acceptContact(Request $request) {
+		if (isset($request['email'])) {
+			$user = User::where('email', $request['email'])->first();
+
+			if (!is_null($user) && !is_null($request['favContactId'])) {
+				$usersRelation = ContactosFavoritos::where('usuario_id', $request['favContactId'])
+					->where('contacto_favorito_id', $user['id'])->first();
+
+				if ($usersRelation['son_contactos'] == 0) {
+					$usersRelation['son_contactos'] = 1;
+					$usersRelation->save();
+
+					return response()
+						->json([
+							'status' => 'success',
+						], 200);
+				}
+			}
+		}
+		return response()
+			->json([
+				'status' => 'error',
+				'message' => '¡El usuario no existe!'
+			], 200);
+	}
+
 	public function removeRejectContact(Request $request) {
 		if (isset($request['email'])) {
 			$user = User::where('email', $request['email'])->first();

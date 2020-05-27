@@ -78,9 +78,9 @@ Route::get('/api/update_pass', 'API\UsersController@updatePass');
 Route::get('/api/get_user_data', 'API\UsersController@getUserData');
 Route::get('/api/get_config', 'API\UsersController@getUserConfig');
 Route::get('/api/set_config', 'API\UsersController@setUserConfig');
-/*Route::get('/api/csrf', function() {
-	return csrf_token();
-});*/
+
+Route::get('/api/get_notifications', 'API\UsersController@getNotifications');
+Route::get('/api/mark_notification_as_read', 'API\UsersController@markNotificationAsRead');
 
 Route::get('/api/get_list_incidents', 'API\IncidentsController@getList');
 Route::get('/api/get_map_incidents', 'API\IncidentsController@getMapIncidents');
@@ -96,6 +96,7 @@ Route::get('/api/get_fav_contacts','API\FavContactsController@getFavContacts');
 Route::get('/api/search_contact','API\FavContactsController@searchContact');
 Route::get('/api/add_contact','API\FavContactsController@addContact');
 Route::get('/api/get_whose_contact_im','API\FavContactsController@whoseContactIm');
+Route::get('/api/accept_favourite_contact', 'API\FavContactsController@acceptContact');
 Route::get('/api/remove_reject_contact','API\FavContactsController@removeRejectContact');
 Route::get('/api/update_contacts_order','API\FavContactsController@updateContactsOrder');
 
