@@ -1,8 +1,28 @@
-body {
-	background-image: url('/images/web_background.png');
-	background-size: cover;
-}
-
 .form-control {
 	background-color: #ffffff36!important;
+}
+
+@media only screen and (min-width: 860px) {
+	body {
+		background-image: url('/images/web_background.png');
+		/*background-size: cover;*/
+	}
+}
+
+@media only screen and (min-width: 401px) and (max-width: 859px) {
+	body {
+		background-image: url('/images/web_background_md.png');
+		background-size: cover;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	body {
+		background-image: url('/images/web_background_sm.png');
+		background-size: cover;
+	}
+
+	.incident-detail {
+		background-color: var(--k-blue-op45);
+	}
 }

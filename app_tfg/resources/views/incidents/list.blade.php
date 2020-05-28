@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Mapa de incidentes')
+@section('title', 'Lista de incidentes')
 @section('username',$username)
 
 @section('stylesheet')

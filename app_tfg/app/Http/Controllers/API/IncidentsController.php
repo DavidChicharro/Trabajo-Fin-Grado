@@ -16,10 +16,10 @@ class IncidentsController extends Controller
 		if(!empty($incidentsAll->count() > 0)) {
 			foreach ($incidentsAll as $key => $inc) {
 				$incidents[$key]['id'] = $inc['id'];
+				$incidents[$key]['delito_id'] = $inc['delito_id'];
 				$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
 				$incidents[$key]['latitud'] = floatval($inc['latitud_incidente']);
 				$incidents[$key]['longitud'] = floatval($inc['longitud_incidente']);
-//				$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
 				$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
 				$incidents[$key]['nombre_lugar'] = $inc['nombre_lugar'];
 				$incidents[$key]['descripcion'] = $inc['descripcion_incidente'];
@@ -76,79 +76,6 @@ class IncidentsController extends Controller
 				'incidents' => $incidents
 			], 200);
 	}
-
-	/*public function getMapIncidents(Request $request) {
-		$req_date = !is_null($request['dateFrom']) && !is_null($request['dateTo']);
-		$req_type = !is_null($request['delitTypes']);
-		$appliedFilter = [];
-
-		if($req_date || $req_type){
-			$range_id_delito = $req_type ? $request['delitTypes'] : null;
-			$range_date_delito = $req_date ? [$request['dateFrom'], $request['dateTo']] : null;
-
-			if($req_date && $req_type){
-				$allIncidents = Incidente::whereIn('delito_id',$range_id_delito)
-					->whereBetween('fecha_hora_incidente',$range_date_delito)
-					->where('oculto', 0)->where('caducado', 0)->get();
-
-				$appliedFilter = ["delitos" => $range_id_delito, "rango" => $range_date_delito];
-			}elseif ($req_date && !$req_type){
-				$allIncidents = Incidente::whereBetween('fecha_hora_incidente',$range_date_delito)
-					->where('oculto', 0)->where('caducado', 0)->get();
-
-				$appliedFilter = ["rango" => $range_date_delito];
-			}else{
-				$allIncidents = Incidente::whereIn('delito_id',$range_id_delito)
-					->where('oculto', 0)->where('caducado', 0)->get();
-
-				$appliedFilter = ["delitos" => $range_id_delito];
-			}
-		}else{
-			$allIncidents = Incidente::where('oculto', 0)->where('caducado', 0)->get();
-		}
-
-		// if(!is_null($request['mapLimits'])){
-			// Se añade un margen de 0.5º para cargar incidentes de alrededor de la vista
-			// $westLimit = floatval($request['mapLimits'][0])-0.5;
-			// $southLimit = floatval($request['mapLimits'][1])-0.5;
-			// $eastLimit = floatval($request['mapLimits'][2])+0.5;
-			// $northLimit = floatval($request['mapLimits'][3])+0.5;
-
-			$incCtrl = new IncidentCtrl();
-			$incidentTypes = $incCtrl->getIncidentsTypes();
-
-			$incidents = [];
-			foreach($allIncidents as $key => $incident){
-				$latInc = floatval($incident['latitud_incidente']);
-				$longInc = floatval($incident['longitud_incidente']);
-
-				// if($latInc < $northLimit && $latInc > $southLimit &&
-				// $longInc < $eastLimit && $longInc > $westLimit){
-					$incidents[$key]['id'] = $incident['id'];
-					$incidents[$key]['incidente'] = ucfirst($incidentTypes[$incident['delito_id']]);
-					$incidents[$key]['latitud'] = $latInc;
-					$incidents[$key]['longitud'] = $longInc;
-					$incidents[$key]['fecha_hora'] = $incident['fecha_hora_incidente'];
-					$incidents[$key]['descripcion'] = $incident['descripcion_incidente'];
-					$incidents[$key]['nombre_lugar'] = $incident['nombre_lugar'];
-				// }
-			}
-			$result = [
-				"incidents" => $incidents,
-				"appliedFilter" => $appliedFilter,
-				"incTypes" => $incidentTypes
-			];
-			// return json_encode($result);
-			return response()
-					->json([
-						'status' => 'success',
-						'incidents' => $incidents,
-						'appliedFilter' => $appliedFilter,
-						'incTypes' => $incidentTypes
-					], 200);
-		// }
-		// return null;
-	}*/
 
 	/**
 	 * Devuelve los incidents subidos por un usuario

@@ -194,7 +194,7 @@ class IncidentsController extends Controller {
 	}
 
 	public function getIncidentDetails(Request $request) {
-		if(isset($request['incidentId'])){
+		if (isset($request['incidentId'])) {
 			$inc = Incidente::where('id', $request['incidentId'])->first();
 
 			$incidente['descripcion'] = $inc['descripcion_incidente'];
@@ -204,10 +204,44 @@ class IncidentsController extends Controller {
 		return response()->json(array('msg'=>'error'), 404);
 	}
 
+	public function getIncident($incId, $delId) {
+		if (!is_null($incId) && !is_null($delId)) {
+			$incident = $inc = Incidente::where('id', $incId)
+				->where('delito_id', $delId)
+				->first();
+
+			return response()
+				->json([
+					'incident' => $incident
+				], 200);
+		}
+		return response()
+			->json([
+				'status' => 'error'
+			], 400);
+	}
+
+	public function incidente(Request $request) {
+		if (isset($request['inc']) && isset($request['del'])) {
+			$incident = json_decode(
+				$this->getIncident($request['inc'], $request['del'])->getContent(),
+				true
+			)['incident'];
+
+			if (!is_null($incident)) {
+				$del = Delito::where('id', $request['del'])->value('nombre_delito');
+				$result = compact(['incident', 'del']);
+
+				return view('incidents.incident', $result);
+			}
+		}
+		abort(404);
+	}
+
 	public function nuevoIncidente(Request $request) {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -272,7 +306,7 @@ class IncidentsController extends Controller {
 	}
 
 	public function getDelitos(Request $request) {
-		if(isset($request['delitos'])){
+		if (isset($request['delitos'])) {
 			return Delito::whereIn('categoria_delito', $request['delitos'])->get();
 		}
 		return null;

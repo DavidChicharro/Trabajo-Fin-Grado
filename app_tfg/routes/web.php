@@ -25,6 +25,8 @@ Route::get('/mapa-incidentes','IncidentsController@mapaIncidentes')->name('mapaI
 Route::post('/get_map_incidents', 'IncidentsController@getMapIncidents');
 
 Route::get('/lista-incidentes','IncidentsController@listaIncidentes')->name('listaIncidentes');
+//Route::get('/incidente', 'IncidentsController@getIncident')->name('incidente');
+Route::get('/incidente', 'IncidentsController@incidente')->name('incidente');
 Route::post('/get_incident_details', 'IncidentsController@getIncidentDetails');
 Route::get('/nuevo-incidente','IncidentsController@nuevoIncidente')->name('nuevoIncidente');
 Route::post('/nuevo-incidente','IncidentsController@store');

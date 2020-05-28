@@ -13,7 +13,7 @@
 </head>
 <body>
 
-	<div class="container-fluid mt-5">
+	<div class="container-fluid mt-2 mt-md-4">
 		<div class="row">
 			@yield('content')
 		</div>
@@ -21,9 +21,6 @@
 
 	<script src="{{asset('js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('js/jquery-3.4.1.js')}}"></script>
-{{--	<script src="{{asset('js/forms.js')}}"></script>--}}
-{{--	<script src="{{asset('js/login.js')}}"></script>--}}
-{{--    <script src="{{asset('js/register.js')}}"></script>--}}
 	@yield('scripts')
 </body>
 </html>
