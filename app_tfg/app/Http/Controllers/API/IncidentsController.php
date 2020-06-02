@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IncidentsController as IncidentCtrl;
+use App\Http\Controllers\UserNotificationsController;
 use App\Incidente;
 use App\Suben;
 use App\User;
@@ -165,6 +166,10 @@ class IncidentsController extends Controller
 
 				Incidente::create($incInput);
 				Suben::create($upInput);
+
+				$notifCtrl = new UserNotificationsController();
+				$notifCtrl->notifyNewIncident($incInput);
+
 				return response()
 					->json([
 						'status' => 'success',

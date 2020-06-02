@@ -34,51 +34,69 @@ class UserNotificationsController extends Controller
 	 * @param $notificacion
 	 */
     public static function sendNotification($notificacion) {
-    	if (isset($notificacion['usuario_id']) && isset($notificacion['contacto_favorito_id'])){
-			if(!is_null($notificacion['notification_type'])) {
-				$message = "";
-				if ($notificacion['notification_type'] == 'befavcontact')
+    	switch ($notificacion['notification_type']) {
+			case 'befavcontact':
+				if (isset($notificacion['usuario_id']) && isset($notificacion['contacto_favorito_id'])) {
 					$message = "quiere agregarte como contacto favorito";
 
-				$user = User::where('id', $notificacion['usuario_id'])->first();
-				$recipient = User::where('id', $notificacion['contacto_favorito_id'])->first();
+					$user = User::where('id', $notificacion['usuario_id'])->first();
+					$recipient = User::where('id', $notificacion['contacto_favorito_id'])->first();
+
+					$details = [
+						'notification_type' => $notificacion['notification_type'],
+						'sender_id' => $user['id'],
+						'sender_name' => $user['nombre'],
+						'sender_email' => $user['email'],
+						'recipient_id' => $recipient['id'],
+						'recipient_name' => $recipient['nombre'],
+						'message' => $message
+					];
+
+					Notification::send($recipient, new UserNotification($details));
+				}
+				break;
+			case 'interest_area_incident':
+				if (isset($notificacion['usuario_id'])) {
+					$delito = Delito::where('id', $notificacion['incident']['delito_id'])
+						->value('nombre_delito');
+					$date = date('d/m/Y', strtotime($notificacion['incident']['fecha_hora_incidente']));
+					$time = date('H:i', strtotime($notificacion['incident']['fecha_hora_incidente']));
+
+					$message = "Ha ocurrido un nuevo incidente en una de tus zonas de interés: " .
+						ucfirst($delito) . ". En " . $notificacion['incident']['nombre_lugar'] .
+						" el " . $date . " a las " . $time;
+
+					$recipient = User::where('id', $notificacion['usuario_id'])->first();
+					$details = [
+						'notification_type' => $notificacion['notification_type'],
+						'sender_id' => $notificacion['incident']['id'],
+						'sender_name' => null,
+						'sender_email' => null,
+						'recipient_id' => $recipient['id'],
+						'recipient_name' => $recipient['nombre'],
+						'message' => $message
+					];
+
+					Notification::send($recipient, new UserNotification($details));
+				}
+				break;
+			case 'share_location_panic':
+				$message = 'está en una posible situación de peligro y ha activado el botón del pánico.';
 
 				$details = [
 					'notification_type' => $notificacion['notification_type'],
-					'sender_id' => $user['id'],
-					'sender_name' => $user['nombre'],
-					'sender_email' => $user['email'],
-					'recipient_id' => $recipient['id'],
-					'recipient_name' => $recipient['nombre'],
+					'sender_id' => $notificacion['user']['id'],
+					'sender_name' => $notificacion['user']['nombre'],
+					'sender_email' => $notificacion['user']['email'],
+					'recipient_id' => $notificacion['contact']['id'],
+					'recipient_name' => $notificacion['contact']['nombre'],
 					'message' => $message
 				];
 
-				Notification::send($recipient, new UserNotification($details));
-			}
-		} else if (isset($notificacion['usuario_id']) && !is_null($notificacion['notification_type'])) {
-			if ($notificacion['notification_type'] == 'interest_area_incident') {
-				$delito = Delito::where('id', $notificacion['incident']['delito_id'])
-					->value('nombre_delito');
-				$date = date('d/m/Y', strtotime($notificacion['incident']['fecha_hora_incidente']));
-				$time = date('H:i', strtotime($notificacion['incident']['fecha_hora_incidente']));
-
-				$message = "Ha ocurrido un nuevo incidente en una de tus zonas de interés:" .
-				ucfirst($delito) . ". Ocurrido en " . $notificacion['incident']['nombre_lugar'] .
-				" el " . $date . " a las " . $time;
-
-				$recipient = User::where('id', $notificacion['usuario_id'])->first();
-				$details = [
-					'notification_type' => $notificacion['notification_type'],
-					'sender_id' => $notificacion['incident']['id'],
-					'sender_name' => null,
-					'sender_email' => null,
-					'recipient_id' => $recipient['id'],
-					'recipient_name' => $recipient['nombre'],
-					'message' => $message
-				];
-
-				Notification::send($recipient, new UserNotification($details));
-			}
+				Notification::send($notificacion['contact'], new UserNotification($details));
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -121,6 +139,25 @@ class UserNotificationsController extends Controller
 					'usuario_id' => $interestArea['usuario_id'],
 					'incident' => $incInput,
 					'notification_type' => 'interest_area_incident'
+				);
+
+				$this->sendNotification($notification);
+			}
+		}
+	}
+
+	public function notifyShareLocation($input) {
+		$user = User::where('id', $input['userId'])->first();
+		$contacts = explode(',', $input['contactsIds']);
+
+		foreach ($contacts as $contactId) {
+			$contact = User::where('id', $contactId)->first();
+
+			if (!is_null($user) & !is_null($contact)) {
+				$notification = array(
+					'notification_type' => 'share_location_panic',
+					'user' => $user,
+					'contact' => $contact
 				);
 
 				$this->sendNotification($notification);

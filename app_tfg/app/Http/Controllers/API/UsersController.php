@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserNotificationsController;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -291,6 +292,96 @@ class UsersController extends Controller
 				'status' => 'error',
 				'message' => 'Error en la petición'
 			], 401);
+	}
+
+	public function setLocation(Request $request) {
+		if (isset($request['email'])) {
+			$user = User::where('email', $request['email'])->first();
+
+			if (!is_null($user)) {
+				if (isset($request['lat']) and isset($request['lng'])) {
+					$input['latitud_actual'] = ($request['lat'] == 'null') ? null : $request['lat'];
+					$input['longitud_actual'] = ($request['lng'] == 'null') ? null : $request['lng'];
+
+					$user->fill($input)->save();
+					return response()
+						->json([
+							'status' => 'success'
+						], 200);
+				}
+			}
+		}
+		return response()
+			->json([
+				'status' => 'error',
+				'message' => 'Error en la petición'
+			], 200);
+	}
+
+	public function shareLocation(Request $request) {
+		if (isset($request['email'])) {
+			$user = User::where('email', $request['email'])->first();
+
+			if (!is_null($user)) {
+				if (!empty($request['contacts'])) {
+					$contacts = $request['contacts'];
+
+					$notification = [
+						'userId' => $user['id'],
+						'contactsIds' => $contacts
+					];
+
+					$notifCtrl = new UserNotificationsController();
+					$notifCtrl->notifyShareLocation($notification);
+
+					return response()
+						->json([
+							'status' => 'success'
+						], 200);
+				}
+			}
+		}
+		return response()
+			->json([
+				'status' => 'error',
+				'message' => 'Error en la petición'
+			], 200);
+	}
+
+	public function getUserLocation(Request $request) {
+		if (isset($request['contactId'])) {
+			$contact = User::where('id', $request['contactId'])->first();
+
+			if (!is_null($contact)) {
+				$lat = $contact['latitud_actual'];
+				$lng = $contact['longitud_actual'];
+
+				if (!is_null($lat) & !is_null($lng)) {
+					$location = [
+						'lat' => $lat,
+						'lng' => $lng
+					];
+
+					return response()
+						->json([
+							'status' => 'success',
+							'location' => $location
+						], 200);
+				}
+				return response()
+					->json([
+						'status' => 'error',
+						'location' => -1,
+						'lat' => $lat,
+						'lng' => $lng
+					], 200);
+			}
+		}
+		return response()
+			->json([
+				'status' => 'error',
+				'message' => 'Error en la petición'
+			], 200);
 	}
 
 	public function getNotifications(Request $request) {

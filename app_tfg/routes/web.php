@@ -82,6 +82,10 @@ Route::get('/api/get_user_data', 'API\UsersController@getUserData');
 Route::get('/api/get_config', 'API\UsersController@getUserConfig');
 Route::get('/api/set_config', 'API\UsersController@setUserConfig');
 
+Route::get('/api/update_location', 'API\UsersController@setLocation');
+Route::get('/api/share_location', 'API\UsersController@shareLocation');
+Route::get('/api/get_user_location', 'API\UsersController@getUserLocation');
+
 Route::get('/api/get_notifications', 'API\UsersController@getNotifications');
 Route::get('/api/mark_notification_as_read', 'API\UsersController@markNotificationAsRead');
 

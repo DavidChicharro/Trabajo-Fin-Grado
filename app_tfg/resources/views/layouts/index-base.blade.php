@@ -3,6 +3,8 @@
 	<title>{{config('app.name')}} @yield('title')</title>
 	<link rel="icon" type="image/png" href="{{asset('images/favicon.ico')}}"/>
 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet"/>
 	<link href="{{asset('css/style.css')}}" rel="stylesheet"/>
 	<link href="{{asset('css/forms.css')}}" rel="stylesheet"/>
