@@ -30,6 +30,24 @@ class IncidentsController extends Controller {
 			(isset($lugar['address']['county'])?" (".$lugar['address']['county'].")":"");
 	}*/
 
+	public function calcDistance($latitudeFrom, $longitudeFrom,
+	  $latitudeTo, $longitudeTo, $earthRadius = 6371000) {
+		// convert from degrees to radians
+		$latFrom = deg2rad($latitudeFrom);
+		$lonFrom = deg2rad($longitudeFrom);
+		$latTo = deg2rad($latitudeTo);
+		$lonTo = deg2rad($longitudeTo);
+
+		$lonDelta = $lonTo - $lonFrom;
+		$a = pow(cos($latTo) * sin($lonDelta), 2) +
+			pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
+		$b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
+
+		$angle = atan2(sqrt($a), $b);
+
+		return $angle * $earthRadius;
+	}
+
 	public function getIncidentsTypes() {
 		$groupIncidents = Delito::all()->groupBy('id')->toArray();
 		$incidentTypes = array();
@@ -41,7 +59,7 @@ class IncidentsController extends Controller {
 	}
 
 	private function getListIncidents($incidents_pag, $incidentTypes, $date_upload=null) {
-		if($incidents_pag->total() != 0) {
+		if ($incidents_pag->total() != 0) {
 			foreach ($incidents_pag->items() as $key => $inc) {
 				$incidents[$key]['id'] = $inc['id'];
 				$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
@@ -60,7 +78,7 @@ class IncidentsController extends Controller {
 	public function mapaIncidentes(Request $request) {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -326,8 +344,6 @@ class IncidentsController extends Controller {
 //			->paginate($this->numPags);
 
 		return compact(['incidents', 'date_upload']);
-		/*$incidentTypes = $this->getIncidentsTypes();
-		$incidents = $this->getListIncidents($incidents_pag, $incidentTypes, $date_upload);*/
 	}
 
 	public function incidentesSubidos(Request $request) {
@@ -337,18 +353,6 @@ class IncidentsController extends Controller {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
-
-			/*$uploaded = Suben::all()->where('usuario_id', $user['id']);
-
-			$range_incidents = array();
-			$date_upload = array();
-			foreach ($uploaded as $up) {
-				array_push($range_incidents, $up['incidente_id']);
-				$date_upload[$up['incidente_id']] = $up['fecha_hora_sube_incidente'];
-			}
-
-			$incidents_pag = Incidente::whereIn('id',$range_incidents)
-				->paginate($this->numPags);*/
 
 			$uploaded = $this->getUploadedIncidents($user['id']);
 			$incidents_pag = $uploaded['incidents']->paginate($this->numPags);
@@ -361,5 +365,155 @@ class IncidentsController extends Controller {
 			return view('incidents.uploaded', $result);
 		}
 		return redirect()->route('index');
+	}
+
+	/**
+	 * Devuelve un delito según el identificador del propio delito
+	 * @param $offences
+	 * @param $id
+	 * @return int
+	 */
+	private function getOffenceById($offences, $id) {
+		foreach ($offences as $key => $offence) {
+			if ($offence['id'] == $id) {
+				return $key;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Normaliza un valor en función de un intervalo
+	 *
+	 * @param $x
+	 * @param $min_x
+	 * @param $max_x
+	 * @return float|int
+	 */
+	private function normalize($x, $min_x, $max_x) {
+		return ($x - $min_x) / ($max_x - $min_x);
+	}
+
+	/**
+	 * Calcula el nivel de gravedad de un incidente
+	 *
+	 * @param $sumNeighSevLvl
+	 * @param $numNeighIncs
+	 * @return float|int
+	 */
+	private function calcNeighboursSeverityLevel($sumNeighSevLvl, $numNeighIncs) {
+		return (1 / sqrt($numNeighIncs)) * $sumNeighSevLvl;
+	}
+
+	/**
+	 * Establece el valor del nivel de gravedad de los incidentes y devuelve un array
+	 * con dicho valor asignado
+	 *
+	 * @param $incidents
+	 * @param $neighIncidents
+	 * @param $offences
+	 * @param $minDBPenalty
+	 * @param $maxDBPenalty
+	 * @return array
+	 */
+	private function setSeverityLevel($incidents, $neighIncidents, $offences, $minDBPenalty, $maxDBPenalty) {
+		$incidentsWithSeverityLevel = array();
+		foreach ($incidents as $incident) {
+			$offenceId = $this->getOffenceById($offences, $incident['delito_id']);
+			$offence = $offences[$offenceId];
+			$minPenalty = $basePenalty = $offence['pena_min'];
+			$maxPenalty = $offence['pena_max'];
+			$diffPenalty = $maxPenalty - $minPenalty;
+
+			$aggravs = explode(',', $incident['agravantes']);
+			$aggravs_accum = 0.0;
+			if (!empty($aggravs)) {
+				if (in_array('1', $aggravs))	// disfraz
+					$aggravs_accum += 0.175;
+				if (in_array('2', $aggravs))	// abuso de superioridad
+					$aggravs_accum += 0.225;
+				if (in_array('3', $aggravs))	// sufrimiento inhumano
+					$aggravs_accum += 0.3;
+				if (in_array('4', $aggravs))	// Discriminación
+					$aggravs_accum += 0.3;
+			}
+
+			if ($aggravs_accum > 0.0)
+				$basePenalty += $diffPenalty * $aggravs_accum;
+
+			$ownSevLvl = $this->normalize($basePenalty, $minDBPenalty, $maxDBPenalty);
+
+			$sumNeighSevLvl = 0.0;
+			$numNeighIncs = 0;
+			foreach($neighIncidents as $neighInc) {
+				if ($incident['id'] != $neighInc['id']) {
+					$latFrom = $incident['latitud_incidente'];
+					$lngFrom = $incident['longitud_incidente'];
+					$latTo= $neighInc['latitud_incidente'];
+					$lngTo = $neighInc['longitud_incidente'];
+					if ($this->calcDistance($latFrom, $lngFrom, $latTo, $lngTo) < 550) {
+						$sumNeighSevLvl += $neighInc['nivel_gravedad'];
+						$numNeighIncs++;
+					}
+				}
+			}
+
+			$neighSevLvl = $numNeighIncs > 0 ?
+				$this->calcNeighboursSeverityLevel($sumNeighSevLvl, $numNeighIncs) : 0.0;
+			$incidentSeverityLevel = 0.6 * $ownSevLvl + 0.4 * $neighSevLvl;
+
+			$incident['nivel_gravedad'] = $incidentSeverityLevel;
+			array_push($incidentsWithSeverityLevel, $incident);
+		}
+
+		return $incidentsWithSeverityLevel;
+	}
+
+	/**
+	 * Calcula el nivel de gravedad de cada incidente. En primer lugar se realiza el cálculo
+	 * para los nuevos incidentes y a continuación para los ya existentes que se encuentran
+	 * cercanos a los nuevos
+	 */
+	public function calcIncidentsSeverityLevel() {
+		$offences = Delito::all()->toArray();
+		$minPenalty = 0;
+		$maxPenalty = 150;
+
+		$incidentsOld = Incidente::whereNotNull('nivel_gravedad')
+			->where('oculto', 0)
+			->where('caducado', 0)
+			->get()
+			->toArray();
+		$incidentsNew = Incidente::whereNull('nivel_gravedad')
+			->get()
+			->toArray();
+
+		// Cálculo del nivel de gravedad de los incidentes nuevos
+		if (!empty($incidentsNew)) {
+			$newIncsWithLvl = $this->setSeverityLevel($incidentsNew, $incidentsOld, $offences, $minPenalty, $maxPenalty);
+
+			if (!empty($newIncsWithLvl)) {
+				foreach ($newIncsWithLvl as $newInc) {
+					$upIncident = Incidente::where('id', $newInc['id'])
+						->where('delito_id', $newInc['delito_id'])
+						->first();
+					$upIncident->fill($newInc)->save();
+				}
+
+				$allIncidents = array_merge($incidentsOld, $newIncsWithLvl);
+				// Cálculo del nivel de gravedad de los incidentes ya existentes si hay nuevos
+				$allIncsWithLvl = $this->setSeverityLevel($allIncidents, $allIncidents, $offences, $minPenalty, $maxPenalty);
+
+				if (!empty($allIncsWithLvl)) {
+					foreach ($allIncsWithLvl as $incident) {
+						$upldIncident = Incidente::where('id', $incident['id'])
+							->where('delito_id', $incident['delito_id'])
+							->first();
+						if ($upldIncident['nivel_gravedad'] != $incident['nivel_gravedad'])
+							$upldIncident->fill($incident)->save();
+					}
+				}
+			}
+		}
 	}
 }

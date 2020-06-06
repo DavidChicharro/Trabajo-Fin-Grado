@@ -109,3 +109,7 @@ Route::get('/api/update_contacts_order','API\FavContactsController@updateContact
 
 
 Route::post('/api/test', 'API\IncidentsController@test');
+
+
+Route::get('test_map', 'AjaxController@testMap');
+Route::get('test_calc', 'IncidentsController@calcIncidentsSeverityLevel');

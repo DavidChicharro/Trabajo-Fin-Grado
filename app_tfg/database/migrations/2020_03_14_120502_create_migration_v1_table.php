@@ -52,7 +52,7 @@ class CreateMigrationV1Table extends Migration
 			$table->text('descripcion_incidente');
 			$table->tinyInteger('afectado_testigo');
 			$table->string('agravantes')->nullable();
-			$table->tinyInteger('nivel_gravedad')->nullable();
+			$table->decimal('nivel_gravedad', 10, 8)->nullable();
 			$table->tinyInteger('oculto')->default(0);
 			$table->tinyInteger('caducado')->default(0);
 			$table->foreign('delito_id')->references('id')->on('delitos');

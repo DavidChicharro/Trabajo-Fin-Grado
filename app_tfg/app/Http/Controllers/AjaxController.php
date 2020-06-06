@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Delito;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -93,5 +94,11 @@ class AjaxController extends Controller
 		);
 
 		return response()->json($data);
+	}
+
+	public function testMap() {
+		$user = User::where('email', 'david@mail.com')->first();
+		$notifications = $user->unreadNotifications;
+		return view('testMap', compact(['notifications']));
 	}
 }

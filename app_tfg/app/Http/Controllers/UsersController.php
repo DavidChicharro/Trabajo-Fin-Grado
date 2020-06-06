@@ -194,7 +194,7 @@ class UsersController extends Controller {
 			$input = ['password' => Hash::make($request['new_password'],['rounds'=>15])];
 		}
 
-		if(isset($input)) {
+		if (isset($input)) {
 			$user->fill($input)->save();
 
 			return redirect()->route('zonaPersonal')
@@ -253,7 +253,7 @@ class UsersController extends Controller {
 				default:
 					break;
 			}
-			$user = User::where('email',session('email'))->first();
+			$user = User::where('email', session('email'))->first();
 			$user->fill($input)->save();
 		}
 	}
