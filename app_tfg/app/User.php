@@ -31,7 +31,9 @@ class User extends Authenticatable
 		'pin_secreto',
 		'accion_panico',
 		'latitud_actual',
-		'longitud_actual'
+		'longitud_actual',
+		'remember_token',
+		'api_token'
     ];
 
     /**

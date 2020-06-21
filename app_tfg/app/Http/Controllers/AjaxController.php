@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Delito;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 
 class AjaxController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request) {
 //    	$d = Delito::orderBy('id','desc')->first();
 //		DB::select("")
 //		dd($request);
@@ -26,17 +23,17 @@ class AjaxController extends Controller
 //    	echo $var;
 	}
 
-	private function getParams($key){
+	private function getParams($key) {
 		return config(('api.'.$key));
 	}
 
-	public function getZonasInteresParms(){
+	public function getZonasInteresParms() {
     	return $this->getParams('zonas_interes');
 	}
 
-	public function getConfigParams(Request $request){
+	public function getConfigParams(Request $request) {
     	$modalParams = null;
-		if(isset($request['params'])) {
+		if (isset($request['params'])) {
 			switch ($request['params']) {
 				case 'caduc':
 					$modalParams = $this->getParams('caducidad_incidentes');
@@ -54,7 +51,7 @@ class AjaxController extends Controller
 		return $modalParams;
 	}
 
-	private function setParams($key, $params){
+	private function setParams($key, $params) {
     	foreach ($params as $param => $value) {
 			config(['api.' . $key . '.' . $param => $value]);
 		}
@@ -64,7 +61,7 @@ class AjaxController extends Controller
 	}
 
 	public function setConfigParams(Request $request){
-    	if(isset($request['configId']) and !empty($request['values'])){
+    	if (isset($request['configId']) and !empty($request['values'])) {
     		$key = "";
     		switch ($request['configId']){
 				case 'caduc':
@@ -77,7 +74,7 @@ class AjaxController extends Controller
 					$key = 'zonas_interes';
 					break;
 			}
-			$this->setParams($key,$request['values']);
+			$this->setParams($key, $request['values']);
 		}
 	}
 
@@ -100,5 +97,11 @@ class AjaxController extends Controller
 		$user = User::where('email', 'david@mail.com')->first();
 		$notifications = $user->unreadNotifications;
 		return view('testMap', compact(['notifications']));
+	}
+
+	public function testMap2() {
+		$user = User::where('email', 'david@mail.com')->first();
+		$notifications = $user->unreadNotifications;
+		return view('testMap2', compact(['notifications']));
 	}
 }

@@ -3,32 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Delito;
+use App\IncidentAreaCenter;
 use App\Incidente;
 use App\Suben;
 use Illuminate\Http\Request;
 use App\User;
+use Abraham\TwitterOAuth\TwitterOAuth;
 
 class IncidentsController extends Controller {
 	private $numPags = 10;
-
-	/*private function getAddress($lat, $lng) {
-		$url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=".$lat."&lon=".$lng;
-		$context = stream_context_create(
-			array(
-				"http" => array(
-					"header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
-				)
-			)
-		);
-
-		$lugar = json_decode(file_get_contents($url, false, $context), true);
-		return (isset($lugar['address']['locality'])?$lugar['address']['locality'].", ":"").
-			(isset($lugar['address']['city_district'])?$lugar['address']['city_district'].", ":"").
-			(isset($lugar['address']['village'])?$lugar['address']['village']."":"").
-			(isset($lugar['address']['town'])?$lugar['address']['town']:"").
-			(isset($lugar['address']['city'])?$lugar['address']['city']:"").
-			(isset($lugar['address']['county'])?" (".$lugar['address']['county'].")":"");
-	}*/
 
 	public function calcDistance($latitudeFrom, $longitudeFrom,
 	  $latitudeTo, $longitudeTo, $earthRadius = 6371000) {
@@ -95,37 +78,41 @@ class IncidentsController extends Controller {
 		return redirect()->route('index');
 	}
 
+	public function getMapCenters() {
+		return IncidentAreaCenter::all()->toArray();
+	}
+
 	public function getMapIncidents(Request $request) {
 		$req_date = !is_null($request['dateFrom']) && !is_null($request['dateTo']);
 		$req_type = !is_null($request['delitTypes']);
 		$appliedFilter = [];
 
-		if($req_date || $req_type){
+		if ($req_date || $req_type) {
 			$range_id_delito = $req_type ? $request['delitTypes'] : null;
 			$range_date_delito = $req_date ? [$request['dateFrom'], $request['dateTo']] : null;
 
-			if($req_date && $req_type){
-				$allIncidents = Incidente::whereIn('delito_id',$range_id_delito)
+			if ($req_date && $req_type) {
+				$allIncidents = Incidente::whereIn('delito_id', $range_id_delito)
 					->whereBetween('fecha_hora_incidente',$range_date_delito)
 					->where('oculto', 0)->where('caducado', 0)->get();
 
 				$appliedFilter = ["delitos" => $range_id_delito, "rango" => $range_date_delito];
-			}elseif ($req_date && !$req_type){
-				$allIncidents = Incidente::whereBetween('fecha_hora_incidente',$range_date_delito)
+			} elseif ($req_date && !$req_type) {
+				$allIncidents = Incidente::whereBetween('fecha_hora_incidente', $range_date_delito)
 					->where('oculto', 0)->where('caducado', 0)->get();
 
 				$appliedFilter = ["rango" => $range_date_delito];
-			}else{
-				$allIncidents = Incidente::whereIn('delito_id',$range_id_delito)
+			} else {
+				$allIncidents = Incidente::whereIn('delito_id', $range_id_delito)
 					->where('oculto', 0)->where('caducado', 0)->get();
 
 				$appliedFilter = ["delitos" => $range_id_delito];
 			}
-		}else{
+		} else {
 			$allIncidents = Incidente::where('oculto', 0)->where('caducado', 0)->get();
 		}
 
-		if(!is_null($request['mapLimits'])){
+		if (!is_null($request['mapLimits'])) {
 			// Se añade un margen de 0.5º para cargar incidentes de alrededor de la vista
 			$westLimit = floatval($request['mapLimits'][0])-0.5;
 			$southLimit = floatval($request['mapLimits'][1])-0.5;
@@ -135,12 +122,12 @@ class IncidentsController extends Controller {
 			$incidentTypes = $this->getIncidentsTypes();
 
 			$incidents = [];
-			foreach($allIncidents as $key => $incident){
+			foreach ($allIncidents as $key => $incident) {
 				$latInc = floatval($incident['latitud_incidente']);
 				$longInc = floatval($incident['longitud_incidente']);
 
-				if($latInc < $northLimit && $latInc > $southLimit &&
-				$longInc < $eastLimit && $longInc > $westLimit){
+				if ($latInc < $northLimit && $latInc > $southLimit &&
+				$longInc < $eastLimit && $longInc > $westLimit) {
 					$incidents[$key]['id'] = $incident['id'];
 					$incidents[$key]['incidente'] = ucfirst($incidentTypes[$incident['delito_id']]);
 					$incidents[$key]['latitud'] = $latInc;
@@ -150,8 +137,10 @@ class IncidentsController extends Controller {
 					$incidents[$key]['nombre_lugar'] = $incident['nombre_lugar'];
 				}
 			}
+			$centers = $this->getMapCenters();
 			$result = [
 				"incidents" => $incidents,
+				"centers" => $centers,
 				"appliedFilter" => $appliedFilter,
 				"incTypes" => $incidentTypes
 			];
@@ -163,7 +152,7 @@ class IncidentsController extends Controller {
 	public function listaIncidentes(Request $request) {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -176,27 +165,27 @@ class IncidentsController extends Controller {
 				$range_id_delito = $req_type ? $request['tipos_incidentes'] : null;
 				$range_date_delito = $req_date ? [$request['desde'], $request['hasta']] : null;
 
-				if($req_date && $req_type){
-					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
+				if ($req_date && $req_type) {
+					$incidents_pag = Incidente::whereIn('delito_id', $range_id_delito)
 						->whereBetween('fecha_hora_incidente',$range_date_delito)
 						->where('oculto', 0)->where('caducado', 0)
 						->orderBy('fecha_hora_incidente', 'desc')
 						->paginate($this->numPags);
 					$appliedFilter = ["delitos" => $range_id_delito, "rango" => $range_date_delito];
-				}elseif ($req_date && !$req_type){
-					$incidents_pag = Incidente::whereBetween('fecha_hora_incidente',$range_date_delito)
+				} elseif ($req_date && !$req_type) {
+					$incidents_pag = Incidente::whereBetween('fecha_hora_incidente', $range_date_delito)
 						->where('oculto', 0)->where('caducado', 0)
 						->orderBy('fecha_hora_incidente', 'desc')
 						->paginate($this->numPags);
 					$appliedFilter = ["rango" => $range_date_delito];
-				}else{
+				} else {
 					$incidents_pag = Incidente::whereIn('delito_id',$range_id_delito)
 						->where('oculto', 0)->where('caducado', 0)
 						->orderBy('fecha_hora_incidente', 'desc')
 						->paginate($this->numPags);
 					$appliedFilter = ["delitos" => $range_id_delito];
 				}
-			}else{
+			} else {
 				$incidents_pag = Incidente::where('oculto', 0)->where('caducado', 0)
 					->orderBy('fecha_hora_incidente', 'desc')
 					->paginate($this->numPags);
@@ -224,7 +213,7 @@ class IncidentsController extends Controller {
 
 	public function getIncident($incId, $delId) {
 		if (!is_null($incId) && !is_null($delId)) {
-			$incident = $inc = Incidente::where('id', $incId)
+			$incident = Incidente::where('id', $incId)
 				->where('delito_id', $delId)
 				->first();
 
@@ -275,7 +264,7 @@ class IncidentsController extends Controller {
 	public function store(Request $request) {
 		$session = session('email');
 
-		if(isset($session)){
+		if (isset($session)) {
 			$datos = $request->validate([
 				'delito' => 'bail|required',
 				'fecha_incidente' => 'bail|required|date|before:tomorrow',
@@ -316,6 +305,8 @@ class IncidentsController extends Controller {
 			$notifCtrl = new UserNotificationsController();
 			$notifCtrl->notifyNewIncident($incInput);
 
+			$this->publishIncidentTwitter($incInput);
+
 			return redirect()
 				->route('mapaIncidentes')
 				->with('message', 'Incidente registrado');
@@ -340,7 +331,7 @@ class IncidentsController extends Controller {
 			$date_upload[$up['incidente_id']] = $up['fecha_hora_sube_incidente'];
 		}
 
-		$incidents = Incidente::whereIn('id',$range_incidents);
+		$incidents = Incidente::whereIn('id', $range_incidents);
 //			->paginate($this->numPags);
 
 		return compact(['incidents', 'date_upload']);
@@ -461,7 +452,7 @@ class IncidentsController extends Controller {
 			$neighSevLvl = $numNeighIncs > 0 ?
 				$this->calcNeighboursSeverityLevel($sumNeighSevLvl, $numNeighIncs) : 0.0;
 			$incidentSeverityLevel = 0.6 * $ownSevLvl + 0.4 * $neighSevLvl;
-
+			/** ** AÑADIR INCIDENCIA TEMPORAL ** **/
 			$incident['nivel_gravedad'] = $incidentSeverityLevel;
 			array_push($incidentsWithSeverityLevel, $incident);
 		}
@@ -515,5 +506,157 @@ class IncidentsController extends Controller {
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * Obtiene los datos del fichero CSV que almacena la posición de los centros
+	 * de las áreas de con incidentes junto con el nivel de gravedad de la misma
+	 *
+	 * @return array
+	 */
+	public function getCenters() {
+		$path = str_replace('app_tfg', 'files', base_path());
+		$file = '/centers_' . date('Y-m-d') . '.csv';
+		$filename = $path.$file;
+
+		if (file_exists($filename)) {
+			$fileHandle = fopen($filename, "r");
+			$centersList = array();
+			while (!feof($fileHandle)) {
+				$line = fgetcsv($fileHandle, 0, ',');
+				if ($line)
+					array_push($centersList, $line);
+			}
+
+			return $centersList;
+		}
+
+		return [];
+	}
+
+	/**
+	 * Obtiene el color asociado según su valor en un intervalo
+	 *
+	 * @param $minColor
+	 * @param $maxColor
+	 * @param $normValue
+	 * @return string
+	 */
+	public function getColor($minColor, $maxColor, $normValue) {
+		$difColor = $maxColor - $minColor;
+		$valColor = $minColor + ($difColor * $normValue);
+		return ($valColor < 16) ? '0'.dechex($valColor) : dechex($valColor);
+	}
+
+	/**
+	 * Calcula a partir de los centros de las zonas con incidentes,
+	 * según su nivel de gravedad asociado, el color que le corresponde
+	 * en una escala que refleja el nivel de gravedad de forma visual
+	 *
+	 * @param $centers
+	 * @return array
+	 */
+	public function getCentersByGroup($centers) {
+		$centersWithColor = array();
+		$minLevel = floatval(min(array_column($centers, '2')));
+		$maxLevel = floatval(max(array_column($centers, '2')));
+
+		foreach ($centers as $center) {
+			$normCenter = $this->normalize($center[2], $minLevel, $maxLevel);
+			if ($normCenter >= 0.0 && $normCenter < 0.2) {
+				$normInterval = $this->normalize($normCenter, 0.0, 0.2);
+				$hexColor = $this->getColor(hexdec('80'), hexdec('FF'), $normInterval);
+				$hexColor2 = $this->getColor(hexdec('B0'), hexdec('F0'), $normInterval);
+				$defColor = $hexColor.$hexColor2."00";
+			} elseif ($normCenter >= 0.2 && $normCenter < 0.4) {
+				$normInterval = $this->normalize($normCenter, 0.2, 0.4);
+				$hexColor = $this->getColor(hexdec('F0'), hexdec('80'), $normInterval);
+				$defColor = "FF".$hexColor."00";
+			} elseif ($normCenter >= 0.4 && $normCenter < 0.6) {
+				$normInterval = $this->normalize($normCenter, 0.4, 0.6);
+				$hexColor = $this->getColor(hexdec('80'), hexdec('00'), $normInterval);
+				$defColor = "FF".$hexColor."00";
+			} elseif ($normCenter >= 0.6 && $normCenter < 0.8) {
+				$normInterval = $this->normalize($normCenter, 0.6, 0.8);
+				$hexColor = $this->getColor(hexdec('FF'), hexdec('80'), $normInterval);
+				$defColor = $hexColor."0000";
+			} else {
+				$normInterval = $this->normalize($normCenter, 0.8, 1.0);
+				$hexColor = $this->getColor(hexdec('80'), hexdec('00'), $normInterval);
+				$defColor = $hexColor."0000";
+			}
+
+			$center['color'] = $defColor;
+			array_push($centersWithColor, $center);
+		}
+
+		return $centersWithColor;
+	}
+
+	/**
+	 * Inserta en la base de datos los centros de las zonas con incidentes
+	 * junto con su nivel de gravedad y el color
+	 */
+	public function setCentersSeverityLevel() {
+		$centers = $this->getCenters();
+		$centersWithColor = $this->getCentersByGroup($centers);
+
+		$data = array();
+		foreach ($centersWithColor as $center) {
+			array_push($data,
+				array(
+					'lat_center' => $center[0],
+					'lng_center' => $center[1],
+					'severity_level' => $center[2],
+					'color' => $center['color']
+				)
+			);
+		}
+		if (!empty($data)) {
+			IncidentAreaCenter::truncate();
+			IncidentAreaCenter::insert($data);
+		}
+	}
+
+	/**
+	 * Publica un tweet con los datos del incidente
+	 *
+	 * @param $incident
+	 */
+	public function publishIncidentTwitter($incident) {
+		$tweetLength = 280;
+		$urlLenght = 35;
+		$connection = new TwitterOAuth(
+			getenv('CONSUMER_KEY'),
+			getenv('CONSUMER_SECRET'),
+			getenv('ACCESS_TOKEN'),
+			getenv('ACCESS_TOKEN_SECRET')
+		);
+
+		$datetime = date("d/m/Y H:i", strtotime($incident['fecha_hora_incidente']));
+		$spltDT = explode(' ', $datetime);
+		$del = Delito::where('id', $incident['delito_id'])->first();
+
+		$text = 'Nuevo incidente: ' . $del['nombre_delito'] . chr(13) . chr(10) . chr(13) . chr(10) .
+			'En ' . $incident['nombre_lugar'] . ' el ' . $spltDT[0] . ' a las ' . $spltDT[1] .
+			chr(13) . chr(10);
+
+		$length = strlen($text) + strlen($incident['descripcion_incidente']);
+		if ($length + $urlLenght > $tweetLength) {
+			$maxDescLength = $tweetLength - $length - $urlLenght;
+			$description = substr($incident['descripcion_incidente'], 0, $maxDescLength);
+		} else {
+			$description = $incident['descripcion_incidente'];
+		}
+
+		$status =  $text . $description . chr(13) . chr(10) . chr(13) . chr(10) .
+			'https://www.kifungo.xyz/incidente?inc='. $incident['id'] .'&del=' . $incident['delito_id'];
+
+		$post_tweets = $connection->post("statuses/update", [
+			"status" => $status,
+			"lat" => $incident['latitud_incidente'],
+			"long" => $incident['longitud_incidente']
+		]);
 	}
 }

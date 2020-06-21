@@ -43,6 +43,7 @@ function getIncidents(bounds, delitTypes=[], dateFrom="", dateTo="") {
         success: function (response) {
             let jsonResponse = JSON.parse(response);
             let result = jsonResponse.incidents;
+            let centers = jsonResponse.centers;
             $.each(result, function(index, value){
                 L.marker([value.latitud, value.longitud])
                     .bindPopup('<b>'+value.incidente+'</b>  -  '+
@@ -50,6 +51,12 @@ function getIncidents(bounds, delitTypes=[], dateFrom="", dateTo="") {
                         +'<br>'+value.descripcion)
                     .addTo(incidentsLayerGroup);
             });
+            $.each(centers, function (index, value) {
+                L.circle([value.lat_center, value.lng_center],
+                    250, {color: "#"+value.color})
+                    .addTo(incidentsLayerGroup);
+            });
+
             if(typeof jsonResponse.appliedFilter !== 'undefined') {
                 let apl = showAppliedFilters(jsonResponse.appliedFilter, jsonResponse.incTypes);
                 // console.log(apl);

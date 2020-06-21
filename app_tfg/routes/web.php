@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'UsersController@index')->name('index');
 Route::post('/', 'UsersController@login');
+//Route::get('/', 'UsersController@index')->name('login');
+//Route::get('login', [ 'as' => 'login', 'uses' => 'UsersController@index']);
 
 /* ********** REGISTRO ********** */
 // Route::get('/registro', 'UsersController@registro');
@@ -73,43 +75,60 @@ Route::get('test', 'UserNotificationsController@test');
 Route::get('/get_data', 'AjaxController@getData');
 
 // API
-Route::get('/login_api', 'API\UsersController@login');
+Route::get('/api/login', 'API\UsersController@login');
 Route::get('/api/check_user', 'API\UsersController@create');
 Route::get('/api/regist_user', 'API\UsersController@store');
-Route::get('/api/update_user', 'API\UsersController@update');
-Route::get('/api/update_pass', 'API\UsersController@updatePass');
-Route::get('/api/get_user_data', 'API\UsersController@getUserData');
-Route::get('/api/get_config', 'API\UsersController@getUserConfig');
-Route::get('/api/set_config', 'API\UsersController@setUserConfig');
+Route::get('/api/update_user', 'API\UsersController@update')->middleware('auth:api');
+Route::get('/api/update_pass', 'API\UsersController@updatePass')->middleware('auth:api');
+Route::get('/api/get_user_data', 'API\UsersController@getUserData')->middleware('auth:api');
+Route::get('/api/get_config', 'API\UsersController@getUserConfig')->middleware('auth:api');
+Route::get('/api/set_config', 'API\UsersController@setUserConfig')->middleware('auth:api');
 
-Route::get('/api/update_location', 'API\UsersController@setLocation');
-Route::get('/api/share_location', 'API\UsersController@shareLocation');
-Route::get('/api/get_user_location', 'API\UsersController@getUserLocation');
+Route::get('/api/update_location', 'API\UsersController@setLocation')->middleware('auth:api');
+Route::get('/api/share_location', 'API\UsersController@shareLocation')->middleware('auth:api');
+Route::get('/api/get_user_location', 'API\UsersController@getUserLocation')->middleware('auth:api');
 
-Route::get('/api/get_notifications', 'API\UsersController@getNotifications');
-Route::get('/api/mark_notification_as_read', 'API\UsersController@markNotificationAsRead');
+Route::get('/api/get_notifications', 'API\UsersController@getNotifications')->middleware('auth:api');
+Route::get('/api/mark_notification_as_read', 'API\UsersController@markNotificationAsRead')->middleware('auth:api');
 
 Route::get('/api/get_list_incidents', 'API\IncidentsController@getList');
-Route::get('/api/get_map_incidents', 'API\IncidentsController@getMapIncidents');
-Route::get('/api/get_uploaded_incidents', 'API\IncidentsController@getUploadedIncidentsByUser');
+//Route::get('/api/get_map_incidents', 'API\IncidentsController@getMapIncidents');
+Route::get('/api/get_uploaded_incidents', 'API\IncidentsController@getUploadedIncidentsByUser')->middleware('auth:api');
 Route::get('/api/get_delitos', 'API\IncidentsController@getDelitos');
-Route::get('/api/store_incident', 'API\IncidentsController@store');
+Route::get('/api/store_incident', 'API\IncidentsController@store')->middleware('auth:api');
 
-Route::get('/api/get_interest_areas', 'API\InterestAreasController@getInterestAreas');
-Route::get('/api/new_area', 'API\InterestAreasController@newArea');
-Route::get('/api/store_interest_area', 'API\InterestAreasController@store');
+Route::get('/api/get_interest_areas', 'API\InterestAreasController@getInterestAreas')->middleware('auth:api');
+Route::get('/api/new_area', 'API\InterestAreasController@newArea')->middleware('auth:api');
+Route::get('/api/store_interest_area', 'API\InterestAreasController@store')->middleware('auth:api');
 
-Route::get('/api/get_fav_contacts','API\FavContactsController@getFavContacts');
-Route::get('/api/search_contact','API\FavContactsController@searchContact');
-Route::get('/api/add_contact','API\FavContactsController@addContact');
-Route::get('/api/get_whose_contact_im','API\FavContactsController@whoseContactIm');
-Route::get('/api/accept_favourite_contact', 'API\FavContactsController@acceptContact');
-Route::get('/api/remove_reject_contact','API\FavContactsController@removeRejectContact');
-Route::get('/api/update_contacts_order','API\FavContactsController@updateContactsOrder');
+Route::get('/api/get_fav_contacts','API\FavContactsController@getFavContacts')->middleware('auth:api');
+Route::get('/api/search_contact','API\FavContactsController@searchContact')->middleware('auth:api');
+Route::get('/api/add_contact','API\FavContactsController@addContact')->middleware('auth:api');
+Route::get('/api/get_whose_contact_im','API\FavContactsController@whoseContactIm')->middleware('auth:api');
+Route::get('/api/accept_favourite_contact', 'API\FavContactsController@acceptContact')->middleware('auth:api');
+Route::get('/api/remove_reject_contact','API\FavContactsController@removeRejectContact')->middleware('auth:api');
+Route::get('/api/update_contacts_order','API\FavContactsController@updateContactsOrder')->middleware('auth:api');;
 
+Route::get('login', [ 'as' => 'login', 'uses' => 'API\UsersController@failAuthAPI']);
 
 Route::post('/api/test', 'API\IncidentsController@test');
 
 
 Route::get('test_map', 'AjaxController@testMap');
+Route::get('test_map_2', 'AjaxController@testMap2');
 Route::get('test_calc', 'IncidentsController@calcIncidentsSeverityLevel');
+Route::get('set_centers', 'IncidentsController@setCentersSeverityLevel');
+
+Route::get('/tweet', 'IncidentsController@publishIncidentTwitter');
+
+/*Route::group(['middleware' => ['auth:api']], function() {
+	Route::get('test_token', function() {
+		$user = \Auth::user();
+		return $user;
+	});
+});*/
+
+Route::get('test_token', function() {
+	$user = \Auth::user();
+	return $user;
+})->middleware('auth:api');

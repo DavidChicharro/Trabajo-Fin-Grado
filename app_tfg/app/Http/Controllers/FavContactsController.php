@@ -37,7 +37,7 @@ class FavContactsController extends Controller
     public function contactosFavoritos() {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -60,7 +60,7 @@ class FavContactsController extends Controller
 
 			$contacts = $this->getFavouriteContacts($user['id']);
 
-			if(count($contacts) < 2)
+			if (count($contacts) < 2)
 				return redirect()->back()->with([
 					'error'=>'¡No tienes contactos favorito suficientes para ordenar!'
 				]);
@@ -105,7 +105,7 @@ class FavContactsController extends Controller
 	public function nuevoContacto() {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -228,7 +228,7 @@ class FavContactsController extends Controller
 
 
 	public function acceptContact(Request $request) {
-    	if($request['userId']!=null && $request['favContactId']!=null) {
+    	if ($request['userId']!=null && $request['favContactId']!=null) {
     		$usersRelation = ContactosFavoritos::where('usuario_id', $request['userId'])
 				->where('contacto_favorito_id', $request['favContactId'])->first();
 
@@ -248,7 +248,7 @@ class FavContactsController extends Controller
 			->get()->toArray();
 
 		$contacts = [];
-		if(!empty($data)){
+		if (!empty($data)) {
 			foreach ($data as $key => $favContact){
 				if($favContact['son_contactos'] == 1){
 					$contacts[$key]['nombre'] = $favContact['nombre']." ".$favContact['apellidos'];

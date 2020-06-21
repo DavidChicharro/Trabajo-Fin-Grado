@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller {
 	public function index() {
 		$session = session('email');
-		if(isset($session))
+		if (isset($session))
 			return view('index',['session' => $session]);
 		else
 			return view('login-user');
@@ -18,7 +19,7 @@ class UsersController extends Controller {
 	public function admin() {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -45,20 +46,20 @@ class UsersController extends Controller {
              'password' => 'required'
          ]);
 
-         $user_exist = User::where('email',$datos['email'])->count();
+         $user_exist = User::where('email', $datos['email'])->count();
 
-         if($user_exist){
-             $user_pass = User::where('email',$datos['email'])->first();
+         if ($user_exist) {
+             $user_pass = User::where('email', $datos['email'])->first();
 
-			 if(Hash::check($datos['password'], $user_pass['password'])){
+			 if (Hash::check($datos['password'], $user_pass['password'])) {
 			 	session(['email' => $datos['email']]);
 
-				if($user_pass['es_admin'] == 0)
+				if ($user_pass['es_admin'] == 0)
 					return redirect()->route('listaIncidentes');
 				else
 					return redirect()->route('admin');
              }
-             else{
+             else {
 				return redirect()->back()
 					->withInput($request->only('email'))
 					->withErrors(['message'=>'¡El email y la contraseña no coinciden!']);
@@ -97,12 +98,12 @@ class UsersController extends Controller {
 			'password' => 'bail|required|min:8',
 		]);
 
-		$user_exist = User::where('email',$datos['email'])->count();
+		$user_exist = User::where('email', $datos['email'])->count();
 
-		if($user_exist==0){
+		if ($user_exist==0) {
 			return view('register-step-2')
 				->with('datos',$datos);
-		}else{
+		} else {
 			return redirect()->back()
 				->withErrors([
 					'message'=>'¡El usuario introducido ya se encuentra registrado!'
@@ -127,6 +128,8 @@ class UsersController extends Controller {
 			'telefono' => 'bail|required|regex:/([6-7])[0-9]{8}/'
 		]);
 		$datos['password'] = Hash::make($datos['password'],['rounds'=>15]);
+		$datos['api_token'] = Str::random(255);
+		$datos['remember_token'] = Str::random(100);
 
 		User::create($datos);
 
@@ -141,7 +144,7 @@ class UsersController extends Controller {
 		$userEmail = $session;
 		$user = User::where('email', $userEmail)->first();
 
-		if($request->has('formData')) {
+		if ($request->has('formData')) {
 			$request->validate([
 				'email' => 'bail|required|min:7|max:255',
 				'nombre' => 'bail|required|min:2|max:255',
@@ -163,9 +166,6 @@ class UsersController extends Controller {
 						]);
 				}
 				session(['email' => $request['email']]);
-				/** ------------------------- todo ----------------------------- **/
-				/* ----- ¡MODIFICAR EMAIL EN CASCADA EN OTRAS TABLAS! ----- */
-				/** ------------------------- todo ----------------------------- **/
 			}
 			// Si modifica el teléfono
 			$userTlf = $user['telefono'];
@@ -179,13 +179,13 @@ class UsersController extends Controller {
 				}
 			}
 			$input = $request->all();
-		}elseif($request->has('formPass')){
+		} elseif ($request->has('formPass')) {
 			$request->validate([
 				'password' => 'bail|required|min:8',
 				'new_password' => 'bail|required|min:8'
 			]);
 
-			if(!Hash::check($request['password'], $user['password'])){
+			if (!Hash::check($request['password'], $user['password'])) {
 				return redirect()->route('zonaPersonal')
 					->withErrors([
 						'message' => '¡La contraseña es incorrecta!'
@@ -210,7 +210,7 @@ class UsersController extends Controller {
     public function zonaPersonal() {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -219,18 +219,22 @@ class UsersController extends Controller {
 			return view('user-profile', $result);
 		}
 		return redirect()->route('index');
-
     }
 
+	/**
+	 * Devuelve los parámetros de configuración de acción de pánico y pin secreto del usuario
+	 * @param Request $request
+	 * @return |null
+	 */
 	public function getUserConfig(Request $request){
 		$modalParams = null;
-		if(isset($request['params'])) {
+		if (isset($request['params'])) {
 			switch ($request['params']) {
 				case 'panicact':
-					$modalParams = User::where('email',session('email'))->value('accion_panico');
+					$modalParams = User::where('email', session('email'))->value('accion_panico');
 					break;
 				case 'secretpin':
-					$modalParams = User::where('email',session('email'))->value('pin_secreto');
+					$modalParams = User::where('email', session('email'))->value('pin_secreto');
 					break;
 				default:
 					$modalParams = null;
@@ -241,7 +245,7 @@ class UsersController extends Controller {
 	}
 
 	public function setUserConfig(Request $request){
-		if(isset($request['configId']) and !empty($request['value'])){
+		if (isset($request['configId']) and !empty($request['value'])) {
 			$input = null;
 			switch ($request['configId']){
 				case 'panicact':

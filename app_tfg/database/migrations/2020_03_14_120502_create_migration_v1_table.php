@@ -30,6 +30,7 @@ class CreateMigrationV1Table extends Migration
             $table->decimal('latitud_actual',8,4)->nullable();
             $table->decimal('longitud_actual',8,4)->nullable();
             $table->rememberToken();
+			$table->string('api_token')->unique();
         });
 
 		Schema::create('delitos', function (Blueprint $table) {
@@ -98,6 +99,14 @@ class CreateMigrationV1Table extends Migration
 			$table->timestamp('read_at')->nullable();
 			$table->timestamps();
 		});
+
+		Schema::create('incidents_areas_centers', function (Blueprint $table) {
+			$table->bigIncrements('id');
+			$table->decimal('lat_center',9,6);
+			$table->decimal('lng_center',9,6);
+			$table->decimal('severity_level',9,6);
+			$table->string('color',6)->nullable();
+		});
     }
 
     /**
@@ -108,5 +117,13 @@ class CreateMigrationV1Table extends Migration
     public function down()
     {
         Schema::dropIfExists('migration_v1');
+		Schema::dropIfExists('users');
+		Schema::dropIfExists('delitos');
+		Schema::dropIfExists('incidentes');
+		Schema::dropIfExists('suben');
+		Schema::dropIfExists('son_contactos_favoritos');
+		Schema::dropIfExists('usuarios_zonas_interes');
+		Schema::dropIfExists('notifications');
+		Schema::dropIfExists('incidents_areas_centers');
     }
 }

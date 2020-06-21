@@ -16,7 +16,7 @@ class InterestAreasController extends Controller
     public function zonasInteres() {
 		$session = session('email');
 
-		if(isset($session)) {
+		if (isset($session)) {
 			$user = User::where('email', $session)->first();
 			$username = $user['nombre'];
 			$notifications = $user->unreadNotifications;
@@ -39,13 +39,13 @@ class InterestAreasController extends Controller
 			'west' => "180"
 		);
 		foreach ($interestAreas as $area){
-			if($area['latitud_zona_interes']>$bounds['north'])
+			if ($area['latitud_zona_interes']>$bounds['north'])
 				$bounds['north'] = $area['latitud_zona_interes'];
-			if($area['latitud_zona_interes']<$bounds['south'])
+			if ($area['latitud_zona_interes']<$bounds['south'])
 				$bounds['south'] = $area['latitud_zona_interes'];
-			if($area['longitud_zona_interes']>$bounds['east'])
+			if ($area['longitud_zona_interes']>$bounds['east'])
 				$bounds['east'] = $area['longitud_zona_interes'];
-			if($area['longitud_zona_interes']<$bounds['west'])
+			if ($area['longitud_zona_interes']<$bounds['west'])
 				$bounds['west'] = $area['longitud_zona_interes'];
 		}
 
@@ -81,7 +81,7 @@ class InterestAreasController extends Controller
 	public function removeInterestArea(Request $request){
 		$session = session('email');
 
-		if(isset($session) && !is_null($request['idIntArea'])) {
+		if (isset($session) && !is_null($request['idIntArea'])) {
 			$user = User::where('email', $session)->first();
 
 			$interestAreas = ZonasInteres::where('usuario_id', $user['id'])
@@ -118,7 +118,7 @@ class InterestAreasController extends Controller
 	public function store(Request $request) {
 		$session = session('email');
 
-		if(isset($session)){
+		if (isset($session)) {
 			$datos = $request->validate([
 				'lat_zona_int' => 'bail|required',
 				'long_zona_int' => 'bail|required',
