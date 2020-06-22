@@ -651,7 +651,7 @@ class IncidentsController extends Controller {
 		}
 
 		$status =  $text . $description . chr(13) . chr(10) . chr(13) . chr(10) .
-			'https://www.kifungo.xyz/incidente?inc='. $incident['id'] .'&del=' . $incident['delito_id'];
+			'https://www.kifungo.live/incidente?inc='. $incident['id'] .'&del=' . $incident['delito_id'];
 
 		$post_tweets = $connection->post("statuses/update", [
 			"status" => $status,
