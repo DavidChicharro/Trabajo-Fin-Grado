@@ -4,7 +4,7 @@
 @section('username',$username)
 
 @section('content')
-	<h2>Mis publicaciones de incidentes</h2>
+	<h2 class="section-title pl-4 px-md-1">Mis publicaciones de incidentes</h2>
 	<section class="main-content mx-1 my-4">
 
 		<div class="incidents">

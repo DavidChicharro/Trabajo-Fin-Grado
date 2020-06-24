@@ -54,3 +54,10 @@ form label {
 .reg-log hr {
 	color: var(--k-navy-blue);
 }
+
+@media only screen and (max-width: 576px){
+	#search-delitos {
+		t-ms-transform: rotate(90deg); /* IE 9 */
+		transform: rotate(90deg);
+	}
+}

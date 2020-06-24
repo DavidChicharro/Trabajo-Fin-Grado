@@ -2,6 +2,19 @@
 	background-color: #ffffff36!important;
 }
 
+.index-li {
+	background: none;
+	font-size: 130%;
+	border: none;
+	list-style: url('/images/icons/pin.svg');
+
+}
+
+.download-app {
+	color: var(--k-navy-blue) !important;
+	font-size: 150%;
+}
+
 @media only screen and (min-width: 860px) {
 	body {
 		background-image: url('/images/web_background.png');

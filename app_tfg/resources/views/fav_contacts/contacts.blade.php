@@ -4,7 +4,7 @@
 @section('username',$username)
 
 @section('content')
-	<h2>Contactos favoritos</h2>
+	<h2 class="section-title pl-4 px-md-1">Contactos favoritos</h2>
 
 	@if(Session::has('error'))
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">

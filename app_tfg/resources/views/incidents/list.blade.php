@@ -38,7 +38,7 @@
 @endsection
 
 @section('content')
-	<h2>Lista de incidentes</h2>
+	<h2 class="section-title pl-5 px-md-1">Lista de incidentes</h2>
 	<section class="main-content mx-1">
 		<div class="my-3">
 			<a href="{{route('incidentesSubidos')}}">Mis publicaciones de incidentes</a>

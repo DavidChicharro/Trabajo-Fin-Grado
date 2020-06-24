@@ -121,13 +121,6 @@ Route::get('set_centers', 'IncidentsController@setCentersSeverityLevel');
 
 Route::get('/tweet', 'IncidentsController@publishIncidentTwitter');
 
-/*Route::group(['middleware' => ['auth:api']], function() {
-	Route::get('test_token', function() {
-		$user = \Auth::user();
-		return $user;
-	});
-});*/
-
 Route::get('test_token', function() {
 	$user = \Auth::user();
 	return $user;

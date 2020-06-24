@@ -41,7 +41,7 @@
 @endsection
 
 @section('content')
-	<h2>Mapa de incidentes</h2>
+	<h2 class="section-title pl-5 px-md-1">Mapa de incidentes</h2>
 
 	@if(Session::has('message'))
 		<div class="alert alert-primary alert-dismissible fade show" role="alert">

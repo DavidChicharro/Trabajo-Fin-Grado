@@ -15,12 +15,12 @@
 @endsection
 
 @section('content')
-	<h2>Dar de alta incidente</h2>
+	<h2 class="section-title pl-4 px-md-1">Dar de alta incidente</h2>
 	<section class="main-content mx-1">
-		<form class="px-3 pr-5 col-md-9" method="post" action="{{ Request::url() }}">
+		<form class="px-2" method="post" action="{{ Request::url() }}">
 			@csrf
 			<div class="form-row">
-				<div class="form-group col-md-5">
+				<div class="form-group col-sm-5">
 					<label for="categ-delito">Tipo de delito</label>
 					<select class="form-control selectpicker" id="categ-delito" title="Categoría delito" multiple data-live-search="true" data-selected-text-format="count > 3">
 						@foreach($delitos as $del)
@@ -29,11 +29,12 @@
 					</select>
 				</div>
 
-				<div class="form-group col-md-1 pt-4">
+				<div class="form-group col-sm-1 p-0 pt-sm-4">
 					<span id="search-delitos" class="sp-as-lk">❯❯</span>
+					<span class="d-sm-none ml-3 text-muted">Clica en las flechas para buscar</span>
 				</div>
 
-				<div class="form-group col-md-6" id="div-delito">
+				<div class="form-group col-sm-6" id="div-delito">
 					<label for="delito">Delito</label>
 					<select class="form-control selectpicker" name="delito" id="delito" title="Delito" data-live-search="true" required>
 					</select>
@@ -41,23 +42,17 @@
 			</div>
 
 			<div class="form-row">
-				<div class="form-group col-md-6">
+				<div class="form-group col-sm-6">
 					<label for="fecha_incidente">Fecha</label>
 					<div class="input-group">
 						<input type="date" name="fecha_incidente" class="form-control" required>
-						<div class="input-group-prepend">
-							<img class="input-group-text px-1" src="{{asset('images/icons/calendario.svg')}}">
-						</div>
 					</div>
 				</div>
 
-				<div class="form-group col-md-6">
+				<div class="form-group col-sm-6">
 					<label for="hora_incidente">Hora</label>
 					<div class="input-group">
 						<input type="time" name="hora_incidente" class="form-control" required>
-						<div class="input-group-prepend">
-							<img class="input-group-text py-2 px-1" src="{{asset('images/icons/reloj.svg')}}">
-						</div>
 					</div>
 				</div>
 			</div>

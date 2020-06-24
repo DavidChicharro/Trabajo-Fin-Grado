@@ -18,10 +18,10 @@
     <div class="container-fluid">
         <div class="row">
             @section('sidebar')
-                <section class="col-3 px-1 px-md-3 lateral-nav">
+                <section class="col-3 px-1 px-md-3 lateral-nav d-none d-md-block">
                     <img class="img-fluid" src="{{asset('images/logo/logo.png')}}" alt="logo">
 
-                    <div class="nav flex-column nav-pills" id="v-pills-tab" {{--role="tablist"--}} aria-orientation="vertical">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
                         <a class="nav-link {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" href="{{route('mapaIncidentes')}}" role="tab" aria-selected="true">Incidentes</a>
                         <a class="nav-link {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" href="{{route('contactosFavoritos')}}" role="tab" aria-selected="false">Contactos favoritos</a>
                         <a class="nav-link {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" href="{{route('zonasInteres')}}" role="tab" aria-selected="false">Zonas de interés</a>
@@ -29,14 +29,30 @@
                 </section>
             @show
 
-            <main class="offset-3 col-9 col-sm-7 col-lg-6 mt-2 mt-lg-4 px-1 py-3 px-md-3 p-lg-4">
+            <main class="col-12 col-sm-9 offset-md-3 col-md-6 mt-2 mt-lg-4 px-1 py-3 px-md-3 p-lg-4">
+                {{-- Menú para vista reducida --}}
+                <div class="navbar-block d-md-none">
+                    <nav class="navbar navbar-light">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <img class="img-fluid navbar-logo" src="{{asset('images/logo/logo.png')}}" alt="logo">
+                    </nav>
+                    <div class="collapse" id="navbarCollapse">
+                        <div class="bg-light py-0 row">
+                            <a class="nav-link col mx-1 p-1 text-center {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" href="{{route('mapaIncidentes')}}" role="tab" aria-selected="true">Incidentes</a>
+                            <a class="nav-link col mx-1 p-1 text-center {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" href="{{route('contactosFavoritos')}}" role="tab" aria-selected="false">Contactos favoritos</a>
+                            <a class="nav-link col mx-1 p-1 text-center {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" href="{{route('zonasInteres')}}" role="tab" aria-selected="false">Zonas de interés</a>
+                        </div>
+                    </div>
+                </div>
                 @yield('content')
             </main>
 
             @section('top-right-header')
-                <aside class="top-right-aside col-2 offset-lg-1 p-0 pr-md-2 pr-xl-4 d-none d-sm-block">
-                    <div class="icon-group mt-2 float-right">
-                        <a href="#" id="lupa" class="icon my-2 my-lg-0">
+                <aside class="top-right-aside col-3 offset-xl-1 col-xl-2 p-2 pr-md-4 d-none d-sm-block">
+                    <div class="icon-group mt-2 d-flex justify-content-end">
+                        <a href="#" id="lupa" class="icon my-2 my-lg-0 d-none">
                             <img class="icon-img" src="{{asset('images/icons/lupa.svg')}}">
                         </a>
 
@@ -49,9 +65,6 @@
                             @endif
                         </a>
 
-{{--                        <a href="#" id="campana" class="icon my-2 my-lg-0">--}}
-{{--                            <img class="icon-img" src="{{asset('images/icons/campana.svg')}}">--}}
-{{--                        </a>--}}
                         <a href="{{route('zonaPersonal')}}" id="user" class="icon my-2 my-lg-0">
                             <img class="icon-img" src="{{asset('images/icons/user.svg')}}">
                         </a>

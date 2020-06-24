@@ -37,6 +37,7 @@ main h2, main h5{
     font-weight: bold;
     margin: 5% 0;
 }
+
 .nav-link:hover {
     color: white;
     background-color: var(--k-blue);
@@ -46,10 +47,6 @@ main h2, main h5{
     color: white;
     background-color: var(--k-navy-blue)!important;
 }
-
-/*.nav-link {*/
-/*    color: var(--k-dark-blue);*/
-/*}*/
 
 .top-right-aside {
     height: min-content;
@@ -158,18 +155,18 @@ a.icon:hover {
 
 
 @media only screen and (min-width: 576px) and (max-width: 991px){
-    .icon-group {
+    /*.icon-group {
         display: flex;
         flex-wrap: wrap;
-    }
+    }*/
 
     /*#lupa{order: 3}*/
     /*#campana{order:2}*/
     /*#user{order:1}*/
 
-    .icon-group .icon {
+    /*.icon-group .icon {
         margin: auto;
-    }
+    }*/
 
     .filter > * {
         margin: 5px 0;
@@ -268,6 +265,10 @@ a.icon:hover {
     max-width: 70px!important;
 }
 
+#user {
+    padding: 8px 12px;
+}
+
 #notif-badge {
     top: -7px!important;
     left: -25px!important;
@@ -275,4 +276,10 @@ a.icon:hover {
 
 .map-cursor-pointer {
     cursor: default!important;
+}
+
+.navbar-logo {
+    width: 130px;
+    position: relative;
+    left: -35%;
 }
