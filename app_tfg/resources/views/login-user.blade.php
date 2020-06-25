@@ -21,7 +21,9 @@
 				</li>
 			</ul>
 
-			<a class="download-app text-center p-3" href="#">Descarga la app</a>
+			<a class="download-app text-center p-3" href="{{route('downloadApp')}}" target="_blank">
+				Descarga la app
+			</a>
 			<br><br>
 			<a class="rrss-link text-center p-3" href="https://twitter.com/kifungo_app" target="_blank">
 				<img class="img-fluid" src="{{asset('images/icons/twitter_logo.svg')}}" width="40px">
