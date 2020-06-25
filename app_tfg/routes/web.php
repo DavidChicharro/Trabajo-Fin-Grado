@@ -92,7 +92,7 @@ Route::get('/api/get_notifications', 'API\UsersController@getNotifications')->mi
 Route::get('/api/mark_notification_as_read', 'API\UsersController@markNotificationAsRead')->middleware('auth:api');
 
 Route::get('/api/get_list_incidents', 'API\IncidentsController@getList');
-//Route::get('/api/get_map_incidents', 'API\IncidentsController@getMapIncidents');
+Route::get('/api/get_list_centers_incidents_areas', 'API\IncidentsController@getCentersIncidentsAreas')->middleware('auth:api');
 Route::get('/api/get_uploaded_incidents', 'API\IncidentsController@getUploadedIncidentsByUser')->middleware('auth:api');
 Route::get('/api/get_delitos', 'API\IncidentsController@getDelitos');
 Route::get('/api/store_incident', 'API\IncidentsController@store')->middleware('auth:api');

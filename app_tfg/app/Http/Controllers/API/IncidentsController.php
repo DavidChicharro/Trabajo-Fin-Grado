@@ -75,6 +75,26 @@ class IncidentsController extends Controller
 			], 200);
 	}
 
+	public function getCentersIncidentsAreas() {
+		$user = Auth::user();
+
+		if (!is_null($user)) {
+			$incCtrl = new IncidentCtrl();
+			$incidentCenters = $incCtrl->getMapCenters();
+
+			return response()
+				->json([
+					'status' => 'success',
+					'centers' => $incidentCenters
+				], 200);
+		}
+		return response()
+			->json([
+				'status' => 'error',
+				'message' => '¡El usuario no existe!'
+			], 401);
+	}
+
 	/**
 	 * Devuelve los incidents subidos por un usuario
 	 *
