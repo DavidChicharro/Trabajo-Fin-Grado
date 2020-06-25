@@ -1,7 +1,10 @@
 //Si los campos ya están rellenos se habilita el
 // botón de inicio de sesión
 $( document ).ready(function() {
-    checkAllowLogin($(document).find('form'));
+    setInterval(
+        function() { checkAllowLogin($(document).find('form')); },
+        750
+    );
 });
 
 function allowLogin(form){
@@ -28,10 +31,10 @@ function allowLogin(form){
 
 //Habilita o deshabilita el botón de inicio de sesión
 // según si se cumplen las restricciones
-function checkAllowLogin(form){
-    if(allowLogin(form)){
+function checkAllowLogin(form) {
+    if (allowLogin(form))
         $('input[type=submit]').prop("disabled",false);
-    }else
+    else
         $('input[type=submit]').prop("disabled",true);
 }
 

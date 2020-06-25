@@ -10,6 +10,10 @@
 
 }
 
+.rrss-link {
+	text-decoration: none;
+}
+
 .download-app {
 	color: var(--k-navy-blue) !important;
 	font-size: 150%;
