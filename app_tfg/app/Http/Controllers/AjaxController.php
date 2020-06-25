@@ -78,13 +78,6 @@ class AjaxController extends Controller
 		}
 	}
 
-	public function downloadApp() {
-    	$file = public_path() . "/app/kifungo.apk";
-    	$headers = array('Content-Type: application/vnd.android.package-archive');
-
-    	return response()->download($file, 'kifungo.apk', $headers);
-	}
-
 	public function getData(Request $request){
     	$data = array(
     		0 => array(

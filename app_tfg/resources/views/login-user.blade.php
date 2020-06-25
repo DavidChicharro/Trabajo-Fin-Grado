@@ -21,7 +21,7 @@
 				</li>
 			</ul>
 
-			<a class="download-app text-center p-3" href="{{route('downloadApp')}}" target="_blank">
+			<a class="download-app text-center p-3" href="/app/kifungo.apk" target="_blank">
 				Descarga la app
 			</a>
 			<br><br>

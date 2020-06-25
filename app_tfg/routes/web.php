@@ -65,8 +65,6 @@ Route::post('/remove_interest_area', 'InterestAreasController@removeInterestArea
 //Route::post('/reject_favourite_contact', 'FavContactsController@rechazarContacto');
 Route::post('/mark_notification_as_read', 'UserNotificationsController@markNotificationAsRead');
 
-Route::get('/download_app', 'AjaxController@downloadApp')->name('downloadApp');
-
 // Administración
 Route::get('/admin', 'UsersController@admin')->name('admin');
 Route::post('/admin', 'UsersController@login');
