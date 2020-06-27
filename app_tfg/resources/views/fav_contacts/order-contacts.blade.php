@@ -4,7 +4,7 @@
 @section('username',$username)
 
 @section('content')
-	<h2>Ordenar contactos favoritos</h2>
+	<h2 class="section-title pl-1 pl-sm-5 px-md-1">Ordenar contactos favoritos</h2>
 
 	<div id="alert-success" class="alert alert-primary alert-dismissible fade show d-none" role="alert">
 		Los contactos se han ordenado satisfactoriamente

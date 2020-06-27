@@ -147,7 +147,7 @@ a.icon:hover {
         width: 35px;
     }
 }
-@media only screen and (min-width: 992px) and (max-width: 1199px){
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
     .nav-pills {
         width: 75%;
     }
@@ -280,6 +280,11 @@ a.icon:hover {
 
 .navbar-logo {
     width: 130px;
-    position: relative;
-    left: -35%;
+}
+
+@media only screen and (min-width: 576px){
+    .navbar-logo {
+        position: relative;
+        left: -35%;
+    }
 }

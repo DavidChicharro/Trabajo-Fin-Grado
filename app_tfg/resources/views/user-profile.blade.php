@@ -9,8 +9,8 @@
 
 
 @section('content')
-	<h2>Zona personal</h2>
-	<section class="main-content pl-3 pt-4">
+	<h2 class="section-title pl-3 pl-sm-5 px-md-1">Zona personal</h2>
+	<section class="main-content pl-3 pt-1 pt-md-4">
 		<article class="my-2">
 			<h5 class="p-1">Configuración</h5>
 			<ul class="admin-list pl-3">
@@ -46,7 +46,7 @@
 
 		<article class="my-4">
 			<h5 class="p-1">Datos personales</h5>
-			<form class="pl-3 pr-5 w-50" method="post" action="{{ Request::url() }}">
+			<form class="pl-3 pr-5 form-user-profile" method="post" action="{{ Request::url() }}">
 				@csrf
 				<div class="form-group">
 					<label for="nombre">Nombre</label>
@@ -112,7 +112,7 @@
 
 		<article class="my-4">
 			<h5 class="p-1">Seguridad</h5>
-			<form class="pl-3 pr-5 w-50" method="post" action="{{ Request::url() }}">
+			<form class="pl-3 pr-5 form-user-profile" method="post" action="{{ Request::url() }}">
 				@csrf
 				<div class="form-group">
 					<label for="password">Contraseña actual</label>

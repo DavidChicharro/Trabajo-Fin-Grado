@@ -55,9 +55,25 @@ form label {
 	color: var(--k-navy-blue);
 }
 
-@media only screen and (max-width: 576px){
-	#search-delitos {
-		t-ms-transform: rotate(90deg); /* IE 9 */
-		transform: rotate(90deg);
+@media only screen and (max-width: 450px){
+	.form-user-profile {
+		width: 100%;
 	}
 }
+@media only screen and (min-width: 451px) and (max-width: 939px) {
+	.form-user-profile {
+		width: 80%;
+	}
+}
+@media only screen and (min-width: 940px) {
+	.form-user-profile {
+		width: 65%;
+	}
+}
+
+/*@media only screen and (max-width: 576px){
+	#search-delitos {
+		t-ms-transform: rotate(90deg); !* IE 9 *!
+		transform: rotate(90deg);
+	}
+}*/

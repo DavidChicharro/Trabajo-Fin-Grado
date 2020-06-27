@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-	<h2>Contactos favoritos</h2>
+	<h2 class="section-title pl-1 pl-sm-5 px-md-1">Contactos favoritos</h2>
 	<section class="main-content mx-1 my-4 row">
 		<article class="px-3 pr-5 col-md-9" id="search-contact">
 			<div class="form-row">

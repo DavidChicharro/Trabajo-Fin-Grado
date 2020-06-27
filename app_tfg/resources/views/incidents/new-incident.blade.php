@@ -15,7 +15,7 @@
 @endsection
 
 @section('content')
-	<h2 class="section-title pl-4 px-md-1">Dar de alta incidente</h2>
+	<h2 class="section-title pl-1 pl-sm-5 px-md-1">Dar de alta incidente</h2>
 	<section class="main-content mx-1">
 		<form class="px-2" method="post" action="{{ Request::url() }}">
 			@csrf

@@ -37,9 +37,21 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <img class="img-fluid navbar-logo" src="{{asset('images/logo/logo.png')}}" alt="logo">
+
+                        <a id="campana" class="btn icon float-right d-sm-none" role="button" data-toggle="popover">
+                            <img class="icon-img" src="{{asset('images/icons/campana.svg')}}">
+                            @if($notifications->count() > 0)
+                                <span id="notif-badge" class="badge badge-pill badge-danger">
+                                    {{$notifications->count()}}
+                                </span>
+                            @endif
+                        </a>
+                        <a href="{{route('zonaPersonal')}}" class="icon float-right d-sm-none">
+                            <img class="icon-img" src="{{asset('images/icons/user.svg')}}">
+                        </a>
                     </nav>
                     <div class="collapse" id="navbarCollapse">
-                        <div class="bg-light py-0 row">
+                        <div class="bg-light py-0 px-3 row">
                             <a class="nav-link col mx-1 p-1 text-center {{(request()->is('mapa-incidentes') or request()->is('lista-incidentes')) ? 'active':''}}" id="nav-incidents" href="{{route('mapaIncidentes')}}" role="tab" aria-selected="true">Incidentes</a>
                             <a class="nav-link col mx-1 p-1 text-center {{(request()->is('contactos-favoritos')) ? 'active':''}}" id="nav-fav-contacts" href="{{route('contactosFavoritos')}}" role="tab" aria-selected="false">Contactos favoritos</a>
                             <a class="nav-link col mx-1 p-1 text-center {{(request()->is('zonas-interes')) ? 'active':''}}" id="nav-areas-interest" href="{{route('zonasInteres')}}" role="tab" aria-selected="false">Zonas de interés</a>

@@ -4,7 +4,7 @@
 @section('username',$username)
 
 @section('content')
-	<h2>De quién soy contacto favorito</h2>
+	<h2 class="section-title pl-1 pl-sm-5 px-md-1">De quién soy contacto favorito</h2>
 	<section class="main-content mx-1 my-4 row">
 		<div class="contacts col-8">
 			@if(!empty($contacts))
