@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Establecer acción de pánico</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="ion-padding">
+    <ion-radio-group [(ngModel)]="panicAction">
+      <ion-item>
+        <ion-label>Ninguna</ion-label>
+        <ion-radio slot="start" value="null" color="k-blue"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Ubicación</ion-label>
+        <ion-radio slot="start" value="ubicacion" color="k-blue"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Llamada</ion-label>
+        <ion-radio slot="start" value="llamada" color="k-blue"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-button color="k-blue" expand="block" 
+    class="ion-padding" (click)="setConfig()">
+      Aceptar
+    </ion-button>
+  </ion-list>
+
+</ion-content>

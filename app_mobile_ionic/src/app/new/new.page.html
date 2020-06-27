@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Noticiones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let item of noticias" [routerLink]="['/new', item.id]">
+    <ion-card-header>
+      <ion-card-title>{{ item.title }}</ion-card-title>
+<!--      <ion-card-subtitle>{{ item.subtitle }}</ion-card-subtitle>-->
+    </ion-card-header>
+
+    <ion-card-content>
+<!--      {{ item.abstract }}-->
+      {{ item.subtitle }}
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+

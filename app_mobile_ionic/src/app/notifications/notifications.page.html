@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      <h1 class="header-title ion-no-margin">Notificaciones</h1>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item *ngIf="notifications.length == 0">
+      <p>No tienes ninguna notificación</p>
+    </ion-item>
+
+    <ion-card class="notif-card ion-no-margin ion-no-padding" *ngFor="let notification of notifications">
+      <div *ngIf="notification.notificationType == 'befavcontact'" class="ion-no-padding">
+        <div class="notif-text">
+          <ion-icon name="person-add" class="notif-icon" color="k-dark-blue" slot="start"></ion-icon>
+          <ion-text color="k-dark-blue">
+            {{notification.senderName}} 
+            <span class="notif-email">({{notification.senderEmail}})</span> 
+            {{notification.message}}
+          </ion-text>
+        </div>
+
+        <div class="notif-buttons ion-no-margin">
+          <ion-button slot="start" fill="clear" color="success"
+          class="ion-no-margin ion-float-left"
+          (click)="acceptContact(notification)">
+            <ion-icon class="accept-reject-icon" name="checkmark-circle-outline"></ion-icon>
+            <ion-label>Aceptar</ion-label>
+          </ion-button>
+
+          <ion-button slot="end" fill="clear" color="k-red" 
+          class="ion-no-margin ion-float-right"
+          (click)="rejectContact(notification)">
+            <ion-icon class="accept-reject-icon" name="close-circle-outline"></ion-icon>
+            <ion-label>Rechazar</ion-label>
+          </ion-button>
+        </div>
+      </div>
+
+      <div *ngIf="notification.notificationType == 'interest_area_incident'" class="ion-no-padding">
+        <div class="notif-text">
+          <ion-icon name="alert-circle-outline" class="notif-icon" color="k-dark-blue" slot="start"></ion-icon>
+          <ion-text color="k-dark-blue">
+            {{ notification.message }}
+          </ion-text>
+        </div>
+        <!-- <div class="notif-buttons ion-margin-horizontal">
+          <ion-button slot="start" fill="outline" color="k-blue"
+          class="mark-as-read-margins ion-no-margin ion-float-left"
+          (click)="markAsRead(notification)">
+            Marcar como leída
+          </ion-button>
+        </div> -->
+        <div class="notif-buttons mark-as-read-margins ion-text-center">
+          <ion-button slot="start" fill="outline" color="k-blue" class="ion-no-margin"
+          (click)="markAsRead(notification)">
+            Marcar como leída
+          </ion-button>
+        </div>
+      </div>
+
+      <div *ngIf="notification.notificationType == 'share_location_panic'" class="ion-no-padding">
+        <div class="notif-text">
+          <ion-icon name="person" class="notif-icon" color="k-dark-blue" slot="start"></ion-icon>
+          <ion-icon name="warning" class="notif-icon" color="k-dark-blue" slot="start"></ion-icon>
+          <ion-text color="k-dark-blue">
+            {{ notification.senderName }} ({{ notification.senderEmail }}) {{ notification.message }}
+          </ion-text>
+        </div>
+
+        <div class="notif-buttons view-location-margins ion-text-center">
+          <ion-button slot="start" fill="outline" color="k-blue" class="ion-no-margin"
+          (click)="viewContactLocation(notification)"
+          *ngIf="readNotifications.indexOf(notification.id) === -1">
+            Ver ubicación
+          </ion-button>
+
+          <ion-button slot="start" fill="outline" color="k-blue" class="ion-no-margin"
+          (click)="markAsRead(notification)" *ngIf="readNotifications.indexOf(notification.id) > -1">
+            Marcar como leída
+          </ion-button>
+        </div>
+      </div>
+    </ion-card>
+  </ion-list>
+
+</ion-content>

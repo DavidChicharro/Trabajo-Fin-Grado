@@ -1,0 +1,63 @@
+<ion-content>
+  <div class="ion-padding-horizontal">
+    <img src="../../assets/images/kifungo-logo.png" alt="logo">
+  </div>
+
+  <ion-text class="ion-text-center ion-no-margin">
+    <h1 class="ion-no-margin ion-no-padding big-title">Registro</h1>
+  </ion-text>
+
+  <form #form="ngForm" (ngSubmit)="registerForm()">
+    <ion-list lines="full" class="ion-margin ion-no-padding">
+      <ion-item>
+        <ion-label position="floating">Email <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="email" type="email" [(ngModel)]="email"
+        (ngModelChange)="validateEmail()" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Contraseña <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="password" [type]=pswdTypeInput [(ngModel)]="password"
+        (ngModelChange)="validatePass()" required></ion-input>
+        <ion-button slot="end" fill="clear" size="large"
+          class="ion-no-margin" (click)="togglePswdMode()">
+          <ion-icon class="eye-icon eye-color" [name]=eyeType></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Confirmar contraseña <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="repeat-password" [type]=pswdRptTypeInput [(ngModel)]="repeatPassword"
+        (ngModelChange)="checkMatchPass()" required></ion-input>
+        <ion-button slot="end" fill="clear" size="large"
+          class="ion-no-margin" (click)="togglePswdRptMode()">
+          <ion-icon class="eye-icon eye-color" [name]=eyeRptType></ion-icon>
+        </ion-button>
+      </ion-item>
+      <p *ngIf="displayNotValidPassFormat" class="pass-error ion-padding-horizontal">
+        La contraseña debe tener al menos una letra mayúscula, una minúscula, un número y un caracter especial
+      </p>
+      <p *ngIf="displayNotMatchPass" class="pass-error ion-padding-horizontal">
+        Las contraseñas no coinciden
+      </p>
+
+      <div class="ion-no-padding ion-margin-top">
+        <ion-button color="k-dark-blue" type="submit" expand="block" [disabled]="!validForm">
+          Siguiente
+        </ion-button>
+      </div>
+
+    </ion-list>
+  </form>
+
+  <ion-item class="ion-padding-horizontal">
+    <ion-progress-bar value="0.5" color="k-light-blue"></ion-progress-bar>
+  </ion-item>
+
+  <div class="ion-text-center ion-padding-horizontal ion-margin-bottom">
+    <ion-text>
+      <p class="ion-no-padding">¿Ya tienes cuenta?</p>
+      <a href="/login">Inicia sesión</a>
+    </ion-text>
+  </div>
+</ion-content>

@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/list"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="subheader-title">Mapa de incidentes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-text-center">
+        <ion-col class="ion-no-margin ion-no-padding">
+          <ion-button [routerLink]="['/tabs/list']" fill="clear"
+          color="k-navy-blue">
+            <ion-icon class="big-icon" name="list-outline"></ion-icon>
+            <span class="icon-label">Lista</span>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-no-margin ion-no-padding">
+          <ion-button [routerLink]="['/uploaded']" routerDirection="forward"
+          fill="clear" color="k-navy-blue">
+            <ion-icon class="big-icon" slot="start" name="cloud-upload"></ion-icon>
+            <span class="icon-label">Subidos</span>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-no-margin ion-no-padding">
+          <ion-button (click)="openFilterModal()" fill="clear"
+          color="k-navy-blue">
+            <ion-icon class="big-icon" slot="start" name="filter-outline"></ion-icon>
+            <span class="icon-label">Filtro</span>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+
+  <!-- <ion-item>
+    <ion-icon slot="start" name="locate"></ion-icon>
+    <ion-label position="stacked">Address</ion-label>
+    <ion-textarea [(ngModel)]="address" type="text" style="margin-top:20px;"></ion-textarea>
+  </ion-item>
+  
+  <ion-button shape="round" expand="block" (click)="locatePosition()">
+    Confirm Pickup Location
+  </ion-button> -->
+
+  <div *ngIf="dateFilter || incidentsFilter">
+    <ion-text *ngIf="dateFilter">
+      <p class="filter">Intervalo: {{dateFilter}}</p>
+    </ion-text>
+    <ion-text *ngIf="incidentsFilter">
+      <p class="filter">Tipos de incidentes: {{incidentsFilter}}</p>
+    </ion-text>
+  </div>
+
+  <div id="mapid" style="height:92%"></div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="add-incident-button">
+    <ion-fab-button [routerLink]="['/new']" color="k-red">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

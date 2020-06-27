@@ -1,0 +1,8 @@
+{
+  "name": "app_tfg",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "3dd7b8c1"
+}

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/new"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Incidentes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-margin">
+    <h1 class="ion-margin-vertical ion-margin-start ion-padding-bottom incident-name">
+      {{ incident.incident }}
+    </h1>
+
+    <div>
+      <span>{{ incident.place }}</span><br>
+      <span class="date-hour-inc">{{incident.date}} - {{incident.hour}}</span>
+    </div>
+
+    <p class="incident-description ion-margin-vertical ion-padding-vertical">
+      {{ incident.description }}
+    </p>
+
+    <div class="ion-text-center share-incident">
+      <ion-icon slot="start" name="share-social-sharp"></ion-icon>
+      <h4 class="share-inc-text" (click)="share()">Compartir incidente</h4>
+    </div>
+  </div>
+</ion-content>

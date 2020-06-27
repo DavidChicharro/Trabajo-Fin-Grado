@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/list"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="subheader-title">Añadir zona de interés</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="mapFavAdd" [ngStyle]="{ 'height': height }"></div>
+
+  <div *ngIf="showSliderSubmit">
+    <ion-item>
+      <ion-range [min]=minArea [max]=maxArea step="50"
+      snaps="true" pin="true" color="k-blue" class="radio-slider"
+      [(ngModel)]="radio" (ionChange)="changeRadius()">
+      </ion-range>
+      
+      <ion-button color="k-dark-blue" expand="full" (click)="addInterestArea()"
+      class="ion-margin-top">
+        Añadir zona
+      </ion-button>
+    </ion-item> 
+  </div>
+
+</ion-content>

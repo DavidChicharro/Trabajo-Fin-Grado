@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      <h1 class="header-title ion-no-margin">Zona personal</h1>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding-horizontal">
+    <h3 class="dark-title ion-no-margin list-title">Configuración</h3>
+
+    <ion-list class="ion-no-padding">
+      <ion-item class="blue-item ion-no-padding"
+      (click)="openPanicActionModal()">
+        <ion-icon slot="start" name="alert-circle-sharp"></ion-icon>
+        <ion-label>Establecer acción de pánico</ion-label>
+      </ion-item>
+  
+      <ion-item class="blue-item ion-no-padding"
+      (click)="openSecretPinModal()">
+        <ion-icon slot="start" name="keypad-outline"></ion-icon>
+        <ion-label>Establecer PIN secreto</ion-label>
+      </ion-item>
+  
+      <ion-item class="blue-item ion-no-padding"
+      (click)="enableLocation()">
+        <ion-icon slot="start" name="navigate-sharp"></ion-icon>
+        <ion-label>Activar ubicación</ion-label>
+      </ion-item>    
+    </ion-list>
+  </div>
+
+
+  <div class="ion-padding-horizontal">
+    <h3 class="dark-title ion-no-margin list-title">Datos personales y seguridad</h3>
+
+    <ion-list class="ion-no-padding">
+      <ion-item class="blue-item ion-no-padding"
+      (click)="openPersonalDataModal()">
+        <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+        <ion-label>Modificar datos personales</ion-label>
+      </ion-item>
+
+      <ion-item class="blue-item ion-no-padding"
+      (click)="openPassDataModal()">
+        <ion-icon slot="start" name="key-outline"></ion-icon>
+        <ion-label>Cambiar contraseña</ion-label>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+  <div class="ion-padding-horizontal">
+    <h3 class="dark-title ion-no-margin list-title">Cuenta</h3>
+    <ion-button class="ion-text-left non-capitalize" color="k-red" fill="clear"
+     (click)="logout()">
+      Cerrar sesión
+    </ion-button>
+  </div>
+
+</ion-content>

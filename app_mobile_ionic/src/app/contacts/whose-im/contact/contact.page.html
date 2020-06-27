@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/whose-im"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="subheader-title">De quién soy contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-margin">
+    <h1 _ngcontent-jgr-c5="" class="ion-margin">
+      <span class="order-contact">{{contact.order}}</span>
+      <span class="name-contact">{{ contact.name }}</span>
+    </h1>
+
+    <div class="contact-info ion-padding">
+      <p>Teléfono: {{ contact.tel }}</p>
+      <p>Email: {{ contact.email }}</p>
+    </div>
+
+    <div class="delete-contact contact-button"
+    (click)="alertDeleteMeAsContact(contact.id, contact.name)">
+      <ion-icon name="trash-outline" class="contact-detail-icon"></ion-icon>
+      <span class="contact-detail-icon-text">Eliminarme como contacto favorito</span>
+    </div>
+
+  </div>
+</ion-content>

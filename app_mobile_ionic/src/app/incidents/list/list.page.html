@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      <h1 class="header-title ion-no-margin">Lista de incidentes</h1>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-text-center">
+        <ion-col class="ion-no-margin ion-no-padding">
+          <ion-button [routerLink]="['/map']" fill="clear"
+          color="k-navy-blue">
+            <ion-icon class="big-icon" name="map-outline"></ion-icon>
+            <span class="icon-label">Mapa</span>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-no-margin ion-no-padding">
+          <ion-button [routerLink]="['/uploaded']" routerDirection="forward"
+          fill="clear" color="k-navy-blue">
+            <ion-icon class="big-icon" slot="start" name="cloud-upload"></ion-icon>
+            <span class="icon-label">Subidos</span>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-no-margin ion-no-padding">
+          <ion-button (click)="openFilterModal()" fill="clear"
+          color="k-navy-blue">
+            <ion-icon class="big-icon" slot="start" name="filter-outline"></ion-icon>
+            <span class="icon-label">Filtro</span>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+
+  <div *ngIf="dateFilter || incidentsFilter" class="ion-padding-horizontal">
+    <ion-text *ngIf="dateFilter">
+      <p class="filter"><b>Intervalo:</b> {{dateFilter}}</p>
+    </ion-text>
+    <ion-text *ngIf="incidentsFilter">
+      <p class="filter"><b>Tipos de incidentes:</b> {{incidentsFilter}}</p>
+    </ion-text>
+  </div>
+
+  <ion-list>
+    <ion-item *ngIf="listIncidents.length == 0">
+      <p>No existe ningún incidente</p>
+    </ion-item>
+    <ion-card class="incident-card ion-no-margin ion-no-padding" *ngFor="let incident of listIncidents"
+    [routerLink]="['/list', incident.id]">
+      <ion-item>
+        <ion-grid class="ion-padding-vertical">
+          <ion-row class="ion-padding-bottom">
+              <h3 class="ion-no-margin ion-no-padding">
+                {{incident.incident}}
+              </h3>
+          </ion-row>
+          <ion-row>
+            <ion-col size="8" class="ion-no-padding">
+              {{incident.place}}
+            </ion-col>
+            <ion-col size="4" class="ion-no-padding ion-text-right">
+              <small>{{incident.date}}<br>{{incident.hour}}</small>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+
+  <ion-infinite-scroll  threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más datos…">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="add-incident-button">
+    <ion-fab-button [routerLink]="['/new']" routerDirection="forward" color="k-red">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

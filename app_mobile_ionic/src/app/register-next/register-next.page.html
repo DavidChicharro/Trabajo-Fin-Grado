@@ -1,0 +1,60 @@
+<ion-content>
+  <div class="ion-padding-horizontal">
+    <img src="../../assets/images/kifungo-logo.png" alt="logo">
+  </div>
+
+  <ion-text class="ion-text-center ion-no-margin">
+    <h1 class="ion-no-margin ion-no-padding big-title">Registro</h1>
+  </ion-text>
+
+  <form #form="ngForm" (ngSubmit)="registerForm()">
+    <ion-list lines="full" class="ion-margin ion-no-padding">
+      <ion-item>
+        <ion-label position="floating">Nombre <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="nombre" type="text" [(ngModel)]="nombre"
+        (ngModelChange)="validateName()" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Apellidos <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="apellidos" type="text" [(ngModel)]="apellidos"
+        (ngModelChange)="validateApellidos()" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">D.N.I. <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="dni" type="text" [(ngModel)]="dni"
+        (ngModelChange)="validateDNI()" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Fecha de nacimiento <ion-text color="danger">*</ion-text></ion-label>
+        <ion-datetime displayFormat="DD/MMM/YYYY" placeholder="DD/MM/AAAA"
+        monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
+        doneText="Aceptar" cancelText="Cancelar" [(ngModel)]="fecha_nacimiento"
+        [max]=max_date (ionChange)="validateDate()"
+        name="fecha_nacimiento" required></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Número de teléfono móvil <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="telefono" type="text" [(ngModel)]="telefono"
+        (ngModelChange)="validateTelefono()" required></ion-input>
+      </ion-item>
+
+      <div class="ion-no-padding ion-margin-top">
+        <ion-button color="k-dark-blue" type="submit" expand="block" [disabled]="!validForm">
+          Registrarse
+        </ion-button>
+      </div>
+
+    </ion-list>
+  </form>
+
+  <ion-item class="ion-padding-horizontal">
+    <ion-progress-bar value="1" color="k-light-blue"></ion-progress-bar>
+  </ion-item>
+
+  <div class="ion-text-center ion-padding-horizontal ion-margin-bottom">
+    <ion-text>
+      <p class="ion-no-padding">¿Ya tienes cuenta?</p>
+      <a href="/login">Inicia sesión</a>
+    </ion-text>
+  </div>
+</ion-content>

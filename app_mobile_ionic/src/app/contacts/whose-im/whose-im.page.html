@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/fav-contacts"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="subheader-title">De quién soy contacto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item *ngIf="listContacts.length == 0">
+      <p>No eres contacto favorito de ningún usuario</p>
+    </ion-item>
+
+    <ion-item *ngFor="let contact of listContacts" [routerLink]="['/whose-im', contact.id]">
+      <h3 class="ion-margin ion-padding-start">{{contact.name}}</h3>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

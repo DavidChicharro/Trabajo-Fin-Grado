@@ -1,0 +1,25 @@
+.incident-name {
+    color: var(--ion-color-k-dark-blue);
+}
+
+.date-hour-inc {
+    font-size: 90%;
+}
+
+.share-incident {
+    margin: 16px 20px 16px 0;
+    padding: 16px 25px 16px 0;
+}
+
+.share-incident > ion-icon{
+    color: var(--ion-color-k-blue);
+    font-size: 32px;
+    display: inline-block;
+    margin: -9px 9px;
+}
+
+.share-incident > .share-inc-text {
+    color: var(--ion-color-k-blue);
+    margin: 0px auto;
+    display: inline-block;
+}

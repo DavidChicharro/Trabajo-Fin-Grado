@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    <ion-title class="ion-text-center">Botón del pánico</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="showCountdown" class="ion-padding">
+    <h5 class="text-alert alert-red">Se alertará a todos tus contactos favoritos de que estás en una posible situación de peligro</h5>
+    
+    <div *ngIf="panicAction === 'ubicacion'">
+      <h5 class="text-alert alert-blue">Todos ellos recibirán tu ubicación</h5>
+    </div>
+    <div *ngIf="panicAction === 'llamada'">
+      <h5 class="text-alert alert-blue">Se llamará, según el orden establecido, a cada uno de ellos</h5>
+    </div>
+
+    <div id="countdown">
+      <p id="countdown-number">{{ countdown }}</p>
+      <svg>
+        <circle [attr.r]=radius cx="100" cy="100" stroke-linecap="round" stroke-width="10" fill="none" stroke="black"></circle>
+      </svg>
+      <svg>
+        <circle id="circle" [attr.r]=radius cx="100" cy="100" stroke-linecap="round" stroke-width="10" 
+        fill="none" stroke="#d9534f"></circle>
+      </svg>
+    </div>
+    <div class="ion-text-center">
+      <ion-button (click)="cancel()" size="large" color="k-red">CANCELAR</ion-button>
+    </div>
+  </div>
+
+  <div *ngIf="showLocation" class="ion-padding">
+    <h5 class="text-alert alert-red">Compartiendo ubicación con tus contactos favoritos</h5>
+
+    <div class="ion-text-center ion-margin-top">
+      <ion-button (click)="stopShareLocation()" expand="block" color="k-red">Dejar de compartir ubicación</ion-button>
+    </div>
+
+    <!-- Borrar -->
+    <div class="ion-padding ion-margin">
+      <p>Latidud: {{ latitude }}</p>
+      <p>Longitud: {{ longitude }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="showCall" class="ion-padding">
+    <h5 class="text-alert alert-red">Llamando tus contactos favoritos</h5>
+
+    <div class="ion-text-center ion-margin-top">
+      <ion-button (click)="stopCallContacts()" expand="block" color="k-red">Dejar de llamar</ion-button>
+    </div>
+
+    <!-- <div class="ion-padding ion-margin">
+    </div> -->
+  </div> 
+  
+
+</ion-content>

@@ -1,0 +1,41 @@
+<ion-content>
+  <div class="ion-padding-horizontal">
+    <img src="../../../assets/images/kifungo-logo.png" alt="logo">
+  </div>
+
+  <ion-text class="ion-text-center ion-no-margin">
+    <h1 class="ion-no-margin ion-no-padding big-title">Inicia sesión</h1>
+  </ion-text>
+
+  <form #form="ngForm">
+    <ion-list lines="full" class="ion-margin ion-padding-horizontal">
+      <ion-item>
+        <ion-label position="floating">Email <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="email" type="email" #email required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Contraseña <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input name="password" [type]=pswdTypeInput #password required></ion-input>
+        <ion-button slot="end" fill="clear" size="large"
+          class="ion-no-margin" (click)="togglePswdMode()">
+          <ion-icon class="eye-icon eye-color" [name]=eyeType></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <div class="ion-no-padding ion-margin-top">
+        <ion-button color="k-dark-blue" type="submit" expand="block" (click)="login(email, password)">
+          Iniciar sesión
+        </ion-button>
+      </div>
+
+    </ion-list>
+  </form>
+
+  <div class="ion-text-center ion-padding-horizontal ion-margin-bottom">
+    <ion-text>
+      <p class="ion-no-padding">¿No tienes cuenta?</p>
+      <a href="/register">Regístrate</a>
+    </ion-text>
+  </div>
+  
+</ion-content>

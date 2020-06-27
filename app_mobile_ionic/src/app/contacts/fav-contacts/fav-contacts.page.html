@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      <h1 class="header-title ion-no-margin">Contactos favoritos</h1>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item *ngIf="listContacts.length == 0">
+      <p>No tienes ningún contacto favorito</p>
+    </ion-item>
+
+    <ion-reorder-group (ionItemReorder)="reorderItems($event)" [disabled]=disabledReorder>
+      <ion-item *ngFor="let contact of listContacts" [routerLink]="['/fav-contacts', contact.id]">
+        <h3 class="order ion-float-left ion-margin-end">{{contact.order}}</h3>
+        <h3 class="ion-float-left ion-padding-start">{{contact.name}}</h3>
+        <ion-reorder slot="end">
+          <ion-icon name="reorder-three" size="large"></ion-icon>
+        </ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="setting-button">
+    <ion-fab-button color="k-dark-blue">
+      <ion-icon name="settings-outline" class="settings-icon"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-list side="top">
+        <ion-fab-button (click)="toggleReorder()" [color]=orderColor *ngIf="listContacts.length > 1">
+          <ion-icon [name]=orderContactsIcon class="fav-contacts-icons"></ion-icon>
+        </ion-fab-button>
+        
+        <ion-fab-button [routerLink]="['/new-contact']" routerDirection="forward" color="k-blue">
+          <ion-icon name="person-add" class="fav-contacts-icons"></ion-icon>
+        </ion-fab-button>
+        
+        <ion-fab-button [routerLink]="['/whose-im']" routerDirection="forward" color="k-blue">
+          <ion-icon name="people-circle" class="fav-contacts-icons"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-button color="warning" (click)="openPanicModal()" [disabled]="disabledPanicButton"
+        class="panicbutton" *ngIf="listContacts.length > 0">
+          <ion-icon name="warning-outline" color="k-red" class="fav-contacts-icons"></ion-icon>
+        </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

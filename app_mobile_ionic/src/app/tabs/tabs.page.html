@@ -1,0 +1,59 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    <!-- <ion-tab-button tab="tab1">
+      <ion-icon name="triangle"></ion-icon>
+      <ion-label>Tab 1</ion-label>
+    </ion-tab-button> -->
+
+    <!-- <ion-tab-button tab="tab2">
+      <ion-icon name="ellipse"></ion-icon>
+      <ion-label>Tab 2</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab3">
+      <ion-icon name="square"></ion-icon>
+      <ion-label>Tab 3</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="new">
+      <ion-icon name="newspaper-outline"></ion-icon>
+      <ion-label>Noticias</ion-label>
+    </ion-tab-button> -->
+
+    <!-- <ion-tab-button tab="register">
+      <ion-icon name="person-add-outline"></ion-icon>
+      <ion-label>Registro</ion-label>
+    </ion-tab-button> -->
+
+    <!-- <ion-tab-button tab="datos">
+      <ion-icon name="analytics-outline"></ion-icon>
+      <ion-label>Datos</ion-label>
+    </ion-tab-button> -->
+
+    <ion-tab-button tab="list">
+      <ion-icon name="map"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="fav-contacts">
+      <ion-icon name="people-sharp"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="notifications">
+      <ion-icon name="notifications"></ion-icon>
+      <ion-badge *ngIf="numNotifications > 0" color="k-red">
+        <span class="badge-number">{{ numNotifications }}</span>
+      </ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="interest-areas">
+      <!-- <ion-icon name="bookmark"></ion-icon> -->
+      <ion-icon src="../../assets/icon/interest-area.svg"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button tab="profile">
+      <ion-icon name="person"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

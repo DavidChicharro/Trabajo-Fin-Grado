@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/list"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="subheader-title">Dar de alta incidente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #form="ngForm" (ngSubmit)="logForm()">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+
+      <ion-item>
+        <ion-label position="floating" class="small-label">Delito</ion-label>
+        <ion-select placeholder="Delito" name="delito" required
+        class="widther-select" [(ngModel)]="delito"
+        okText="Seleccionar" cancelText="Cancelar">
+          <ion-select-option *ngFor="let delito of listDelitos" value={{delito.id}}>
+            {{delito.delito}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Fecha</ion-label>
+              <ion-datetime displayFormat="DD/MMM/YYYY" placeholder="DD/MM/AAAA"
+              monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
+              doneText="Aceptar" cancelText="Cancelar" [(ngModel)]="fecha"
+              name="fecha_incidente" required></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Hora</ion-label>
+              <ion-datetime displayFormat="HH:mm" placeholder="HH:MM"
+              doneText="Aceptar" cancelText="Cancelar" [(ngModel)]="hora"
+              name="hora_incidente" required></ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <h6 class="ion-margin-horizontal">Lugar</h6>
+      <div id="mapNewInc" style="height:450px"></div>
+
+      <ion-item>
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea rows="3" [(ngModel)]="descripcion"
+        placeholder="Descripción del incidente..."
+        minlength="10" maxlength="1000"
+        name="descripcion_incidente" (ngModelChange)="count($event)"></ion-textarea>
+      </ion-item>
+      <small class="ion-text-right ion-float-end ion-margin-end">
+        {{ longDesc }} / 1000 (mín. 10)
+      </small>
+
+      <h6 class="ion-margin-horizontal">Agravantes</h6>
+      <ion-item *ngFor="let agr of agravantes">
+        <ion-checkbox name="agravantes[]" [(ngModel)]="agr.checked"
+          value="{{ agr.val }}" slot="start"
+          class="ion-no-margin ion-margin-end"></ion-checkbox>
+        <ion-label class="ion-no-margin">{{ agr.name }}</ion-label>
+      </ion-item>
+
+      <h6 class="ion-margin-horizontal">He sido</h6>
+      <ion-item>
+        <ion-label class="ion-no-margin testigo-label">Testigo</ion-label>
+        <ion-toggle [(ngModel)]="afectado_testigo" color="dark-blue"
+        name="afectado_testigo"></ion-toggle>
+        <ion-label class="ion-no-margin">Afectado</ion-label>
+      </ion-item>
+
+
+      <div class="ion-no-padding ion-margin-top">
+        <ion-button color="k-dark-blue" type="submit" expand="block">
+          Añadir incidente
+        </ion-button>
+      </div>
+
+    </ion-list>
+  </form>
+</ion-content>

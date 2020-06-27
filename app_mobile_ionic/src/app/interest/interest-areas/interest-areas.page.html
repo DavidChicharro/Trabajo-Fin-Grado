@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      <h1 class="header-title ion-no-margin">Zonas de interés</h1>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div id="mapfav" style="height:100%"></div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="setting-button">
+      <ion-fab-button color="k-dark-blue">
+        <ion-icon name="settings-outline" class="settings-icon"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-list side="top">
+        <ion-fab-button [routerLink]="['/interest/new', minConfig, maxConfig]" color="k-blue">
+          <ion-icon name="add" class="interest-areas-icons"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-button [routerLink]="['/interest/delete']" color="k-red">
+          <ion-icon name="trash-outline" class="interest-areas-icons"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-button (click)="doRefresh($event)" color="k-light-blue">
+          <ion-icon name="refresh" class="interest-areas-icons"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+</ion-content>

@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/fav-contacts"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="subheader-title">Añadir contacto favorito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Busca e-mail / teléfono" [(ngModel)]="inputSearch"
+    animated enterkeyhint="search" (search)="searchKeyBoard($event)" slot="start"></ion-searchbar>
+    <ion-button (click)="searchButton()" size="small" slot="end" color="k-dark-blue"
+    class="search-contact-button">Buscar</ion-button>
+  </ion-toolbar>
+
+  <div class="ion-padding">
+    <div class="contact-not-found" *ngIf="contactNotFound">
+      <span class="contact-text">No se han encontrado usuarios</span>
+    </div>
+
+    <div class="contact-found" *ngIf="contactFound || contactFoundAlredyAdded">
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+
+          <ion-col class="align-text-middle">
+            <span class="contact-big-text">{{contact.name}}</span>
+          </ion-col>
+
+          <ion-col size="2">
+            <ion-button fill="clear" size="large" color="k-dark-blue"
+            (click)="addContact()">
+              <ion-icon name="person-add"></ion-icon>
+            </ion-button>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="contact-alredy-added" *ngIf="contactAlredyAdded">
+      <span class="contact-big-text">{{contact.name}}</span>
+      <ion-icon name="checkmark" class="check-icon" size="large"></ion-icon>
+      <p class="contact-text">Ya es tu contacto favorito</p>
+    </div>
+
+    <div class="contact-alredy-added" *ngIf="contactSubmitedRequest">
+      <span class="contact-big-text">{{contact.name}}</span>
+      
+      <p class="contact-text">Solicitud enviada</p>
+    </div>
+  </div>
+</ion-content>

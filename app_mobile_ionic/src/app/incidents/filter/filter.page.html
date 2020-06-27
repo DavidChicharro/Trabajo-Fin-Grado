@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Filtro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list class="ion-no-margin ion-padding">
+    <ion-item>
+      <ion-label class="small-label">Delitos</ion-label>
+      <ion-select multiple="true" placeholder="Tipos de delitos" 
+      [(ngModel)]="selectedDelitos" class="widther-select"
+      okText="Seleccionar" cancelText="Cancelar">
+        <ion-select-option *ngFor="let delito of listDelitos" value={{delito.id}}>
+          {{delito.delito}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Desde</ion-label>
+      <ion-datetime displayFormat="DD/MMM/YYYY" placeholder="dd/mm/aaaa" 
+      [(ngModel)]="dateFrom"
+      monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
+      doneText="Aceptar"
+      cancelText="Cancelar"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Hasta</ion-label>
+      <ion-datetime displayFormat="DD/MMM/YYYY" placeholder="dd/mm/aaaa" 
+      [(ngModel)]="dateTo"
+      monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
+      doneText="Aceptar"
+      cancelText="Cancelar"></ion-datetime>
+    </ion-item>
+
+    <ion-button color="k-dark-blue" expand="full" (click)="getArguments()">
+      Aplicar filtros
+    </ion-button>
+  </ion-list>
+
+</ion-content>

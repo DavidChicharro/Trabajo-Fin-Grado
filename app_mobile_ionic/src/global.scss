@@ -1,0 +1,109 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+.header-title, .subheader-title {
+    color: var(--ion-color-k-dark-blue);
+    font-weight: bold;
+}
+
+.header-title {
+    font-size: 150%;
+}
+
+.subheader-title {
+    font-size: 130% !important;
+    padding-left: 5px;
+}
+
+.big-title {
+    font-size: 250%;
+    color: var(--ion-color-k-dark-blue);
+}
+
+.dark-title {
+    color: var(--ion-color-k-dark-blue);
+}
+
+/* Aumenta el ancho de un desplegable de opciones */
+.alert-wrapper.sc-ion-alert-md {
+    width: 100% !important;
+}
+
+/* Permite ver todo el texto de un desplegable de opciones */
+.alert-checkbox-label.sc-ion-alert-md, .alert-radio-label.sc-ion-alert-md {
+    white-space: normal !important;
+}
+
+/* Aumenta espacio de opciones a escoger */
+.alert-tappable.alert-checkbox.alert-checkbox-button, .alert-radio-button.alert-tappable.alert-radio {
+    min-height: 56px;
+}
+
+.item-highlight {
+    height: unset !important;
+    display: none !important;
+}
+
+:host(.item-interactive.ion-valid) {
+    --highlight-background: var(--ion-color-k-light-blue) !important;
+}
+
+.warning-button {
+    color: var(--ion-color-k-red) !important;
+}
+
+a {
+    color: var(--ion-color-k-light-blue);
+}
+
+ion-tab-button ion-icon {
+    font-size: 32px;
+}
+
+#tab-button-list {
+    --color-selected: var(--ion-color-k-red);
+}
+
+#tab-button-fav-contacts {
+    --color-selected: var(--ion-color-k-dark-blue);
+}
+
+#tab-button-notifications {
+    --color-selected: #ffc000;
+}
+
+#tab-button-interest-areas {
+    --color-selected: var(--ion-color-k-light-blue);
+}
+
+#tab-button-profile {
+    --color-selected: var(--ion-color-k-blue);
+}
+
+.eye-color {
+    color: var(--ion-color-k-dark-blue);
+}
