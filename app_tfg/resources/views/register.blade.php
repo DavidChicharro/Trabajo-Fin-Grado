@@ -26,6 +26,11 @@
 				<div id="passMatch" class="form-group d-none">
 					<span class="text-danger">¡Las contraseñas no coinciden!</span>
 				</div>
+				<div id="passFormat" class="form-group d-none">
+					<span class="text-danger">
+						La contraseña debe tener al menos una letra minúscula y mayúscula, un número y un caracter espacial
+					</span>
+				</div>
 
 				<div class="form-group">
 					<label class="required-input" for="conf_password">Confirmar contraseña</label>

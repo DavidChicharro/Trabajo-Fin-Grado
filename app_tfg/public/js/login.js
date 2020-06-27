@@ -53,3 +53,9 @@ $('input[type=email]').blur(function () {
     let formParent = $(this).closest("form");
     checkAllowLogin(formParent);
 });
+
+
+$('#close').click(function () {
+   // $('#download-app-popup').addClass('d-none');
+   $('#download-app-popup').hide(300, "linear");
+});

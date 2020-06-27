@@ -108,39 +108,42 @@ $("#btn-search-contact").click(function() {
 
 // Eliminar un contacto favorito
 $(document).on("click","[id*=delete-fav-contact-]", function () {
-    let swapContent = false;
-    let splittedId = $(this).attr('id').split('-');
-    let userId = "";
+    let message = (this.id[0] === 'i') ? 'eliminarte como' : 'eliminar a este';
+    if (window.confirm("¿Quieres " + message + " contacto favorito?")) {
+        let swapContent = false;
+        let splittedId = $(this).attr('id').split('-');
+        let userId = "";
 
-    // Si un usuario se elimina como contacto favorito
-    if(splittedId[0] === 'i') {
-        userId = splittedId[4];
-        swapContent = true;
-    }else
-        userId = splittedId[3];
+        // Si un usuario se elimina como contacto favorito
+        if (splittedId[0] === 'i') {
+            userId = splittedId[4];
+            swapContent = true;
+        } else
+            userId = splittedId[3];
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: '/delete_reject_fav_contact',
-        data: {
-            'userId': userId,
-            'swap': swapContent
-        },
-        type: 'post',
-        success: function (response) {
-            if(response==="success")
-                location.reload();
-        },
-        statusCode: {
-            404: function () {
-                alert('web not found');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             }
-        },
-    });
+        });
+        $.ajax({
+            url: '/delete_reject_fav_contact',
+            data: {
+                'userId': userId,
+                'swap': swapContent
+            },
+            type: 'post',
+            success: function (response) {
+                if (response === "success")
+                    location.reload();
+            },
+            statusCode: {
+                404: function () {
+                    alert('web not found');
+                }
+            },
+        });
+    }
 });
 
 $("#sortable").sortable({

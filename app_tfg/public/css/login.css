@@ -43,3 +43,46 @@
 		background-color: var(--k-blue-op45);
 	}
 }
+
+#download-app-popup {
+	display: none;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 50%;
+	z-index: 1001;
+}
+
+.content-popup {
+	margin: 5% auto;
+	margin-top: 45%;
+	position: relative;
+	padding: 10px;
+	width: 95%;
+	height: 50%;
+	background-color: #083740f5;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px #666666;
+}
+
+.download-app-mobile {
+	color: white;
+	font-size: 150%;
+	margin-left: 2%;
+}
+
+.close {
+	position: absolute;
+	right: 15px;
+}
+
+.close a {
+	color: white;
+}
+
+@media only screen and (max-device-width: 576px) {
+	#download-app-popup {
+		display: block;
+	}
+}

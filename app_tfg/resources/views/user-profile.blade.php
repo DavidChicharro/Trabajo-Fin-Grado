@@ -45,7 +45,7 @@
 		</article>
 
 		<article class="my-4">
-			<h5 class="p-1">Nombre</h5>
+			<h5 class="p-1">Datos personales</h5>
 			<form class="pl-3 pr-5 w-50" method="post" action="{{ Request::url() }}">
 				@csrf
 				<div class="form-group">

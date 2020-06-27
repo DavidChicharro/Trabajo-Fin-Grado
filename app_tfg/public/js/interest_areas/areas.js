@@ -85,31 +85,33 @@ $(function () {
 
 // Elimina la zona de interés al clicar en la papelera
 $('[id^=remove-interest-area]').click(function () {
-    let idIntArea = $(this).attr('id').split('-')[3];
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: '/remove_interest_area',
-        data: {
-            'idIntArea' : idIntArea
-        },
-        type: 'post',
-        success: function (response) {
-            if(response==="success"){
-                getInterestAreas();
-                intAreasLayerGroup.clearLayers();
-                let bin = $('[id^=remove-interest-area]');
-                bin.addClass('d-none');
-                bin.attr('id', 'remove-interest-area');
+    if (window.confirm("¿Quieres eliminar esta zona de interés?")) {
+        let idIntArea = $(this).attr('id').split('-')[3];
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             }
-        },
-        statusCode: {
-            404: function () {
-                alert('web not found');
-            }
-        },
-    });
+        });
+        $.ajax({
+            url: '/remove_interest_area',
+            data: {
+                'idIntArea': idIntArea
+            },
+            type: 'post',
+            success: function (response) {
+                if (response === "success") {
+                    getInterestAreas();
+                    intAreasLayerGroup.clearLayers();
+                    let bin = $('[id^=remove-interest-area]');
+                    bin.addClass('d-none');
+                    bin.attr('id', 'remove-interest-area');
+                }
+            },
+            statusCode: {
+                404: function () {
+                    alert('web not found');
+                }
+            },
+        });
+    }
 });

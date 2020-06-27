@@ -87,7 +87,6 @@ function checkChanges(input) {
             break;
         case 'new_password':
             if (input.attr('name') === 'new_password') {
-                console.log('type in new_password');
                 let passRegExp = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W|_])[A-Za-z\\d\\W|_]{8,}$');
                 validPass = passRegExp.test(input.val());
 
@@ -124,8 +123,6 @@ function checkAllowChangePass(){
 // contraseña se comprueba si el formato contraseña es
 // válido y si la nueva contraseña coincide con la confimación
 $('input[type=password]').keyup(function () {
-    console.log('typing in pass field');
-    // let formParent = $(this).closest("form");
     checkChanges($(this));
     if(confPass){
         matchPass = checkMatchPass($(this).closest("form"));

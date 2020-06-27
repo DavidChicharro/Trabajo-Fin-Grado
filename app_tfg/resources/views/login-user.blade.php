@@ -41,6 +41,18 @@
 		</section>
 	</div>
 
+
+	<div id="download-app-popup">
+		<div class="content-popup text-white">
+			<div class="close"><a href="#" id="close">&times;</a></div>
+			<div class="mt-5">
+				<a class="download-app-mobile text-center p-3" href="/app/kifungo.apk" target="_blank">
+					Descarga la app aquí
+				</a>
+			</div>
+		</div>
+	</div>
+
 @endsection
 
 @section('scripts')

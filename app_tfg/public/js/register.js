@@ -8,7 +8,6 @@ function checkMatchPass(form) {
     return pass.val() === passConf.val();
 }
 
-
 function allowRegister(form){
     let allowRegisterForm = false;
     let validEmail = false;
@@ -26,16 +25,23 @@ function allowRegister(form){
             let passRegExp = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W|_])[A-Za-z\\d\\W|_]{8,}$');
             validPass = passRegExp.test(input.val());
 
+            if (input.attr('name') === 'password') {
+                if (!validPass && $('#passFormat').hasClass('d-none')) {
+                    $('#passFormat').removeClass('d-none').addClass('d-block');
+                } else if (validPass && $('#passFormat').hasClass('d-block'))
+                    $('#passFormat').removeClass('d-block').addClass('d-none');
+            }
+
             // Si ya se ha puesto el foco alguna vez en confirmar
             // contraseña se puede comprobar si coinciden ambas
-            if(confPass){
+            if (confPass) {
                 matchPass = checkMatchPass($(this).closest("form"));
 
-                if(!matchPass){
+                if (!matchPass) {
                     if($('#passMatch').hasClass('d-none'))
                         $('#passMatch').removeClass('d-none').addClass('d-block');
-                }else{
-                    if($('#passMatch').hasClass('d-block'))
+                } else {
+                    if ($('#passMatch').hasClass('d-block'))
                         $('#passMatch').removeClass('d-block').addClass('d-none');
                 }
             }
