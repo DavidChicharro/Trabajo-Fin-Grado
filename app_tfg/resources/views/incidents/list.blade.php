@@ -77,7 +77,10 @@
 								<tr>
 									<td class="pt-2">{{$inc['nombre_lugar']}}</td>
 									<td class="w-25 pt-2 text-right">
-										<span id="vm{{$inc['id']}}" class="view-more text-right sp-as-lk">Ver más</span>
+										<span id="vm-{{$inc['id']}}-{{$inc['delito']}}"
+										      class="view-more text-right sp-as-lk">
+											Ver más
+										</span>
 									</td>
 								</tr>
 							</tbody>
@@ -94,6 +97,30 @@
 			@endif
 		</div>
 	</section>
+
+	<div class="modal fade" id="shareIncident" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content modal-sm">
+				<div class="modal-header py-2">
+					<h5 class="modal-title" id="config-title">Compartir incidente</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body container-fluid">
+					<div class="row" id="content-modal-id">
+						<a class="twitter-link text-center p-3" href="" target="_blank">
+							<img class="img-fluid" src="{{asset('images/icons/twitter_logo.svg')}}" width="40px">
+						</a>
+
+						<a class="facebook-link text-center p-3" href="" target="_blank">
+							<img class="img-fluid" src="{{asset('images/icons/facebook_logo.png')}}" width="40px">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 @endsection
 

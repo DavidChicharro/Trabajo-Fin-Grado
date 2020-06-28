@@ -288,3 +288,7 @@ a.icon:hover {
         left: -35%;
     }
 }
+
+#shareIncident {
+    top: 20% !important;
+}

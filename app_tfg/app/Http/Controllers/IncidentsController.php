@@ -46,6 +46,7 @@ class IncidentsController extends Controller {
 			foreach ($incidents_pag->items() as $key => $inc) {
 				$incidents[$key]['id'] = $inc['id'];
 				$incidents[$key]['incidente'] = $incidentTypes[$inc['delito_id']];
+				$incidents[$key]['delito'] = $inc['delito_id'];
 				$incidents[$key]['lugar'] = $inc['latitud_incidente'] . ', ' . $inc['longitud_incidente'];
 				$incidents[$key]['fecha_hora'] = $inc['fecha_hora_incidente'];
 				$incidents[$key]['nombre_lugar'] = $inc['nombre_lugar'];
@@ -201,8 +202,10 @@ class IncidentsController extends Controller {
 	}
 
 	public function getIncidentDetails(Request $request) {
-		if (isset($request['incidentId'])) {
-			$inc = Incidente::where('id', $request['incidentId'])->first();
+		if (isset($request['incidentId']) && isset($request['offenceId'])) {
+			$inc = Incidente::where('id', $request['incidentId'])
+				->where('delito_id', $request['offenceId'])
+				->first();
 
 			$incidente['descripcion'] = $inc['descripcion_incidente'];
 

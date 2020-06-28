@@ -23,7 +23,7 @@
 							<tr>
 								<td class="pt-2">{{$inc['nombre_lugar']}}</td>
 								<td class="w-25 pt-2 text-right">
-									<span id="vm{{$inc['id']}}" class="view-more text-right sp-as-lk">Ver más</span>
+									<span id="vm-{{$inc['id']}}-{{$inc['delito']}}" class="view-more text-right sp-as-lk">Ver más</span>
 								</td>
 							</tr>
 							</tbody>
