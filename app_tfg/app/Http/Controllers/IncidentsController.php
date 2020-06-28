@@ -504,8 +504,11 @@ class IncidentsController extends Controller {
 							$upldIncident->fill($incident)->save();
 					}
 				}
+				return "Calculado nivel de gravedad de los nuevos incidentes";
 			}
 		}
+
+		return "No hay nuevos incidentes";
 	}
 
 

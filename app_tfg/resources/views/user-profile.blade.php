@@ -22,7 +22,7 @@
 				</li>
 			</ul>
 
-			<!-- Modal para ver y establecer parámetros de configuración -->
+			{{-- Modal para ver y establecer parámetros de configuración --}}
 			<div class="modal fade" id="configUser" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content modal-sm">

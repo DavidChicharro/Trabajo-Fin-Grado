@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Http\Controllers\IncidentsController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +25,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-    }
+    	$fileLog = "storage/logs/commands/cron_" . date('Y-m-d_H-i') . ".log";
+
+		$schedule->call(function () {
+			$incCtrl = new IncidentsController();
+			$incCtrl->calcIncidentsSeverityLevel();
+		})->dailyAt('05:00')->appendOutputTo($fileLog);
+	}
 
     /**
      * Register the commands for the application.
