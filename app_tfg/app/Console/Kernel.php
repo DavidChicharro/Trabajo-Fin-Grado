@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Http\Controllers\IncidentsController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use function foo\func;
 
 class Kernel extends ConsoleKernel
 {
@@ -30,7 +31,12 @@ class Kernel extends ConsoleKernel
 		$schedule->call(function () {
 			$incCtrl = new IncidentsController();
 			$incCtrl->calcIncidentsSeverityLevel();
-		})->dailyAt('05:00')->appendOutputTo($fileLog);
+		})->dailyAt('05:05')->appendOutputTo($fileLog);
+
+		$schedule->call(function () {
+			$incCtrl = new IncidentsController();
+			$incCtrl->setCentersSeverityLevel();
+		})->dailyAt('05:15')->appendOutputTo($fileLog);;
 	}
 
     /**
