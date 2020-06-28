@@ -20,14 +20,14 @@
 			@if(!empty($contacts))
 				@foreach($contacts as $contact)
 					<article class="incident px-2 py-3 mb-1">
-						<table class="w-100" cellpadding="3">
+						<table class="w-100">
 							<tbody>
 								<tr>
-									<td class="pr-3">
+									<td class="pr-3" style="width: 10%">
 										<h5 class="text-muted">{{$contact['orden_vista']}}</h5>
 									</td>
-									<td><h5>{{$contact['nombre']}}</h5></td>
-									<td>
+									<td style="width: 80%"><h5>{{$contact['nombre']}}</h5></td>
+									<td style="width: 5%">
 										<span class="view-more sp-as-lk">+</span>
 										<span class="view-less sp-as-lk text-k-red" style="display: none">&#8210;</span>
 									</td>

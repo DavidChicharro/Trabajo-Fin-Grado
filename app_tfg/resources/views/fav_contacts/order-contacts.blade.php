@@ -25,7 +25,7 @@
 				@foreach($contacts as $contact)
 					<article class="incident order-contact p-2 mx-1 my-2 row" id="{{$contact['fav_contact_id']}}">
 						<h5 class="list-order text-muted col-1 my-1">{{$contact['orden_vista']}}</h5>
-						<h5 class="col-9 my-1">{{$contact['nombre']}}</h5>
+						<h5 class="col my-1">{{$contact['nombre']}}</h5>
 						<div class="col-2 mt-2">
 							<img class="icon-order-contact" src="{{asset('images/icons/menu.svg')}}">
 						</div>
