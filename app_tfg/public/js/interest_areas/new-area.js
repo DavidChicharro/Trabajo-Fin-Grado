@@ -4,6 +4,10 @@ $(document).ready(function () {
 
 const mymap = L.map('mapid').setView([37.18,-3.6], 14);
 const areaLayerGroup = L.layerGroup().addTo(mymap);
+const favMarker = L.icon({
+    iconUrl: window.location.origin+'/images/markers/marker-fav.png',
+    iconAnchor: [15, 40],
+});
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, ' +
@@ -47,7 +51,7 @@ mymap.on('click', function (e) {
         }
     });
 
-    L.marker(latLng).addTo(areaLayerGroup);
+    L.marker(latLng, {icon: favMarker}).addTo(areaLayerGroup);
     radius = L.circle(latLng, parseInt($('#radio_zona_int').val()), {color: "red"}).addTo(areaLayerGroup);
 
     if($('#slider-radio').is(":hidden")){

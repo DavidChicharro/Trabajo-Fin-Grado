@@ -2,7 +2,8 @@ var arrIcons = [];
 for (let i=1 ; i<=30; i++) {
     arrIcons.push(
         L.icon({
-            iconUrl: window.location.origin+'/images/markers/marker-'+i+'.png'
+            iconUrl: window.location.origin+'/images/markers/marker-'+i+'.png',
+            iconAnchor: [10, 20],
         })
     );
 }

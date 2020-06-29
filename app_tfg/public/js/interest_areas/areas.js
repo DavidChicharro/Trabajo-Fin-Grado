@@ -1,3 +1,8 @@
+var favMarker = L.icon({
+    iconUrl: window.location.origin+'/images/markers/marker-fav.png',
+    iconAnchor: [15, 40],
+});
+
 // Devuelve las zonas de interés del usuario
 function getInterestAreas() {
     $.ajaxSetup({
@@ -12,7 +17,8 @@ function getInterestAreas() {
             if(!response.empty) {
                 let result = JSON.parse(response.interestAreas);
                 $.each(result, function (index, value) {
-                    let marker = L.marker([value.latitud_zona_interes, value.longitud_zona_interes])
+                    let marker = L.marker([value.latitud_zona_interes, value.longitud_zona_interes],
+                        {icon: favMarker})
                         .bindPopup('<b>' + value.nombre_zona_interes + '</b><br>'
                             + 'Radio: ' + value.radio_zona_interes + ' m');
                     let radius = L.circle([value.latitud_zona_interes, value.longitud_zona_interes],
