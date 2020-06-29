@@ -40,6 +40,7 @@ class CreateMigrationV1Table extends Migration
 			$table->string('descripcion_delito')->nullable();
 			$table->smallInteger('pena_min')->nullable();
 			$table->smallInteger('pena_max')->nullable();
+			$table->string('color',6)->nullable();
 		});
 
 		Schema::create('incidentes', function (Blueprint $table) {
