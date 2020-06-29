@@ -130,6 +130,7 @@ class IncidentsController extends Controller {
 				if ($latInc < $northLimit && $latInc > $southLimit &&
 				$longInc < $eastLimit && $longInc > $westLimit) {
 					$incidents[$key]['id'] = $incident['id'];
+					$incidents[$key]['delito_id'] = $incident['delito_id'];
 					$incidents[$key]['incidente'] = ucfirst($incidentTypes[$incident['delito_id']]);
 					$incidents[$key]['latitud'] = $latInc;
 					$incidents[$key]['longitud'] = $longInc;

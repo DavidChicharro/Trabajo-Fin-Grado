@@ -1,3 +1,12 @@
+var arrIcons = [];
+for (let i=1 ; i<=30; i++) {
+    arrIcons.push(
+        L.icon({
+            iconUrl: window.location.origin+'/images/markers/marker-'+i+'.png'
+        })
+    );
+}
+
 function dateFormat(date){
     let spltDate = date.split('-');
     return spltDate[2]+'/'+spltDate[1]+'/'+spltDate[0];
@@ -44,8 +53,8 @@ function getIncidents(bounds, delitTypes=[], dateFrom="", dateTo="") {
             let jsonResponse = JSON.parse(response);
             let result = jsonResponse.incidents;
             let centers = jsonResponse.centers;
-            $.each(result, function(index, value){
-                L.marker([value.latitud, value.longitud])
+            $.each(result, function(index, value) {
+                L.marker([value.latitud, value.longitud], {icon: arrIcons[value.delito_id - 1]})
                     .bindPopup('<b>'+value.incidente+'</b>  -  '+
                         value.fecha_hora+'.<br>'+value.nombre_lugar
                         +'<br>'+value.descripcion)
