@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
-import { Map, tileLayer, marker, circle, LayerGroup, Layer } from 'leaflet';
+import { Map, tileLayer, marker, circle, icon, LayerGroup, Layer } from 'leaflet';
 import { InterestAreasService } from '../interest-areas.service';
 import { Bounds } from '../bounds.model';
 
@@ -13,6 +13,7 @@ import { Bounds } from '../bounds.model';
 export class InterestAreasPage implements OnInit {
 
   map: Map;
+  iconArea: any;
   layerGroup: LayerGroup;
   interestAreas = [];
   bounds: Bounds;
@@ -27,6 +28,10 @@ export class InterestAreasPage implements OnInit {
     private router: Router
   ) {
     this.cont = 0;
+    this.iconArea = icon({
+      iconUrl: "assets/markers/marker-fav.png",
+      iconAnchor: [15, 40],
+    });
   }
 
   doRefresh(event) {
@@ -99,11 +104,11 @@ export class InterestAreasPage implements OnInit {
     setTimeout(() => {
       this.interestAreas = this.intArService.getInterestAreas();
       this.bounds = this.intArService.getBounds();
-      // console.log(this.interestAreas);
 
       let interestAreas = [...this.interestAreas];
+      let iconArea = this.iconArea;
       interestAreas.forEach(function (value) {
-        marker([value.lat, value.lng])
+        marker([value.lat, value.lng], {icon: iconArea})
         .bindPopup('<b>'+value.name+'</b><br>Radio: '+
             value.radio+' m')
         .addTo(layerGroup);

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { Map, tileLayer, marker, LayerGroup, Layer, circle } from 'leaflet';
+import { Map, tileLayer, marker, LayerGroup, Layer, circle, icon } from 'leaflet';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { IncidentsService } from './../incidents.service';
 import { FilterPage } from '../filter/filter.page'
@@ -21,6 +21,7 @@ export class MapPage implements OnInit {
   centersIncidents = [];
   dateFilter: string;
   incidentsFilter: string;
+  iconsMap = [];
 
   constructor(
     // private geocoder: NativeGeocoder,
@@ -28,7 +29,16 @@ export class MapPage implements OnInit {
     private modalCtrl: ModalController,
     private loadingController: LoadingController,
     private router:Router
-  ) {}
+  ) {
+    for (let i=1; i<=30; i++) {
+      this.iconsMap.push(
+        icon({
+          iconUrl: "assets/markers/marker-" + i + ".png",
+          iconAnchor: [10, 20],
+        })
+      );
+    }
+  }
 
   ngOnInit() {
     this.mapIncidents = this.incidentsService.getIncidentsList();
@@ -59,15 +69,11 @@ export class MapPage implements OnInit {
    * Carga el mapa
    */
   loadMap() {
-    // Si se borra todo, quitar esta condición y su contenido
     if(this.map) {
       this.map.remove();
     }
     this.map = new Map("mapid").setView([37.18,-3.6], 14);
-    //this.getIncidents(/* this.map.getBounds().toBBoxString() */);
     this.getIncidents();
-    // this.get
-    // this.mapIncidents = this.incidentsService.getIncidentsMap();
     this.layerGroup = new LayerGroup().addTo(this.map);
 
     tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -78,26 +84,18 @@ export class MapPage implements OnInit {
       id: 'mapbox/streets-v11',
       accessToken: 'pk.eyJ1IjoiZGF2aWRjaGljaGFycm8iLCJhIjoiY2s4dTRuenNqMDE5djNka2Q0amE3bHBnYyJ9.ebGkyWx_FQLj5oBW936UJg'
     }).addTo(this.map);
-    
-    // this.map.on('zoomend', ()=> {
-    //   this.callGetIncidents();
-    // });
   }
 
   getIncidents (/* bounds,  */delitTypes=[], dateFrom="", dateTo="") {
-    // console.log('getIncidents');
-    // let mapLimits = bounds.split(',');
-    // Comento porque se hace en ngOnInit:
-    //this.mapIncidents = this.incidentsService.getIncidentsMap(/* mapLimits */);
+    let arrIcons = this.iconsMap;
 
     let mymap = this.map;
     this.presentLoading();
     setTimeout(() => {
       let mapList = this.getMapIncidents();
       mapList.forEach(function (value) {
-        // console.log("Añado: " + value.lat+' - '+value.lng);
-
-        marker([value.lat, value.lng])
+        console.log(value.delId);
+        marker([value.lat, value.lng], {icon: arrIcons[value.delId - 1]})
         .bindPopup('<b>'+value.incident+'</b>  -  '+
             value.date+' '+value.hour+'.<br>'+value.place
             +'<br>'+value.description)

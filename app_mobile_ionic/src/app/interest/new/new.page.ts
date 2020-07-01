@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Map, tileLayer, marker, circle, LayerGroup, Layer } from 'leaflet';
+import { Map, tileLayer, marker, circle, icon, LayerGroup, Layer } from 'leaflet';
 import { InterestAreasService } from '../interest-areas.service';
 
 @Component({
@@ -13,6 +13,7 @@ import { InterestAreasService } from '../interest-areas.service';
 export class NewPage implements OnInit {
 
   map: Map;
+  iconArea: any;
   layerGroup: LayerGroup;
   interestArea: any;
   radius: any;
@@ -36,6 +37,10 @@ export class NewPage implements OnInit {
   ) {
     this.height = "100%";
     this.radio = 600;
+    this.iconArea = icon({
+      iconUrl: "assets/markers/marker-fav.png",
+      iconAnchor: [15, 40],
+    });
   }
 
   ngOnInit() {
@@ -93,7 +98,7 @@ export class NewPage implements OnInit {
     this.layerGroup.clearLayers();
     let lat = e.latlng.lat;
     let lng = e.latlng.lng;
-    marker([lat, lng]).addTo(this.layerGroup);
+    marker([lat, lng], {icon: this.iconArea}).addTo(this.layerGroup);
     
     this.radius = circle([lat, lng], this.radio, {color: "red"}).addTo(this.layerGroup);
 
