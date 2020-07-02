@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import configparser
 from math import sin, cos, sqrt, atan2, radians
 from datetime import date
 import pymysql
@@ -105,7 +106,16 @@ def get_centers_sev_lvl(incidents, center):
 
 ''' ---------------INICIO---------------- '''
 
-db = pymysql.connect("localhost", "david", "", "")
+config = configparser.ConfigParser()
+config.read('../../.configparser')
+
+db = pymysql.connect(
+	config['DEFAULT']['Host'],
+	config['DEFAULT']['User'],
+	config['DEFAULT']['Pswd'],
+	config['DEFAULT']['Database']
+)
+
 cursor = db.cursor()
 
 try:

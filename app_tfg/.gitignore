@@ -2,9 +2,9 @@
 /public/hot
 /public/storage
 /public/app/kifungo.apk
-/resources/py/calc_zonas.py
 /storage/*.key
 /vendor
+.configparser
 .env
 .env.backup
 .phpunit.result.cache
