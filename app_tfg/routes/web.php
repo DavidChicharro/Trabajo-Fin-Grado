@@ -125,3 +125,12 @@ Route::get('test_token', function() {
 	$user = \Auth::user();
 	return $user;
 })->middleware('auth:api');
+
+// Política de Privacidad y Términos y Condiciones
+Route::get('/politica-privacidad', function () {
+	return view('privacy-policy');
+})->name('privacy-policy');
+
+Route::get('/terminos-y-condiciones', function () {
+	return view('terms');
+})->name('terms');

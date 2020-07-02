@@ -43,6 +43,16 @@
 					<input type="tel" name="telefono" class="form-control" required>
 				</div>
 
+				<div class="form-group">
+					<input class="form-check-input" type="checkbox" value="" id="checkPrivacyPolicy" name="checkPrivacyPolicy">
+					<label class="form-check-label required-input" for="checkPrivacyPolicy">
+						He leído y acepto la
+						<a href="{{route('privacy-policy')}}" target="_blank">Política de privacidad</a>
+						y los
+						<a href="{{route('terms')}}" target="_blank">Términos y Condiciones</a>
+					</label>
+				</div>
+
 				<input type="submit" value="Registrarse" class="form-button" disabled>
 			</form>
 

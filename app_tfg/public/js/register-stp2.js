@@ -3,6 +3,7 @@ var validSurnames = false;
 var validDNI = false;
 var validDate = false;
 var validTlf = false;
+var policyTerms = false;
 
 function calcDniLetter(number){
     const ctrlCharArr = "TRWAGMYFPDXBNJZSQVHLCKET";
@@ -40,7 +41,7 @@ function allowRegisterStp2(input) {
             break;
     }
 
-    return (validName && validSurnames && validDNI && validDate && validTlf);
+    return (validName && validSurnames && validDNI && validDate && validTlf && policyTerms);
 }
 
 function checkAllowRegisterStp2(input){
@@ -80,4 +81,8 @@ $('form').submit(function () {
                 input.val(dniNum+'-'+dniCtrlChar);
         }
     });
+});
+
+$('#checkPrivacyPolicy').click(function () {
+    policyTerms = $('#checkPrivacyPolicy:checkbox:checked').length > 0;
 });
