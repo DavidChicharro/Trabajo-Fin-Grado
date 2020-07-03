@@ -11,7 +11,7 @@ class UsersController extends Controller {
 	public function index() {
 		$session = session('email');
 		if (isset($session))
-			return view('index',['session' => $session]);
+			return redirect()->route('listaIncidentes');
 		else
 			return view('login-user');
 	}
@@ -21,14 +21,73 @@ class UsersController extends Controller {
 
 		if (isset($session)) {
 			$user = User::where('email', $session)->first();
-			$username = $user['nombre'];
-			$notifications = $user->unreadNotifications;
+			if ($user['es_admin'] == 1) {
+				$username = $user['nombre'];
+				$notifications = $user->unreadNotifications;
 
-			$result = compact(['session', 'username', 'notifications']);
-			return view('admin', $result);
+				$result = compact(['session', 'username', 'notifications']);
+				return view('admin', $result);
+			} else
+				return redirect()->back();
 		}
-		return view('login-admin');
-//		return view('admin',['session' => $session]);
+		return view('login-user');
+	}
+
+	public function getUsers(Request $request) {
+		$session = session('email');
+
+		if (isset($session)) {
+			$user = User::where('email', $session)->first();
+			if ($user['es_admin'] == 1) {
+				if (!$request->ajax()) {
+					abort(404);
+				}
+				$data = [];
+
+				$results = User::all()->toArray();
+				if (!empty($results)) {
+					foreach ($results as $res) {
+						$data[] = [
+							"id" => $res['id'],
+							"email" => $res['email'],
+							"name" => $res['nombre'],
+							"surnames" => $res['apellidos'],
+							"dni" => $res['dni'],
+							"birthday" => $res['fecha_nacimiento'],
+							"dateRegister" => $res['fecha_alta'],
+							"tlf" => $res['telefono'],
+							"panicAction" => $res['accion_panico']
+						];
+					}
+				}
+
+				return response()->json([
+					'data' => $data
+				]);
+			}
+		}
+
+		return response()
+			->json([
+				'status' => 'error'
+			], 400);
+	}
+
+	public function users() {
+		$session = session('email');
+
+		if (isset($session)) {
+			$user = User::where('email', $session)->first();
+			if ($user['es_admin'] == 1) {
+				$username = $user['nombre'];
+				$notifications = $user->unreadNotifications;
+
+				$result = compact(['username', 'notifications']);
+				return view('users.users', $result);
+			} else
+				return redirect()->back();
+		}
+		return view('login-user');
 	}
 
 	/**
@@ -77,7 +136,7 @@ class UsersController extends Controller {
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function logout() {
-		if(session('email')) {
+		if (session('email')) {
 			session()->forget('email');
 			session()->flush();
 		}

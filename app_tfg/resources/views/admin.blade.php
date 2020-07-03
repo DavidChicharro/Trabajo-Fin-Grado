@@ -1,7 +1,7 @@
 @extends('layouts.admin-base')
 
 @section('title', 'Administración')
-@section('username',$username)
+@section('username', $username)
 @section('stylesheet')
 	<link href="{{asset('css/login.css')}}" rel="stylesheet"/>
 @endsection

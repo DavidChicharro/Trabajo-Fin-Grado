@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'UsersController@index')->name('index');
+//Route::get('/', 'IncidentsController@listaIncidentes')->name('index');
 Route::post('/', 'UsersController@login');
 //Route::get('/', 'UsersController@index')->name('login');
 //Route::get('login', [ 'as' => 'login', 'uses' => 'UsersController@index']);
@@ -68,6 +69,8 @@ Route::post('/mark_notification_as_read', 'UserNotificationsController@markNotif
 // Administración
 Route::get('/admin', 'UsersController@admin')->name('admin');
 Route::post('/admin', 'UsersController@login');
+Route::get('/usuarios', 'UsersController@users')->name('users');
+Route::get('/ajax_getUsers', 'UsersController@getUsers')->name('users');
 
 Route::get('test', 'UserNotificationsController@test');
 
@@ -111,15 +114,15 @@ Route::get('/api/update_contacts_order','API\FavContactsController@updateContact
 
 Route::get('login', [ 'as' => 'login', 'uses' => 'API\UsersController@failAuthAPI']);
 
-Route::post('/api/test', 'API\IncidentsController@test');
-
-
-Route::get('test_map', 'AjaxController@testMap');
-Route::get('test_map_2', 'AjaxController@testMap2');
-Route::get('test_calc', 'IncidentsController@calcIncidentsSeverityLevel');
-Route::get('set_centers', 'IncidentsController@setCentersSeverityLevel');
-
-Route::get('/tweet', 'IncidentsController@publishIncidentTwitter');
+//Route::post('/api/test', 'API\IncidentsController@test');
+//
+//
+//Route::get('test_map', 'AjaxController@testMap');
+//Route::get('test_map_2', 'AjaxController@testMap2');
+//Route::get('test_calc', 'IncidentsController@calcIncidentsSeverityLevel');
+//Route::get('set_centers', 'IncidentsController@setCentersSeverityLevel');
+//
+//Route::get('/tweet', 'IncidentsController@publishIncidentTwitter');
 
 Route::get('test_token', function() {
 	$user = \Auth::user();
