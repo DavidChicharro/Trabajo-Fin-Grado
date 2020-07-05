@@ -297,3 +297,8 @@ a.icon:hover {
 #shareIncident {
     top: 20% !important;
 }
+
+.disabledButton {
+    pointer-events: none;
+    opacity: 0.4;
+}

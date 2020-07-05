@@ -378,6 +378,32 @@ class IncidentsController extends Controller {
 	}
 
 	/**
+	 * Oculta un incidente y este deja de ser visible para los usuarios
+	 *
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function hideIncident(Request $request) {
+		if (isset($request['incidentId']) && isset($request['offenceId'])) {
+			$incident = Incidente::where('id', $request['incidentId'])
+				->where('delito_id', $request['offenceId'])
+				->first();
+
+			$incident->fill(['oculto' => 1])->save();
+
+			return response()
+				->json([
+//					'incident' => $incident
+					'status' => 'success'
+				], 200);
+		}
+		return response()
+			->json([
+				'status' => 'error'
+			], 400);
+	}
+
+	/**
 	 * Normaliza un valor en función de un intervalo
 	 *
 	 * @param $x
