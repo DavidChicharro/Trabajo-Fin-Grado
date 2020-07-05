@@ -115,15 +115,17 @@ class UsersController extends Controller {
 
 				if ($user_pass['es_admin'] == 0)
 					return redirect()->route('listaIncidentes');
-				else
+				else {
+					session(['admin' => true]);
 					return redirect()->route('admin');
+				}
              }
              else {
 				return redirect()->back()
 					->withInput($request->only('email'))
 					->withErrors(['message'=>'¡El email y la contraseña no coinciden!']);
              }
-         }else{
+         } else {
          	return redirect()->back()
 				->withInput($request->only('email'))
 				->withErrors(['message'=>'¡El usuario introducido no existe!']);
@@ -138,6 +140,7 @@ class UsersController extends Controller {
 	public function logout() {
 		if (session('email')) {
 			session()->forget('email');
+			session()->forget('admin');
 			session()->flush();
 		}
 

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title', 'Lista de incidentes')
-@section('username',$username)
+@section('username', $username)
 
 @section('stylesheet')
 	<link href="{{asset('css/forms.css')}}" rel="stylesheet"/>

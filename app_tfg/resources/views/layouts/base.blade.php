@@ -68,6 +68,12 @@
                             <img class="icon-img" src="{{asset('images/icons/lupa.svg')}}">
                         </a>
 
+                        @if(Session::get('admin'))
+                            <a href="{{route('admin')}}" id="admin" class="icon my-2 my-lg-0">
+                                <img class="icon-img" src="{{asset('images/icons/admin_page.svg')}}">
+                            </a>
+                        @endif
+
                         <a tabindex="0" id="campana" class="btn icon my-2 my-lg-0" role="button" data-toggle="popover">
                             <img class="icon-img" src="{{asset('images/icons/campana.svg')}}">
                             @if($notifications->count() > 0)
@@ -78,7 +84,11 @@
                         </a>
 
                         <a href="{{route('zonaPersonal')}}" id="user" class="icon my-2 my-lg-0">
-                            <img class="icon-img" src="{{asset('images/icons/user.svg')}}">
+                            @if(Session::get('admin'))
+                                <img class="icon-img" src="{{asset('images/icons/admin.svg')}}">
+                            @else
+                                <img class="icon-img" src="{{asset('images/icons/user.svg')}}">
+                            @endif
                         </a>
                     </div>
 

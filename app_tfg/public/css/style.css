@@ -274,6 +274,11 @@ a.icon:hover {
     left: -25px!important;
 }
 
+#admin {
+    padding: 6px;
+    margin-right: 10px;
+}
+
 .map-cursor-pointer {
     cursor: default!important;
 }

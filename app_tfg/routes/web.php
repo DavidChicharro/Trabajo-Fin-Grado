@@ -70,7 +70,7 @@ Route::post('/mark_notification_as_read', 'UserNotificationsController@markNotif
 Route::get('/admin', 'UsersController@admin')->name('admin');
 Route::post('/admin', 'UsersController@login');
 Route::get('/usuarios', 'UsersController@users')->name('users');
-Route::get('/ajax_getUsers', 'UsersController@getUsers')->name('users');
+Route::get('/ajax_getUsers', 'UsersController@getUsers');
 
 Route::get('test', 'UserNotificationsController@test');
 

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title', 'Mapa de incidentes')
-@section('username',$username)
+@section('username', $username)
 @section('stylesheet')
 	<link href="{{asset('css/forms.css')}}" rel="stylesheet"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
