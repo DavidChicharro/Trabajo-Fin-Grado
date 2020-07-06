@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class AjaxController extends Controller
 {
@@ -93,7 +95,7 @@ class AjaxController extends Controller
 		return response()->json($data);
 	}
 
-	public function testMap() {
+	/*public function testMap() {
 		$user = User::where('email', 'david@mail.com')->first();
 		$notifications = $user->unreadNotifications;
 		return view('testMap', compact(['notifications']));
@@ -103,5 +105,36 @@ class AjaxController extends Controller
 		$user = User::where('email', 'david@mail.com')->first();
 		$notifications = $user->unreadNotifications;
 		return view('testMap2', compact(['notifications']));
+	}*/
+
+	public function sendMail() {
+		$user = User::where('id', 1)->first();
+
+		if (!is_null($user)) {
+			$mailData = [
+				'nameReceiver' => $user['nombre']
+			];
+
+//			Mail::to($user['email'])->send(new SendMail($mailData));
+
+			$email = new \SendGrid\Mail\Mail();
+			$email->setFrom("info@kifungo.live", "Kifungo");
+			$email->setSubject("Asunto :)");
+			$email->addTo("test@example.com", "Example User");
+			$email->addTo($user['email'], $user['nombre']);
+			$email->addContent(
+				"text/html", "<strong>and easy to do anywhere, even with PHP</strong>"
+			);
+			$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+
+			try {
+				$response = $sendgrid->send($email);
+				print $response->statusCode() . "\n\n";
+				print_r($response->headers());
+				print "\n\n" . $response->body() . "\n";
+			} catch (\Exception $e) {
+				echo 'Caught exception: '. $e->getMessage() ."\n";
+			}
+		}
 	}
 }

@@ -139,3 +139,5 @@ Route::get('/politica-privacidad', function () {
 Route::get('/terminos-y-condiciones', function () {
 	return view('terms');
 })->name('terms');
+
+Route::get('/send_mail', 'AjaxController@sendMail');
