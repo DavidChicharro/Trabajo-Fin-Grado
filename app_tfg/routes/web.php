@@ -141,3 +141,4 @@ Route::get('/terminos-y-condiciones', function () {
 })->name('terms');
 
 Route::get('/send_mail', 'AjaxController@sendMail');
+Route::get('/confirm-password', 'AjaxController@confPswd')->name('confirmPswd');

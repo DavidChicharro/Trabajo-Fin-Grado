@@ -115,26 +115,35 @@ class AjaxController extends Controller
 				'nameReceiver' => $user['nombre']
 			];
 
-//			Mail::to($user['email'])->send(new SendMail($mailData));
+			$remTok = $user['remember_token'];
+			$userMail = $user['email'];
 
 			$email = new \SendGrid\Mail\Mail();
-			$email->setFrom("info@kifungo.live", "Kifungo");
-			$email->setSubject("Asunto :)");
-			$email->addTo("test@example.com", "Example User");
+			$email->setFrom(getenv('MAIL_FROM_ADDRESS'), getenv('MAIL_FROM_NAME'));
+			$email->setSubject("Restablecimiento de contraseña");
 			$email->addTo($user['email'], $user['nombre']);
 			$email->addContent(
-				"text/html", "<strong>and easy to do anywhere, even with PHP</strong>"
+				"text/html",
+				"Por favor, confirma tu email en el siguiente enlace: <a href='{{route(`confirmPswd`, [`t` => $remTok, `m` => $userMail])}}'></a>"
 			);
 			$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
 
 			try {
 				$response = $sendgrid->send($email);
-				print $response->statusCode() . "\n\n";
-				print_r($response->headers());
-				print "\n\n" . $response->body() . "\n";
+//				dd($response);
+//				print $response->statusCode() . "\n\n";
+//				print_r($response->headers());
+//				print "\n\n" . $response->body() . "\n";
 			} catch (\Exception $e) {
 				echo 'Caught exception: '. $e->getMessage() ."\n";
 			}
 		}
+	}
+
+	public function confPswd(Request $request) {
+		if (!is_null($request->get('t')) && !is_null($request->get('m'))) {
+			dd($request->get('t'), $request->get('m'));
+		}
+
 	}
 }
