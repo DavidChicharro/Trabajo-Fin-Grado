@@ -118,19 +118,24 @@ class AjaxController extends Controller
 			$remTok = $user['remember_token'];
 			$userMail = $user['email'];
 
+			$link = '<a href='
+				. route('confirmPswd', ['t'=> $remTok, 'm' => $userMail])
+				. '> enlace</a>';
+//			{{route('confirmPswd', [`t` => $remTok, `m` => $userMail])}}'>enlace</a>;
+
 			$email = new \SendGrid\Mail\Mail();
 			$email->setFrom(getenv('MAIL_FROM_ADDRESS'), getenv('MAIL_FROM_NAME'));
 			$email->setSubject("Restablecimiento de contraseña");
 			$email->addTo($user['email'], $user['nombre']);
 			$email->addContent(
 				"text/html",
-				"Por favor, confirma tu email en el siguiente enlace: <a href='{{route(`confirmPswd`, [`t` => $remTok, `m` => $userMail])}}'></a>"
+				"Por favor, confirma tu email en el siguiente " . $link . ":"
 			);
 			$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
 
 			try {
 				$response = $sendgrid->send($email);
-//				dd($response);
+				dd($link);
 //				print $response->statusCode() . "\n\n";
 //				print_r($response->headers());
 //				print "\n\n" . $response->body() . "\n";
