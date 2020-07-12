@@ -71,6 +71,7 @@
 @section('scripts')
 	<script>
 	    var shareUrl = '{{ URL::asset('/images/icons/compartir.svg') }}';
+        var admin = '{{Session::get('admin')}}' === '1';
 	</script>
 
 	<script src="{{asset('js/incidents/incidents.js')}}"></script>
