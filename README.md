@@ -10,3 +10,6 @@ El sitio web está construido con [Laravel](https://laravel.com/). Se puede acce
 
 ## Aplicación móvil
 La aplicación móvil está realizada con [Ionic](https://ionicframework.com/). Su versión en Android se puede descargar [aquí](https://kifungo.live/app/kifungo.apk).
+
+## Memoria
+La memoria del presente trabajo incluye todo el proceso de desarrollo del proyecto, desde la ingeniería del software hasta el desarrollo y puesta en producción, pasando por la fase de desarrollo.
